@@ -22,9 +22,10 @@ public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
+    public double speedMod = Constants.DRIVE_SPEED;
 
     public Swerve() {
-        gyro = new Pigeon2(Constants.Swerve.pigeonID);
+        gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.CANIVORE_NAME);
         gyro.getConfigurator().apply(new Pigeon2Configuration());
         gyro.setYaw(0);
 
@@ -113,6 +114,14 @@ public class Swerve extends SubsystemBase {
             mod.resetToAbsolute();
         }
     }
+
+    public void boostOn(){
+        speedMod = 1.0;
+    }
+     public void boostOff(){
+        speedMod = Constants.DRIVE_SPEED;
+    }
+
 
     @Override
     public void periodic(){

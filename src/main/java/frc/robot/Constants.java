@@ -15,6 +15,15 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final double stickDeadband = 0.1;
 
+    public static final String CANIVORE_NAME = "CANivore";
+    public static final double DRIVE_SPEED = 0.6;
+
+    public static final double Mod0_ROTATION_OFFSET = 31.376953;
+    public static final double Mod1_ROTATION_OFFSET = 197.314453;
+    public static final double Mod2_ROTATION_OFFSET = 205.048828;
+    public static final double Mod3_ROTATION_OFFSET = 258.046875;
+
+
     public static final class Swerve {
         public static final int pigeonID = 1;
 
@@ -22,8 +31,8 @@ public final class Constants {
         COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(21.73); //TODO: This must be tuned to specific robot
-        public static final double wheelBase = Units.inchesToMeters(21.73); //TODO: This must be tuned to specific robot
+        public static final double trackWidth = Units.inchesToMeters(19.5); //TODO: This must be tuned to specific robot
+        public static final double wheelBase = Units.inchesToMeters(19.5); //TODO: This must be tuned to specific robot
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
         /* Swerve Kinematics 
@@ -67,15 +76,15 @@ public final class Constants {
         public static final double angleKD = chosenModule.angleKD;
 
         /* Drive Motor PID Values */
-        public static final double driveKP = 0.12; //TODO: This must be tuned to specific robot
+        public static final double driveKP = 0.05;//0.12 //TODO: This must be tuned to specific robot
         public static final double driveKI = 0.0;
         public static final double driveKD = 0.0;
         public static final double driveKF = 0.0;
 
         /* Drive Motor Characterization Values From SYSID */
-        public static final double driveKS = 0.32; //TODO: This must be tuned to specific robot
-        public static final double driveKV = 1.51;
-        public static final double driveKA = 0.27;
+        public static final double driveKS = (0.667 / 12);//0.32; //TODO: This must be tuned to specific robot
+        public static final double driveKV = (1.51 / 12);//1.51;
+        public static final double driveKA = (0.27 / 12);//0.27;
 
         /* Swerve Profiling Values */
         /** Meters per Second */
@@ -90,45 +99,45 @@ public final class Constants {
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
         public static final class Mod0 { //TODO: This must be tuned to specific robot
-            public static final int driveMotorID = 1;
-            public static final int angleMotorID = 2;
-            public static final int canCoderID = 1;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0);
+            public static final int driveMotorID = 20; // 22
+            public static final int angleMotorID = 30; //32
+            public static final int canCoderID = 10; //10
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(Mod0_ROTATION_OFFSET); //210.36
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
 
         /* Front Right Module - Module 1 */
         public static final class Mod1 { //TODO: This must be tuned to specific robot
-            public static final int driveMotorID = 3;
-            public static final int angleMotorID = 4;
-            public static final int canCoderID = 2;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0);
+            public static final int driveMotorID = 21; //20
+            public static final int angleMotorID = 31; // 30
+            public static final int canCoderID = 11; //11
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(Mod1_ROTATION_OFFSET);//133.8
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
         
         /* Back Left Module - Module 2 */
         public static final class Mod2 { //TODO: This must be tuned to specific robot
-            public static final int driveMotorID = 5;
-            public static final int angleMotorID = 6;
-            public static final int canCoderID = 3;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0);
+            public static final int driveMotorID = 22; //23
+            public static final int angleMotorID = 32; // 33
+            public static final int canCoderID = 12; //12
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(Mod2_ROTATION_OFFSET);//13.27
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
 
         /* Back Right Module - Module 3 */
-        public static final class Mod3 { //TODO: This must be tuned to specific robot
-            public static final int driveMotorID = 7;
-            public static final int angleMotorID = 8;
-            public static final int canCoderID = 4;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0);
+        public static final class Mod3 
+        { //TODO: This must be tuned to specific robot
+            public static final int driveMotorID = 23; //21
+            public static final int angleMotorID = 33; //31
+            public static final int canCoderID = 13; //13
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(Mod3_ROTATION_OFFSET); //357.4
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
     }
-
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;

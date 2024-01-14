@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
+import frc.robot.Global_Variables;
 import frc.robot.subsystems.Swerve;
 
 import java.util.function.BooleanSupplier;
@@ -17,6 +18,8 @@ public class TeleopSwerve extends Command {
     private DoubleSupplier strafeSup;
     private DoubleSupplier rotationSup;
     private BooleanSupplier robotCentricSup;
+    public double speedModifier = Constants.DRIVE_SPEED;
+
 
     public TeleopSwerve(Swerve s_Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup) {
         this.s_Swerve = s_Swerve;
@@ -27,9 +30,23 @@ public class TeleopSwerve extends Command {
         this.rotationSup = rotationSup;
         this.robotCentricSup = robotCentricSup;
     }
+    
 
     @Override
     public void execute() {
+        
+        if(Global_Variables.left_bumper_boost)
+        {
+            speedModifier = 0.1;   
+        }
+        else if(Global_Variables.right_bumper_boost)
+        {
+            speedModifier = 1.0;
+        }
+        else
+        {
+            speedModifier = Constants.DRIVE_SPEED;
+        }
         /* Get Values, Deadband*/
         double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
         double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
@@ -37,8 +54,8 @@ public class TeleopSwerve extends Command {
 
         /* Drive */
         s_Swerve.drive(
-            new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed), 
-            rotationVal * Constants.Swerve.maxAngularVelocity, 
+            new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed).times(speedModifier), 
+            rotationVal * Constants.Swerve.maxAngularVelocity*speedModifier, 
             !robotCentricSup.getAsBoolean(), 
             true
         );

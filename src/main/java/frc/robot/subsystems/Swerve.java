@@ -122,6 +122,26 @@ public class Swerve extends SubsystemBase {
         speedMod = Constants.DRIVE_SPEED;
     }
 
+    public void music_init()
+    {
+        for(SwerveModule mod : mSwerveMods)
+        {
+            mod.add_instruments();
+        }
+        SwerveModule.music_init();  
+    }
+
+    public void play_music()
+    {
+        SwerveModule.play_music();
+    }
+
+    public void stop_music()
+    {
+        SwerveModule.stop_music();
+    }
+
+
 
     @Override
     public void periodic(){

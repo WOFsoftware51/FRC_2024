@@ -1,10 +1,18 @@
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.hardware.core.CoreTalonFX;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -20,6 +28,10 @@ public class SwerveModule {
     private TalonFX mAngleMotor;
     private TalonFX mDriveMotor;
     private CANcoder angleEncoder;
+
+    static Orchestra _orchestra;
+    static int _timeToPlayLoops = 0;
+
 
     private final SimpleMotorFeedforward driveFeedForward = new SimpleMotorFeedforward(Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
 
@@ -88,5 +100,50 @@ public class SwerveModule {
             Conversions.rotationsToMeters(mDriveMotor.getPosition().getValue(), Constants.Swerve.wheelCircumference), 
             Rotation2d.fromRotations(mAngleMotor.getPosition().getValue())
         );
+    }
+
+    private static Collection<ParentDevice> _instruments = new ArrayList<ParentDevice>();
+
+    public void add_instruments()
+    {
+        _instruments.add(mDriveMotor);
+        _instruments.add(mAngleMotor);
+    }
+
+    public static void addToInstruments(TalonFX... motor)
+    {
+        for(TalonFX t : motor){
+        _instruments.add(t);
+        }
+    }
+
+    public static void music_init()
+    {
+      _orchestra = new Orchestra(_instruments);
+     // _orchestra.loadMusic("DMX.chrp");
+      _orchestra.loadMusic(Global_Variables.song.getSelected());
+      _timeToPlayLoops = 10;
+    }
+
+    public static void play_music()
+    {
+      if (_timeToPlayLoops > 0) {
+        --_timeToPlayLoops;
+        if (_timeToPlayLoops == 0) {
+            System.out.println("Auto-playing song.");
+            _orchestra.play();
+        }
+      }
+    }
+
+    public static void stop_music()
+    {
+      if (_timeToPlayLoops > 0) {
+        --_timeToPlayLoops;
+        if (_timeToPlayLoops == 0) {
+            System.out.println("Auto-playing song.");
+            _orchestra.stop();
+        }
+      }
     }
 }

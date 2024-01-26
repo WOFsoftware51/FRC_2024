@@ -2,9 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.*;
@@ -24,23 +24,15 @@ public class RobotContainer {
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
-    private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
+
+
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kStart.value);
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
     /* Subsystems */
-    private final Swerve s_Swerve = new Swerve();
-
+    private final DriveTrain m_DriveTrain = new DriveTrain();
     /* Music */
-    private final String[] sList =
-    {
-        //Add songs to here
-
-
-    }; 
 
 
 
@@ -48,19 +40,12 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
 
-    SmartDashboard.putData("Songs", Global_Variables.song);
 
-    for(String s: sList){
-        Global_Variables.song.setDefaultOption(s.substring(0, s.indexOf(".") - 1), s);
-    }
-
-        s_Swerve.setDefaultCommand(
+        m_DriveTrain.setDefaultCommand(
             new TeleopSwerve(
-                s_Swerve, 
+                m_DriveTrain, 
                 () -> -driver.getRawAxis(translationAxis), 
-                () -> -driver.getRawAxis(strafeAxis), 
-                () -> -driver.getRawAxis(rotationAxis), 
-                () -> false //() -> robotCentric.getAsBoolean()
+                () -> -driver.getRawAxis(rotationAxis)
             )
         );
 
@@ -76,8 +61,9 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        new Trigger(operator::getAButton).whileTrue(new Music(s_Swerve));
+        // zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        // new Trigger(operator::getAButton).whileTrue(new Music(s_Swerve));
+
     }
 
     /**
@@ -87,6 +73,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new exampleAuto(s_Swerve);
+        return new exampleAuto();
     }
 }

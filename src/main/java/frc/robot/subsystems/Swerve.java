@@ -225,24 +225,6 @@ public class Swerve extends SubsystemBase {
         yawFixed = Math.abs(gyro.getYaw().getValue()% 360);
 
 
-        if(yawFixed < 270 && yawFixed > 90)
-        {
-          Global_Variables.robot_direction = -1.0;
-        }
-        else
-        {
-         Global_Variables.robot_direction = 1.0;
-        }
-
-        if(yawFixed < 180 && yawFixed > 0)
-        {
-          Global_Variables.robot_directionY = -1.0;
-        }
-        else
-        {
-         Global_Variables.robot_directionY = 1.0;
-        }
-
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());

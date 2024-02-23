@@ -55,7 +55,7 @@ public class SwerveModule {
         /* Drive Motor Config */
         mDriveMotor = new TalonFX(moduleConstants.driveMotorID, Constants.CANIVORE_NAME);
         mDriveMotor.getConfigurator().apply(Robot.ctreConfigs.swerveDriveFXConfig);
-        mDriveMotor.getConfigurator().setPosition(  0.0);
+        mDriveMotor.getConfigurator().setPosition(0.0);
     }
     
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){

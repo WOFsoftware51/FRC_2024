@@ -10,9 +10,7 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.hardware.core.CoreTalonFX;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -33,6 +31,7 @@ public class SwerveModule {
     static int _timeToPlayLoops = 0;
 
 
+
     private final SimpleMotorFeedforward driveFeedForward = new SimpleMotorFeedforward(Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
 
     /* drive motor control requests */
@@ -47,18 +46,18 @@ public class SwerveModule {
         this.angleOffset = moduleConstants.angleOffset;
         
         /* Angle Encoder Config */
-        angleEncoder = new CANcoder(moduleConstants.cancoderID);
+        angleEncoder = new CANcoder(moduleConstants.cancoderID, Constants.CANIVORE_NAME);
         angleEncoder.getConfigurator().apply(Robot.ctreConfigs.swerveCANcoderConfig);
 
         /* Angle Motor Config */
-        mAngleMotor = new TalonFX(moduleConstants.angleMotorID);
+        mAngleMotor = new TalonFX(moduleConstants.angleMotorID, Constants.CANIVORE_NAME);
         mAngleMotor.getConfigurator().apply(Robot.ctreConfigs.swerveAngleFXConfig);
         resetToAbsolute();
 
         /* Drive Motor Config */
-        mDriveMotor = new TalonFX(moduleConstants.driveMotorID);
+        mDriveMotor = new TalonFX(moduleConstants.driveMotorID, Constants.CANIVORE_NAME);
         mDriveMotor.getConfigurator().apply(Robot.ctreConfigs.swerveDriveFXConfig);
-        mDriveMotor.getConfigurator().setPosition(0.0);
+        mDriveMotor.getConfigurator().setPosition(  0.0);
     }
 
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){
@@ -102,48 +101,48 @@ public class SwerveModule {
         );
     }
 
-    private static Collection<ParentDevice> _instruments = new ArrayList<ParentDevice>();
+    // private static Collection<ParentDevice> _instruments = new ArrayList<ParentDevice>();
 
-    public void add_instruments()
-    {
-        _instruments.add(mDriveMotor);
-        _instruments.add(mAngleMotor);
-    }
+    // public void add_instruments()
+    // {
+    //     _instruments.add(mDriveMotor);
+    //     _instruments.add(mAngleMotor);
+    // }
 
-    public static void addToInstruments(TalonFX... motor)
-    {
-        for(TalonFX t : motor){
-        _instruments.add(t);
-        }
-    }
+    // public static void addToInstruments(TalonFX... motor)
+    // {
+    //     for(TalonFX t : motor){
+    //     _instruments.add(t);
+    //     }
+    // }
 
-    public static void music_init()
-    {
-      _orchestra = new Orchestra(_instruments);
-     // _orchestra.loadMusic("DMX.chrp");
-      _orchestra.loadMusic(Global_Variables.song.getSelected());
-      _timeToPlayLoops = 10;
-    }
+    // public static void music_init()
+    // {
+    //   _orchestra = new Orchestra(_instruments);
+    //  // _orchestra.loadMusic("DMX.chrp");
+    //   _orchestra.loadMusic(Global_Variables.song.getSelected());
+    //   _timeToPlayLoops = 10;
+    // }
 
-    public static void play_music()
-    {
-      if (_timeToPlayLoops > 0) {
-        --_timeToPlayLoops;
-        if (_timeToPlayLoops == 0) {
-            System.out.println("Auto-playing song.");
-            _orchestra.play();
-        }
-      }
-    }
+    // public static void play_music()
+    // {
+    //   if (_timeToPlayLoops > 0) {
+    //     --_timeToPlayLoops;
+    //     if (_timeToPlayLoops == 0) {
+    //         System.out.println("Auto-playing song.");
+    //         _orchestra.play();
+    //     }
+    //   }
+    // }
 
-    public static void stop_music()
-    {
-      if (_timeToPlayLoops > 0) {
-        --_timeToPlayLoops;
-        if (_timeToPlayLoops == 0) {
-            System.out.println("Auto-playing song.");
-            _orchestra.stop();
-        }
-      }
-    }
+    // public static void stop_music()
+    // {
+    //   if (_timeToPlayLoops > 0) {
+    //     --_timeToPlayLoops;
+    //     if (_timeToPlayLoops == 0) {
+    //         System.out.println("Auto-playing song.");
+    //         _orchestra.stop();
+    //     }
+    //   }
+    // }
 }

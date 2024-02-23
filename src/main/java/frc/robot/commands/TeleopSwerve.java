@@ -20,9 +20,8 @@ public class TeleopSwerve extends Command {
     private BooleanSupplier robotCentricSup;
     public double speedModifier = Constants.DRIVE_SPEED;
 
-
-    public TeleopSwerve(Swerve s_Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup) {
-        this.s_Swerve = s_Swerve;
+    public TeleopSwerve(Swerve Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup) {
+        this.s_Swerve = Swerve;
         addRequirements(s_Swerve);
 
         this.translationSup = translationSup;
@@ -35,11 +34,11 @@ public class TeleopSwerve extends Command {
     @Override
     public void execute() {
         
-        if(Global_Variables.left_bumper_boost)
+        if(Global_Variables.left_trigger_boost)
         {
             speedModifier = 0.1;   
         }
-        else if(Global_Variables.right_bumper_boost)
+        else if(Global_Variables.right_trigger_boost)
         {
             speedModifier = 1.0;
         }
@@ -47,6 +46,7 @@ public class TeleopSwerve extends Command {
         {
             speedModifier = Constants.DRIVE_SPEED;
         }
+
         /* Get Values, Deadband*/
         double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
         double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);

@@ -5,16 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Swerve;
+import frc.robot.Global_Variables;
 
-public class Music extends Command {
-
-  Swerve s_Swerve;
-  /** Creates a new Music. */
-  public Music(Swerve swerve) {
+public class Right_Trigger_Boost_True extends Command {
+  /** Creates a new CANdle_Command. */
+  public Right_Trigger_Boost_True() 
+  {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.s_Swerve = swerve;
-    addRequirements(s_Swerve);
 
   }
 
@@ -22,26 +19,27 @@ public class Music extends Command {
   @Override
   public void initialize() 
   {
-    s_Swerve.music_init();
+ 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() 
   {
-    s_Swerve.play_music();
+    Global_Variables.right_trigger_boost = true;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) 
   {
-    s_Swerve.stop_music();
+    Global_Variables.right_trigger_boost = false;
   }
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
+  public boolean isFinished() 
+  {
     return false;
   }
 }

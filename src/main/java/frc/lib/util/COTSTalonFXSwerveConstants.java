@@ -218,15 +218,15 @@ public class COTSTalonFXSwerveConstants {
             public static final COTSTalonFXSwerveConstants Falcon500(double driveGearRatio){
                 double wheelDiameter = Units.inchesToMeters(4.0);
         
-                /** 12.8 : 1 */
+                /** 12.8 : 1 */ 
                 double angleGearRatio = (12.8 / 1.0);
         
-                double angleKP = 1.0;
+                double angleKP = 100.0;//1.0
                 double angleKI = 0.0;
                 double angleKD = 0.0;
         
                 InvertedValue driveMotorInvert = InvertedValue.CounterClockwise_Positive;
-                InvertedValue angleMotorInvert = InvertedValue.CounterClockwise_Positive;
+                InvertedValue angleMotorInvert = InvertedValue.Clockwise_Positive; //InvertedValue.CounterClockwise_Positive
                 SensorDirectionValue cancoderInvert = SensorDirectionValue.CounterClockwise_Positive;
                 return new COTSTalonFXSwerveConstants(wheelDiameter, angleGearRatio, driveGearRatio, angleKP, angleKI, angleKD, driveMotorInvert, angleMotorInvert, cancoderInvert);
             }

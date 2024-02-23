@@ -6,6 +6,7 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -18,7 +19,10 @@ public final class Constants {
     public static final String CANIVORE_NAME = "CANivore";
     public static final double DRIVE_SPEED = 0.6;
 
-    
+
+    public static final double ARM_OFFSET = 182;
+    public static final double ARM_GEAR_RATIO = 268.6815;   //  22.67*(64/18)*(60/15)
+    public static final double ARM_CONVERSION = 2048*ARM_GEAR_RATIO/360; // Degrees*ARM_CONVERSION = Encoder value
     public static final double APRIL_TAG_HEIGHT = 57;// 57.25; //54
     public static final double LIMELIGHT_HEIGHT = 14;// 57.25; //54
     public static final double LIMELIGHT_ANGLE = 32;// 57.25; //54
@@ -27,16 +31,11 @@ public final class Constants {
 
     public static final double SPEAKER_HEIGHT = 92.193;
 
-    
-    public static final double ELEVATOR_DEFAULT = 0.0;
-    public static final double ELEVATOR_AMP = 0.0;
-    public static final double ELEVATOR_SPEAKER = 0.0;
-    public static final double ELEVATOR_TRAP = 0.0;
 
-    public static final double Mod0_ROTATION_OFFSET = 32.78;
-    public static final double Mod1_ROTATION_OFFSET = -67.41;
-    public static final double Mod2_ROTATION_OFFSET = 17.40;
-    public static final double Mod3_ROTATION_OFFSET = -100.01;
+    public static final double Mod0_ROTATION_OFFSET = -147.12;
+    public static final double Mod1_ROTATION_OFFSET = 113.38;
+    public static final double Mod2_ROTATION_OFFSET = -161.36;
+    public static final double Mod3_ROTATION_OFFSET = 79.80;
 
 
     public static final class Swerve {
@@ -173,29 +172,9 @@ public final class Constants {
 
 
     }
-
-    public static int shooter = 34;
-    public static int shooter2 = 45;
-
-    public static int intake = 48;
-    public static int turret = 43;//34
-
-    public static int hanger = 33;
-    public static int hanger2 = 47;
-
-    public static int elevator = 60;
-    public static int elevator2 = 61;
-    public static int transfer_intake = 62;
-
-	public static double shootP = 0.10;//0.11
-	public static double shootI= 0.0;
-	public static double shootD= 0.0;
-	public static double shootV= 0.1033;//0.112;
-	public static double shootS= 0.05;//6;
-
-    public static final int A_Button = 1;
-    public static final int B_Button = 2;
-    public static final int X_Button = 3;
-    public static final int Y_Button = 4;
+    
+    public static final int Arm_Motor_Slave = 46;
+    public static final int Arm_Motor = 45;
+    public static final int Arm_CANCoder = 40;
 
 }   

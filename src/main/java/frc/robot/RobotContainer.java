@@ -24,8 +24,6 @@ public class RobotContainer {
     private final XboxController operator = new XboxController(1);
     private final SendableChooser<Integer> a_chooser = new SendableChooser<>();
 
-    private final SendableChooser<Double> s_chooser = new SendableChooser<>();
-
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
@@ -36,34 +34,31 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    private final Elevator m_Elevator = new Elevator();
-    private final Hanger m_Hanger = new Hanger();
-    private final Intake m_Intake = new Intake();
-    private final Turret m_Turret = new Turret();
-    private final Shooter m_Shooter = new Shooter();
+    private final Arm m_Arm = new Arm();
+    /* Music */
+    private final String[] sList =
+    {
+        //Add songs to here
+        "Beethoven-Moonlight-Sonata.chrp"
+
+    }; 
+
 
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
 
-        SmartDashboard.putData("Auton", a_chooser);
-        a_chooser.setDefaultOption("Test Auto", 1);
-        a_chooser.addOption("Example Auto", 2);
+
+
+    SmartDashboard.putData("Auton", a_chooser);
+    
+    a_chooser.setDefaultOption("Test Auto", 1);
+    a_chooser.addOption("Example Auto", 2);
 
 
 
-        SmartDashboard.putData("Shot Speed", s_chooser);
-
-        s_chooser.addOption("1000 rpm", 1000.0);
-        s_chooser.setDefaultOption("4000 rpm",  4000.0);
-        for(int i = 1; i < 20; i++){
-            s_chooser.addOption(4000 + i*500 + " rpm",  4000.0 + i*500);
-        }
-
-
-
-
+    SmartDashboard.putData("Songs", Global_Variables.song);
 
 
         s_Swerve.setDefaultCommand(
@@ -75,10 +70,8 @@ public class RobotContainer {
                 () -> false //() -> robotCentric.getAsBoolean()
             )
         );
-        
-        m_Turret.setDefaultCommand(new TurretCommand(m_Turret, ()-> operator.getLeftY()));
+        m_Arm.setDefaultCommand(new Arm_Command(m_Arm, () -> operator.getLeftY()));
 
-        m_Hanger.setDefaultCommand(new HangerManualCommand(m_Hanger, ()-> operator.getRightY()));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -96,28 +89,12 @@ public class RobotContainer {
 
 
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new Right_Trigger_Boost_True());
+        new Trigger(driver::getRightBumper).whileTrue(new TelopSwerveAim(s_Swerve, () -> -driver.getRawAxis(translationAxis), () -> -driver.getRawAxis(strafeAxis)));
 
-        new Trigger(operator::getBackButton).whileTrue(new ElevatorCommand(m_Elevator, true));
-        new Trigger(operator::getStartButton).whileTrue(new ElevatorCommand(m_Elevator, false));
-
-        new Trigger(operator::getLeftBumper).whileTrue(new IntakeCommand(m_Intake));
-        new Trigger(operator::getRightBumper).whileTrue(new IntakeCommand_Reverse(m_Intake));
-
-        new Trigger(operator::getAButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.A_Button));
-        new Trigger(operator::getBButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.B_Button));
-        new Trigger(operator::getXButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.X_Button));
-        new Trigger(operator::getYButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.Y_Button));
-
-        new Trigger(operator::getBackButton).whileTrue(new HangerCommand(m_Hanger, true));
-        new Trigger(operator::getStartButton).whileTrue(new HangerCommand(m_Hanger, false));
-
-
-
-        new Trigger(() -> operator.getRightTriggerAxis() > 0.80).whileTrue(new IntakeCommand_Reverse(m_Intake));
-
-        new Trigger(() -> operator.getLeftTriggerAxis() > 0.80).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
-
+        // new Trigger(drover::getRightBumper).whileFalse(new Right_Bumper_Boost_False());
+        new Trigger(driver::getRightBumper).whileTrue(new Right_Trigger_Boost_True());
+        new Trigger(driver::getBackButton).whileTrue(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()));
+        // new Trigger(operator::getAButton).whileTrue(new Music(s_Swerve)); 
     }
 
     /**

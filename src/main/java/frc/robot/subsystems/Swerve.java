@@ -3,18 +3,14 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
-import com.pathplanner.lib.commands.FollowPathHolonomic;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathHolonomic;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -23,22 +19,13 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Global_Variables;
-import frc.robot.SwerveModule;
 import frc.robot.Constants;
 import frc.robot.Global_Variables;
 import frc.robot.SwerveModule;
@@ -55,12 +42,12 @@ public class Swerve extends SubsystemBase {
     public double tv = 0.0;
     public double distance = 0.0;
     public double yawFixed = 0.0;
-
-    public double botpose[];
+    public double tx1 = 0;
+    public double turretAngleToScore = 0.0;
 
 
     public Swerve() {
-        gyro = new Pigeon2(Constants.Swerve.pigeonID);
+        gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.CANIVORE_NAME);
         gyro.getConfigurator().apply(new Pigeon2Configuration());
         gyro.setYaw(0);
 
@@ -75,11 +62,12 @@ public class Swerve extends SubsystemBase {
         // resetModulesToAbsolute();
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
+        configureAuton();
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) 
     {
-        SwerveModuleState[] swerveModuleStates =
+        SwerveModuleState[] swerveModuleStates =    
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                                     translation.getX(), 
@@ -111,18 +99,6 @@ public class Swerve extends SubsystemBase {
         }
     }    
 
-    public void driveRelative(ChassisSpeeds driveMSupplier) {
-        SwerveModuleState[] swerveModuleStates =
-            Constants.Swerve.swerveKinematics.toSwerveModuleStates(
-                driveMSupplier
-             );
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
-
-        for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], true);
-        }
-    }    
-
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
@@ -138,11 +114,6 @@ public class Swerve extends SubsystemBase {
             states[mod.moduleNumber] = mod.getState();
         }
         return states;
-    }
-
-    public ChassisSpeeds getChassisSpeeds(){
-        return Constants.Swerve.swerveKinematics.toChassisSpeeds(this.getModuleStates()); // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-    }    
     }
 
     public ChassisSpeeds getChassisSpeeds(){
@@ -182,11 +153,6 @@ public class Swerve extends SubsystemBase {
         swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), heading);
     }
 
-    public void zeroHeadingConsumer(Pose2d heading){
-        
-        swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), heading);
-    }
-
     public Rotation2d getGyroYaw() {
         return Rotation2d.fromDegrees(gyro.getYaw().getValue());
     }
@@ -202,16 +168,24 @@ public class Swerve extends SubsystemBase {
             mod.resetToAbsolute();
         }
     }
+    
+    public void zeroGyro(){
+        gyro.setYaw(0);
+    }
 
     public void boostOn(){
         speedMod = 1.0;
     }
-     public void boostOff(){
+    public void boostOff(){
         speedMod = Constants.DRIVE_SPEED;
     }
+
+    public double mod0DriveEncoder() {
+        return mSwerveMods[0].driveEncoder();
+    }
+
     
- // Assuming this method is part of a drivetrain subsystem that provides the necessary methods
-    public Command followTrajectoryCommand(String pathString, boolean isFirstPath) {
+    public Command followTrajectoryCommand(String pathString) {
     
         PathPlannerPath path = PathPlannerPath.fromPathFile(pathString);
     
@@ -220,22 +194,38 @@ public class Swerve extends SubsystemBase {
             this::getPose, // Robot pose supplier
             this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             this::driveRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-            new HolonomicPathFollowerConfig(  // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                    new PIDConstants(Constants.AutoConstants.kPXController, 0.0, 0.0), // Translation PID constants
-                    new PIDConstants(Constants.AutoConstants.kPThetaController, 0.0, 0.0), // Rotation PID constants
-                    Constants.Swerve.maxSpeed, // Max module speed, in m/s
-                    Constants.Swerve.driveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
-                    new ReplanningConfig() // Default path replanning config. See the API for the options here
-            ),
-            () -> {
-                return false; //Probably doesn't need to flip because field lacks symetry
-                      // var alliance = DriverStation.getAlliance();
+            new PIDConstants(Constants.AutoConstants.kPXController, 0.0, 0.0), // Translation PID constants 
+            new PIDConstants(Constants.AutoConstants.kPThetaController, 0.0, 0.0), // Rotation PID constants
+            Constants.Swerve.maxSpeed, // Max module speed, in m/s
+            Constants.Swerve.driveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
+            0.02,
+            new ReplanningConfig(), // Default path replanning config. See the API for the options here
+            () -> false, // Probably doesn't need to flip because field lacks symetry
+                // {
+                // var alliance = DriverStation.getAlliance();
                 // if (alliance.isPresent()) {
                 //     return alliance.get() == DriverStation.Alliance.Red;
                 // }
                 //     return false;
                 // 
-            },
+            // },
+            this // Reference to this subsystem to set requirements
+        );
+    }
+
+    public void configureAuton(){
+        AutoBuilder.configureHolonomic(
+            this::getPose, // Robot pose supplier
+            this::zeroHeadingConsumer, // Robot pose supplier
+            this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            this::driveRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+            new HolonomicPathFollowerConfig(
+                new PIDConstants(Constants.AutoConstants.kPXController, 0.0, 0.0), // Translation PID constants 
+                new PIDConstants(Constants.AutoConstants.kPThetaController, 0.0, 0.0), // Rotation PID constants
+                Constants.Swerve.maxSpeed, // Max module speed, in m/s
+                Constants.Swerve.driveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
+                new ReplanningConfig(true, false)), // Default path replanning config. See the API for the options here
+            () -> false,
             this // Reference to this subsystem to set requirements
         );
     }
@@ -252,49 +242,60 @@ public class Swerve extends SubsystemBase {
         
         targetingAngularVelocity *= 4;
   
-        targetingAngularVelocity *= -1;
+        targetingAngularVelocity *= 1;
 
         return targetingAngularVelocity;
     }
-
 
     @Override
     public void periodic(){
         // swerveOdometry.update(getGyroYaw(), getModulePositions());
 
-        swerveOdometry.update(getGyroYaw(), getModulePositions());
+        swerveOdometry.update(getGyroYaw(), getModulePositions());  
         yawFixed = Math.abs(gyro.getYaw().getValue()% 360);
 
+
+        if(yawFixed < 270 && yawFixed > 90)
+        {
+          Global_Variables.robot_direction = -1.0;
+        }
+        else
+        {
+         Global_Variables.robot_direction = 1.0;
+        }
+
+        if(yawFixed < 180 && yawFixed > 0)
+        {
+          Global_Variables.robot_directionY = -1.0;
+        }
+        else
+        {
+         Global_Variables.robot_directionY = 1.0;
+        }
 
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
-        
+        SmartDashboard.putNumber("Mod0 Drive Encoder", mod0DriveEncoder());
 
         tv = table.getEntry("tv").getDouble(0);
         ty = table.getEntry("ty").getDouble(0);
         tx = table.getEntry("tx").getDouble(0);
-        botpose = table.getEntry("botpose").getDoubleArray(new double[6]); 
-        // // // double bLat = botpose[6];
+        distance = (Constants.APRIL_TAG_HEIGHT-Constants.LIMELIGHT_HEIGHT)/(Math.tan(Math.toRadians(Constants.LIMELIGHT_ANGLE+ty)));
         
-        SmartDashboard.putNumber("tx", tx);
+        SmartDashboard.putNumber("tx", Global_Variables.tx);
         SmartDashboard.putNumber("tv", tv);
-        SmartDashboard.putNumber("ty", ty);
-
-        SmartDashboard.putBoolean("Left Bumper", Global_Variables.left_trigger_boost);
-        SmartDashboard.putBoolean("Right Bumper", Global_Variables.right_trigger_boost);
+        SmartDashboard.putNumber("ty", Global_Variables.ty);
 
         Global_Variables.yaw = getGyroYaw().getDegrees();
         Global_Variables.roll = getGyroRoll().getDegrees();
         Global_Variables.pitch = getGyroPitch().getDegrees();
         Global_Variables.tx = tx;
-        Global_Variables.tx = ty;
+        Global_Variables.ty = ty;
+        Global_Variables.distance = distance;
 
-        distance = (Constants.APRIL_TAG_HEIGHT-Constants.LIMELIGHT_HEIGHT)/(Math.tan(Math.toRadians(Constants.LIMELIGHT_ANGLE+ty)));
-
-        
-
+        SmartDashboard.putNumber("Distance", distance);    
     }  
 }

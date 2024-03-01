@@ -38,10 +38,12 @@ public class Arm extends SubsystemBase
 
   private final TalonFX _arm = new TalonFX(Constants.Arm_Motor, Constants.CANIVORE_NAME );
   private final TalonFX _arm2 = new TalonFX(Constants.Arm_Motor_Slave, Constants.CANIVORE_NAME );
-  private CANcoder armCANCoder = new CANcoder(Constants.Arm_CANCoder, Constants.CANIVORE_NAME);
+  private final CANcoder armCANCoder = new CANcoder(Constants.Arm_CANCoder, Constants.CANIVORE_NAME);
   
   private MotionMagicDutyCycle m = new MotionMagicDutyCycle(0);   
-private VoltageOut e = new VoltageOut(0, true, false, false, false);
+  private VoltageOut e = new VoltageOut(0, true, false, false, false);
+  public double turretAngleToScore = 0.0;
+
 
   private static TalonFX[] _instruments = new TalonFX[1];
   
@@ -53,15 +55,14 @@ private VoltageOut e = new VoltageOut(0, true, false, false, false);
     _arm.setNeutralMode(NeutralModeValue.Brake); //Brake
     _arm2.setNeutralMode(NeutralModeValue.Brake); //Brake
     _arm.setInverted(false);
+    
     if(getArm_CANCoder()!=0)
     {
-        _arm.getConfigurator().setPosition((Constants.ARM_OFFSET-armCANCoder.getAbsolutePosition().getValueAsDouble())*Constants.ARM_CONVERSION);
-   }
-    else
-    {
-        _arm.getConfigurator().setPosition(0);
+      updateEncoder();
     }
-
+    else{
+      _arm.getConfigurator().setPosition(0);
+    }
     TalonFXConfiguration cfg = new TalonFXConfiguration();
     MotionMagicConfigs mm = cfg.MotionMagic;
     mm.MotionMagicCruiseVelocity = 20000; // 5 rotations per second cruise
@@ -69,16 +70,16 @@ private VoltageOut e = new VoltageOut(0, true, false, false, false);
     mm.MotionMagicJerk = 4;// Take approximately 0.2 seconds to reach max accel 
 
     Slot0Configs slot0 = cfg.Slot0;
-    slot0.kP = 12.011730205278592; //5
-    slot0.kI = 0.48046920821114375;
+    slot0.kP = 2;   //12.011730205278592; //5
+    slot0.kI = 0;   //0.48046920821114375;
     slot0.kD = 0.0; //0.1
     slot0.kV = 0.0; //0.12
     slot0.kS = 0.0; //0.25 // Approximately 0.25V to get the mechanism moving
 
     _arm.getConfigurator().apply(cfg, 0.050);
 
-    FeedbackConfigs fConfigs = cfg.Feedback;
-    fConfigs.SensorToMechanismRatio = Constants.ARM_GEAR_RATIO;
+    // FeedbackConfigs fConfigs = cfg.Feedback;
+    // fConfigs.SensorToMechanismRatio = Constants.ARM_GEAR_RATIO;
 
 
 
@@ -113,7 +114,7 @@ private VoltageOut e = new VoltageOut(0, true, false, false, false);
           System.out.println("Auto-playing song.");
           _orchestra.play();
       }
-  }
+    }
   }
 
   public TalonFX[] returnArmMotors()
@@ -126,20 +127,19 @@ private VoltageOut e = new VoltageOut(0, true, false, false, false);
  /*Button Control :) */
  public void arm_on(double speed)
  {
-   _arm.setControl(e.withOutput(Global_Variables.robot_direction*speed*12));
+   _arm.set((Global_Variables.robot_direction*speed));
  }
 
- public void arm_resetEncoder()
- {
+  public void arm_resetEncoder()
+  {
     _arm.getConfigurator().setPosition(0);
- }
+  }
 
 
- public void Arm_Goto_Angle(double angle)
- {
-  _arm.setControl(m.withPosition(angle));
- }
-
+  public void Arm_Goto_Angle(double angle)
+  {
+    _arm.setControl(m.withPosition(angle*Constants.ARM_CONVERSION2));
+  }
 
  public void arm_off()
   {
@@ -148,35 +148,30 @@ private VoltageOut e = new VoltageOut(0, true, false, false, false);
 
   public double getArm_encoder()
   {
-    // double arm_encoder = _arm.getSelectedSensorPosition()/Constants.ARM_CONVERSION;
-    double arm_encoder = Rotation2d.fromRotations(_arm.getPosition().getValue()).getDegrees();///Constants.ARM_CONVERSION;
+    double arm_encoder = (_arm.getPosition().getValue())/Constants.ARM_CONVERSION2;
     return arm_encoder;
   }
 
   public double getArm_CANCoder()
   {
-    double arm_CANCoder = armCANCoder.getPosition().getValue();//;.getAbsolutePosition();
+    double arm_CANCoder = armCANCoder.getPosition().getValue()*360;//;.getAbsolutePosition();
     return arm_CANCoder;
   }
 
-  public double Arm_Speed() 
+  public double Arm_Speed()
   {
     return (_arm.getVelocity().getValue()+_arm2.getVelocity().getValue())/2;
   }
 
   public void updateEncoder()
-{
-  if(getArm_CANCoder()!=0)
   {
-    // _arm.setSelectedSensorPosition((Constants.ARM_OFFSET-armCANCoder.getAbsolutePosition())*Constants.ARM_CONVERSION);  //  angle*2048*100(gear ratio)/360
-    _arm.getConfigurator().setPosition(Constants.ARM_OFFSET-Rotation2d.fromDegrees(armCANCoder.getAbsolutePosition().getValueAsDouble()).getDegrees());//*Constants.ARM_CONVERSION));
-
+    if(getArm_CANCoder()!=0)
+    {
+      _arm.getConfigurator().setPosition(Constants.ARM_OFFSET-(getArm_CANCoder()));
+    }
   }
-}
 
 
-
-;
   public int getAllianceColor()
   {
     Optional<Alliance> ally = DriverStation.getAlliance();
@@ -206,5 +201,10 @@ private VoltageOut e = new VoltageOut(0, true, false, false, false);
 
     SmartDashboard.putNumber("Arm Encoder", getArm_encoder());
     SmartDashboard.putNumber("Arm CANCoder", getArm_CANCoder());
+
+    turretAngleToScore = Math.atan((Constants.SPEAKER_HEIGHT - Constants.LIMELIGHT_HEIGHT)/(Global_Variables.distance)) * 180/(Math.PI); 
+
+    SmartDashboard.putNumber("Turret Target Angle", turretAngleToScore);
+
   }
 }

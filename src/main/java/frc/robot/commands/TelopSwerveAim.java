@@ -35,34 +35,7 @@ public class TelopSwerveAim extends Command {
     @Override
     public void execute() {
       if(s_Swerve.tv == 1){
-        // if(s_Swerve.tx<-30)
-        // {
-        // rotationVal = 0.3*isNegative;
-        // }
-        // else if(s_Swerve.tx<-10)
-        // {
-        //   rotationVal = 0.15*isNegative;
-        // }
-        // else if(s_Swerve.tx<-1)
-        // {
-        //   rotationVal = 0.05*isNegative;
-        // }
-        // else if(s_Swerve.tx>30)
-        // {
-        //   rotationVal = -0.3*isNegative;
-        // }
-        // else if(s_Swerve.tx>10)
-        // {
-        //   rotationVal = -0.15*isNegative;
-        // }
-        // else if(s_Swerve.tx>1)
-        // {
-        //   rotationVal = -0.05*isNegative;
-        // }
-        // else
-        // {
-        //   rotationVal = 0.0;
-        // }
+
         rotationVal = s_Swerve.limelight_aim_proportional();
     }
     else{
@@ -70,27 +43,27 @@ public class TelopSwerveAim extends Command {
         SmartDashboard.putNumber("yawFixeds", yawFixed); 
         if(yawFixed<-30)
         {
-        rotationVal = -0.3;
+        rotationVal = 0.3;
         }
         else if(yawFixed<-10)
         {
-          rotationVal = -0.15;
+          rotationVal = 0.15;
         }
         else if(yawFixed<-1)
         {
-          rotationVal = -0.05;
+          rotationVal = 0.05;
         }
-        else if(yawFixed>30)
+        else if(yawFixed>30)  
         {
-          rotationVal = 0.3;
+          rotationVal = -0.3;
         }
         else if(yawFixed>10)
         {
-          rotationVal = 0.15;
+          rotationVal = -0.15;
         }
         else if(yawFixed>1)
         {
-          rotationVal = 0.05;
+          rotationVal = -0.05;
         }
         else
         {

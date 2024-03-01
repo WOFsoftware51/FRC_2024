@@ -97,7 +97,12 @@ public class SwerveModule {
             Conversions.rotationsToMeters(mDriveMotor.getPosition().getValue(), Constants.Swerve.wheelCircumference), 
             Rotation2d.fromRotations(mAngleMotor.getPosition().getValue())
         );
+    }   
+
+    public double driveEncoder() {
+        return mDriveMotor.getPosition().getValue();
     }
+
 
     // private static Collection<ParentDevice> _instruments = new ArrayList<ParentDevice>();
 

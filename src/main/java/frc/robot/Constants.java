@@ -20,9 +20,12 @@ public final class Constants {
     public static final double DRIVE_SPEED = 0.6;
 
 
-    public static final double ARM_OFFSET = 182;
+    public static final double ARM_OFFSET = 92.0; //182.0/360;
+
+
     public static final double ARM_GEAR_RATIO = 268.6815;   //  22.67*(64/18)*(60/15)
     public static final double ARM_CONVERSION = 2048*ARM_GEAR_RATIO/360; // Degrees*ARM_CONVERSION = Encoder value
+    public static final double ARM_CONVERSION2 = 1*ARM_GEAR_RATIO/360; // Degrees*ARM_CONVERSION = Rotations
     public static final double APRIL_TAG_HEIGHT = 57;// 57.25; //54
     public static final double LIMELIGHT_HEIGHT = 14;// 57.25; //54
     public static final double LIMELIGHT_ANGLE = 32;// 57.25; //54
@@ -32,10 +35,10 @@ public final class Constants {
     public static final double SPEAKER_HEIGHT = 92.193;
 
 
-    public static final double Mod0_ROTATION_OFFSET = -147.12;
-    public static final double Mod1_ROTATION_OFFSET = 113.38;
-    public static final double Mod2_ROTATION_OFFSET = -161.36;
-    public static final double Mod3_ROTATION_OFFSET = 79.80;
+    public static final double Mod0_ROTATION_OFFSET = (-147.12 + 180)%360;
+    public static final double Mod1_ROTATION_OFFSET = (113.38 + 180)%360;
+    public static final double Mod2_ROTATION_OFFSET = (-161.36 + 180)%360;
+    public static final double Mod3_ROTATION_OFFSET = (79.80 + 180)%360;
 
 
     public static final class Swerve {
@@ -52,7 +55,6 @@ public final class Constants {
 
         /* Swerve Kinematics 
          * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
-
          public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
             new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
             new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
@@ -169,8 +171,6 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
-
-
     }
     
     public static final int Arm_Motor_Slave = 46;

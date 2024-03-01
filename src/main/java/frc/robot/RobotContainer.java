@@ -1,10 +1,17 @@
 package frc.robot;
 
+import java.util.Optional;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -35,6 +42,9 @@ public class RobotContainer {
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final Arm m_Arm = new Arm();
+    private final CANdle_Subsystem m_Candle = new CANdle_Subsystem(); 
+    private final Auton_Subsystem mAuton_Subsystem = new Auton_Subsystem();
+
     /* Music */
     private final String[] sList =
     {
@@ -53,9 +63,10 @@ public class RobotContainer {
 
     SmartDashboard.putData("Auton", a_chooser);
     
-    a_chooser.setDefaultOption("Test Auto", 1);
-    a_chooser.addOption("Example Auto", 2);
-
+    a_chooser.setDefaultOption("Middle Auto", 1);
+    a_chooser.addOption("Time Based Auto", 2);
+    a_chooser.addOption("Red Middle Auto", 3);
+    a_chooser.addOption("Blue Middle Auto", 4);
 
 
     SmartDashboard.putData("Songs", Global_Variables.song);
@@ -71,6 +82,7 @@ public class RobotContainer {
             )
         );
         m_Arm.setDefaultCommand(new Arm_Command(m_Arm, () -> operator.getLeftY()));
+        m_Candle.setDefaultCommand(new CANdle_Default(m_Candle));
 
 
         // Configure the button bindings
@@ -92,9 +104,9 @@ public class RobotContainer {
         new Trigger(driver::getRightBumper).whileTrue(new TelopSwerveAim(s_Swerve, () -> -driver.getRawAxis(translationAxis), () -> -driver.getRawAxis(strafeAxis)));
 
         // new Trigger(drover::getRightBumper).whileFalse(new Right_Bumper_Boost_False());
-        new Trigger(driver::getRightBumper).whileTrue(new Right_Trigger_Boost_True());
+        new Trigger(()-> driver.getRightTriggerAxis()>0.8).whileTrue(new Right_Trigger_Boost_True());
         new Trigger(driver::getBackButton).whileTrue(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()));
-        // new Trigger(operator::getAButton).whileTrue(new Music(s_Swerve)); 
+        new Trigger(operator::getAButton).whileTrue(new Arm_Setposition(m_Arm, 0)); 
     }
 
     /**
@@ -102,14 +114,43 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
+
     public Command getAutonomousCommand() {
+        Optional<Alliance> ally = DriverStation.getAlliance();
+        Command auton = null;
         // An ExampleCommand will run in autonomous
+
+        if (ally.isPresent()) {
+            if (ally.get() == Alliance.Red) {
+                auton = blueAutons();
+            }
+            if (ally.get() == Alliance.Blue) {
+                auton = redAutons();
+            }
+        }
+        else {
+            auton = redAutons();
+        }
+        return auton;
+
+    }
+
+
+    private Command blueAutons(){
         switch (a_chooser.getSelected()) 
         {
-        case 1: return new Square_Auto(s_Swerve);
-        case 2: return new exampleAuto();
+            case 1: return new Blue_Middle_Auto(s_Swerve, mAuton_Subsystem, m_Candle);
 
-        default: return new Square_Auto(s_Swerve);
+
+            default: return new exampleAuto(s_Swerve);
+        }
+    }
+    private Command redAutons(){
+        switch (a_chooser.getSelected()) 
+        {
+            case 1: return new Red_Middle_Auto(s_Swerve, mAuton_Subsystem, m_Candle);
+
+            default: return new exampleAuto(s_Swerve);
         }
     }
 }

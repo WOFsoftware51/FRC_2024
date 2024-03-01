@@ -16,7 +16,7 @@ public class Arm_Command extends Command
   private final DoubleSupplier m_translationXSupplier;
   private final Arm m_arm;
   private double armEncoder = 0.0;
-  private double armCANCoder = 0.0;
+  // private double armCANCoder = 0.0;
   private double armSpeed = 0.0;
   private int count = 0;
 
@@ -42,7 +42,7 @@ public class Arm_Command extends Command
   public void execute() 
   {
     armEncoder = m_arm.getArm_encoder();
-    armCANCoder = m_arm.getArm_CANCoder();
+    // armCANCoder = m_arm.getArm_CANCoder()%360;
     armSpeed = m_arm.Arm_Speed();
    SmartDashboard.putNumber("Count", count);
 

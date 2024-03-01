@@ -56,7 +56,7 @@
         "y": 7.0
       },
       "nextControl": {
-        "x": 5.4810780093172164,
+        "x": 4.5610780093172165,
         "y": 7.0
       },
       "isLocked": false,
@@ -91,7 +91,7 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Test Paths",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

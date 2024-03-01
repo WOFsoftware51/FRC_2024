@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class Global_Variables
 {
@@ -14,6 +15,8 @@ public class Global_Variables
 
   public static double tx = 0;
   public static double ty = 0;
+  public static double distance = 0;
+
 
   public static double robot_directionY = 1;
   public static boolean isShooting = false;

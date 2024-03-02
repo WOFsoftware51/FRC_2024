@@ -21,7 +21,7 @@ public class Global_Variables
     public static boolean isShooting = false;
 
     
-    private static DigitalInput noteSensor = new DigitalInput(0);
+    private static DigitalInput noteSensor = new DigitalInput(9);
 
 
     public static int getSensorVal(){
@@ -33,8 +33,8 @@ public class Global_Variables
         }
       }
     
-      public static boolean auton_Timer(int timeElapsed, int time){
-          if(timeElapsed<time){
+    public static boolean auton_Timer(int timeElapsed, int time){
+        if(timeElapsed<time){
             timeElapsed++;
             return false;
           }

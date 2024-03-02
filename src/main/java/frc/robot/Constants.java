@@ -28,7 +28,7 @@ public final class Constants {
     /** The distance offset in comparison to the Limelight */ 
     public static final double TURRET_OFFSET_X = 0; // Distance from Limelight TODO
     public static final double TURRET_GEAR_RATIO = 1; //TODO
-    public static final double TURRET_CANCODER_OFFSET = 0; //182.0/360; //TODO
+    public static final double TURRET_CANCODER_OFFSET = 76.904297; //182.0/360; //TODO
     public static final double TURRET_DEFAULT_POSITION = 50.052; //182.0/360; //TODO
 
 

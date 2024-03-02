@@ -13,7 +13,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
-public class TeleopSwerve extends Command {    
+public class AutonSwerve extends Command {    
     private Swerve s_Swerve;    
     private DoubleSupplier translationSup;
     private DoubleSupplier strafeSup;
@@ -21,7 +21,7 @@ public class TeleopSwerve extends Command {
     private BooleanSupplier robotCentricSup;
     public double speedModifier = Constants.DRIVE_SPEED;
 
-    public TeleopSwerve(Swerve Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup) {
+    public AutonSwerve(Swerve Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup) {
         this.s_Swerve = Swerve;
         addRequirements(s_Swerve);
 

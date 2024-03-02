@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -36,8 +37,6 @@ public class RobotContainer {
     private final XboxController driver = new XboxController(0);
     private final XboxController operator = new XboxController(1);
     private final SendableChooser<Integer> a_chooser = new SendableChooser<>();
-
-    private final SendableChooser<Double> s_chooser = new SendableChooser<>();
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -177,7 +176,10 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
+
     public Command getAutonomousCommand() {
+        Optional<Alliance> ally = DriverStation.getAlliance();
+        Command auton = null;
         Optional<Alliance> ally = DriverStation.getAlliance();
         Command auton = null;
         // An ExampleCommand will run in autonomous

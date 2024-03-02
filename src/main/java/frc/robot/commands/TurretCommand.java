@@ -40,6 +40,17 @@ public class TurretCommand extends Command {
         turretEncoder = m_turret.getTurretEncoder();
         turretCANCoder = m_turret.getTurret_CANCoder();
 
+        // if(count > 2 && (turretEncoder < -20 || turretEncoder > 20))
+        // {
+        //   m_turret.updateEncoder();
+        //   count = 0;
+        // }
+        // else
+        // {
+        //   count++;
+        // }
+      
+    
         // double joystickFixed = MathUtil.applyDeadband(joystick.getAsDouble(), Constants.stickDeadband);
       
         // if(turretEncoder > 115)

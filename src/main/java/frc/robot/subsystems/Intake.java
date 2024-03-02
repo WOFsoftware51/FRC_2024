@@ -12,12 +12,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Intake extends SubsystemBase {
 
 
-    private TalonFX _intake = new TalonFX(Constants.intake);
+    private TalonFX _intake = new TalonFX(Constants.intake, Constants.CANIVORE_NAME);
   
 
     public void intake_init() 
     {
-      _intake.setNeutralMode(NeutralModeValue.Brake);
+      _intake.setNeutralMode(NeutralModeValue.Coast);
       _intake.setInverted(true);
 
       // transfer_intake.setNeutralMode(NeutralModeValue.Brake);
@@ -34,7 +34,7 @@ public class Intake extends SubsystemBase {
     }
   
     public void intakeOff(){
-        _intake.set(0);
+      _intake.set(0);
     }
     
     

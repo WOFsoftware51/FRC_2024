@@ -4,50 +4,59 @@
 
 package frc.robot.commands;
 
-
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.lib.math.Conversions;
 import frc.robot.Constants;
-import frc.robot.subsystems.Elevator;
+import frc.robot.Global_Variables;
+import frc.robot.subsystems.Arm;
 
-public class ElevatorCommand extends Command
+
+public class Arm_Setposition extends Command
 {
-  private final Elevator m_elevator;
-  private Boolean in;
-  private DoubleSupplier joystick;
-  private double joystickFixed= 0;
 
+  private final Arm m_arm;
+  
+  private double armEncoder = 0.0;
+  private double armCANCoder = 0.0;
+  private double armSpeed = 0.0;
 
-  public ElevatorCommand(Elevator elevator, DoubleSupplier jDoubleSupplier) 
-  { 
+  private int button = 0;
+
+  /** Creates a new Arm. */
+  public Arm_Setposition(Arm arm, int Button) 
+  {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.m_elevator = elevator;
-    addRequirements(elevator);
-    this.joystick = jDoubleSupplier;
+    this.m_arm = arm;
+    addRequirements(arm);
+    this.button = Button;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() 
+  public void initialize()
   {
-      m_elevator.elevator_init();
+    m_arm.arm_init();    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() 
-  {    
-    joystickFixed = MathUtil.applyDeadband(joystick.getAsDouble(), Constants.stickDeadband);
-    m_elevator.elevatorOn(joystickFixed);
+  {
+    
+    armEncoder = m_arm.getArm_encoder();
+    armCANCoder = m_arm.getArm_CANCoder();
+    armSpeed = m_arm.Arm_Speed();
+
+    m_arm.Arm_Goto_Angle(-m_arm.turretAngleToScore+90);
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) 
   {
-    m_elevator.elevatorOff();
+    m_arm.arm_off();
   }
 
   // Returns true when the command should end.

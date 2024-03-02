@@ -1,0 +1,25 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 13.67,
+      "y": 5.56
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Red_Middle_Pickup_Center_Note"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Red Autos",
+  "choreoAuto": false
+}

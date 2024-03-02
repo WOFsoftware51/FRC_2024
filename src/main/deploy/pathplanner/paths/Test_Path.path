@@ -4,24 +4,24 @@
     {
       "anchor": {
         "x": 2.0,
-        "y": 7.0
+        "y": 6.9679477447399965
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.053665631459995,
-        "y": 6.973167184270003
+        "x": 2.0,
+        "y": 7.027947744739997
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.0013090795412376,
-        "y": 7.0
+        "x": 3.433681047105317,
+        "y": 6.9679477447399965
       },
       "prevControl": {
-        "x": 2.991445140302916,
-        "y": 7.059183635429928
+        "x": 3.433681047105317,
+        "y": 6.907947744739997
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,7 +32,7 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 1.5,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Test Paths",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

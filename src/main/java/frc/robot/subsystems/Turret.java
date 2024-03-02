@@ -10,6 +10,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -20,14 +21,27 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase {
 
-  private TalonFX _turret = new TalonFX(Constants.turret); //turret);
+  private final TalonFX _turret = new TalonFX(Constants.turret); //turret);
+  private final CANcoder turretCANCoder = new CANcoder(Constants.turret_CANCoder, Constants.CANIVORE_NAME);
+
   private MotionMagicDutyCycle mMDutyCycle = new MotionMagicDutyCycle(0);
   private VoltageOut vOut = new VoltageOut(0, false, false, false, false);
+  public double turretAngleToScore = 0.0;
+
 
   // private AnalogInput ns = new AnalogInput(0);
 
   public void turret_init() 
   {
+
+    if(getTurret_CANCoder()!=0)
+    {
+      updateEncoder();
+    }
+    else{
+      _turret.getConfigurator().setPosition(0);
+    }
+
     TalonFXConfiguration cfg = new TalonFXConfiguration();
     MotionMagicConfigs mm = cfg.MotionMagic;
     mm.MotionMagicCruiseVelocity = 80; // 5 rotations per second cruise
@@ -44,26 +58,19 @@ public class Turret extends SubsystemBase {
 
     _turret.getConfigurator().apply(cfg, 0.050);
 
-    FeedbackConfigs fConfigs = cfg.Feedback;
-    fConfigs.SensorToMechanismRatio = 70;
-
     _turret.setNeutralMode(NeutralModeValue.Brake);
     _turret.setInverted(false);
   }
   
   public void turretOn(double x){
-    // _turret.setControl(d.withSlot(0));
-    // _turret.setPosition(30);
-    
-    _turret.setControl(vOut.withOutput(12*x)); //0.3
+    _turret.set(x*0.5); //0.3
     // _turret.setControl(e.withOutput(x*0.8));
 
   }
 
-
   public void turret_Goto_angle(double x){
     mMDutyCycle.Slot = 0;
-    _turret.setControl(mMDutyCycle.withPosition(x*360));
+    _turret.setControl(mMDutyCycle.withPosition((x/360)/Constants.TURRET_GEAR_RATIO)); //Divide by 360 to convert Degrees to Rotations
   }
   
   public void turretOff(){
@@ -75,16 +82,27 @@ public class Turret extends SubsystemBase {
     _turret.setPosition(0);
   }
 
-  public double getTurretSensorPos(){
-    return _turret.getPosition().getValue();
+  /** In Degrees*/
+  public double getTurretEncoder(){
+    return _turret.getPosition().getValue()*360;
   }
 
+  public double getTurret_CANCoder(){
+    double turret_CANCoder = turretCANCoder.getPosition().getValue()*360;//;.getAbsolutePosition();
+    return turret_CANCoder;
+  }
+
+  public void updateEncoder(){
+    if(getTurret_CANCoder()!=0){
+      _turret.getConfigurator().setPosition(Constants.TURRET_CANCODER_OFFSET-(getTurret_CANCoder()));
+    }
+  }
 
   @Override
   public void periodic(){
-    SmartDashboard.putNumber("Turret Pos", getTurretSensorPos());
+    SmartDashboard.putNumber("Turret Pos", getTurretEncoder());
 
-    SmartDashboard.putNumber("Sensor Val", Global_Variables.getSensorVal());
+    turretAngleToScore = Math.atan((Constants.SPEAKER_HEIGHT - Constants.LIMELIGHT_HEIGHT - Constants.TURRET_OFFSET_Y)/(Global_Variables.distance+Constants.TURRET_OFFSET_X)) * 360/(2*Math.PI); 
 
   }
 

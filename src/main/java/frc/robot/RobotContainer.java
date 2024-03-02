@@ -1,5 +1,9 @@
 package frc.robot;
 
+import java.util.Optional;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -9,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.*;
+import frc.robot.autos.Blue_Autos.Blue_Leave_Zone;
+import frc.robot.autos.Red_Autos.Red_Leave_Zone;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -39,6 +45,7 @@ public class RobotContainer {
     private final Elevator m_Elevator = new Elevator();
     private final Hanger m_Hanger = new Hanger();
     private final Intake m_Intake = new Intake();
+    private final Transfer_Intake m_Transfer = new Transfer_Intake();
     private final Turret m_Turret = new Turret();
     private final Shooter m_Shooter = new Shooter();
 
@@ -46,10 +53,18 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        String[] aPositions = {"Top", "Middle", "Bottom"};
 
         SmartDashboard.putData("Auton", a_chooser);
         a_chooser.setDefaultOption("Test Auto", 1);
-        a_chooser.addOption("Example Auto", 2);
+        a_chooser.addOption("Do Nothing Auto", 2);
+
+        a_chooser.addOption("0, 1, 2 Auto", 3);
+        a_chooser.addOption("Leave Zone", 4);
+        a_chooser.addOption("0 Leave Zone Auto", 5);
+        a_chooser.addOption("0 Auto", 6);
+        a_chooser.addOption("0, 1, 2, 3 Auto", 7);
+        a_chooser.addOption("0, 1 Auto", 8);
 
 
 
@@ -76,10 +91,12 @@ public class RobotContainer {
             )
         );
         
-        m_Turret.setDefaultCommand(new TurretCommand(m_Turret, ()-> operator.getLeftY()));
+        m_Elevator.setDefaultCommand(new ElevatorCommand(m_Elevator, ()-> operator.getLeftY()));
 
         m_Hanger.setDefaultCommand(new HangerManualCommand(m_Hanger, ()-> operator.getRightY()));
 
+        m_Turret.setDefaultCommand(new Turret_Goto_Angle(m_Turret, Constants.TURRET_DEFAULT_POSITION));
+        
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -90,34 +107,46 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
-    private void configureButtonBindings() {
+    private void configureButtonBindings() {  
         /* Driver Buttons */
-        new Trigger(driver::getRightBumper).whileTrue(new TelopSwerveAim(s_Swerve, () -> -driver.getRawAxis(translationAxis), () -> -driver.getRawAxis(strafeAxis)));
-
-
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new Right_Trigger_Boost_True());
 
-        new Trigger(operator::getBackButton).whileTrue(new ElevatorCommand(m_Elevator, true));
-        new Trigger(operator::getStartButton).whileTrue(new ElevatorCommand(m_Elevator, false));
+        //Aiming to Score and Rev up Shooter: Driver[RightBumper]
+        new Trigger(driver::getRightBumper).whileTrue(new TelopSwerveAim(s_Swerve, () -> -driver.getRawAxis(translationAxis), () -> -driver.getRawAxis(strafeAxis)));
+        new Trigger(driver::getRightBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+        new Trigger(driver::getRightBumper).whileTrue(new TurretAim(m_Turret));
 
-        new Trigger(operator::getLeftBumper).whileTrue(new IntakeCommand(m_Intake));
+
+        //GOTO Default Position and Rev up Shooter: Driver[LeftBumper]
+        new Trigger(driver::getLeftBumper).whileTrue(new TelopSwerveDefaultAim(s_Swerve, () -> -driver.getRawAxis(translationAxis), () -> -driver.getRawAxis(strafeAxis)));
+        new Trigger(driver::getLeftBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+        new Trigger(driver::getLeftBumper).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.TURRET_DEFAULT_POSITION));
+
+        //Transfer and Floor Intake: Operator[LeftTrigger]
+        new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new IntakeCommand(m_Intake));
+        new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeCommand(m_Transfer));
+
+        //Transfer Intake Poop: Operator[LeftBumper]
+        new Trigger(operator::getLeftBumper).whileTrue(new Transfer_IntakeCommand_Reverse(m_Transfer));
+
+        //Floor Intake Reverse: Operator[RightBumper] 
         new Trigger(operator::getRightBumper).whileTrue(new IntakeCommand_Reverse(m_Intake));
 
+        //Elevator Setpositions: Operator[A, B, X, Y]
         new Trigger(operator::getAButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.A_Button));
         new Trigger(operator::getBButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.B_Button));
         new Trigger(operator::getXButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.X_Button));
         new Trigger(operator::getYButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.Y_Button));
 
+        // Hangar Command: Operator[BackButton, StartButton]
         new Trigger(operator::getBackButton).whileTrue(new HangerCommand(m_Hanger, true));
         new Trigger(operator::getStartButton).whileTrue(new HangerCommand(m_Hanger, false));
 
 
-
-        new Trigger(() -> operator.getRightTriggerAxis() > 0.80).whileTrue(new IntakeCommand_Reverse(m_Intake));
-
-        new Trigger(() -> operator.getLeftTriggerAxis() > 0.80).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
-
+        //Shoot: Operator[RightTrigger]
+        new Trigger((() -> operator.getRightTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeShoot(m_Transfer));
+        
     }
 
     /**
@@ -126,13 +155,40 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
+        Optional<Alliance> ally = DriverStation.getAlliance();
+        Command auton = null;
         // An ExampleCommand will run in autonomous
+
+        if (ally.isPresent()) {
+            if (ally.get() == Alliance.Red) {
+                auton = blueAutons();
+            }
+            if (ally.get() == Alliance.Blue) {
+                auton = redAutons();
+            }
+        }
+        else {
+            auton = blueAutons();
+        }
+        return auton;
+
+    }
+
+
+    private Command blueAutons(){
         switch (a_chooser.getSelected()) 
         {
-        case 1: return new Square_Auto(s_Swerve);
-        case 2: return new exampleAuto();
+            case 1: return new Blue_Leave_Zone(s_Swerve);
 
-        default: return new Square_Auto(s_Swerve);
+            default: return new exampleAuto(s_Swerve);
+        }
+    }
+    private Command redAutons(){
+        switch (a_chooser.getSelected()) 
+        {
+            case 1: return new Red_Leave_Zone(s_Swerve);
+
+            default: return new exampleAuto(s_Swerve);
         }
     }
 }

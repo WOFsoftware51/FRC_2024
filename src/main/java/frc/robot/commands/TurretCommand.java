@@ -13,6 +13,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class TurretCommand extends Command {    
     public Turret m_turret;   
     public DoubleSupplier joystick;
+    private double turretEncoder = 0.0;
+    private double turretCANCoder = 0.0;
+    private int count = 0;
+  
+  
     // private Timer timer;
 
     public TurretCommand(Turret turret, DoubleSupplier _joystick) {
@@ -31,6 +36,39 @@ public class TurretCommand extends Command {
 
     @Override
     public void execute() {
+
+        turretEncoder = m_turret.getTurretEncoder();
+        turretCANCoder = m_turret.getTurret_CANCoder();
+
+        // double joystickFixed = MathUtil.applyDeadband(joystick.getAsDouble(), Constants.stickDeadband);
+      
+        // if(turretEncoder > 115)
+        // {
+        //   if(joystickFixed < 0)
+        //   {
+        //     m_turret.turretOn(joystickFixed);
+        //   }
+        //   else
+        //   {
+        //     m_turret.turretOff();
+        //   }
+        // }
+        // else if(turretEncoder < -109)
+        // {
+        //   if(joystickFixed > 0)
+        //   {
+        //     m_turret.turretOn(joystickFixed);
+        //   }
+        //   else
+        //   {
+        //     m_turret.turretOff();    
+        //   }
+        // }
+        // else
+        // {
+        //   m_turret.turretOn(joystickFixed);
+        // }
+
         double joystickFixed = MathUtil.applyDeadband(joystick.getAsDouble(), Constants.stickDeadband);
         m_turret.turretOn(joystickFixed);
     }

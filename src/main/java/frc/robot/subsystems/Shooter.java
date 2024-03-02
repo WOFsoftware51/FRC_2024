@@ -53,24 +53,33 @@ public class Shooter extends SubsystemBase {
 
 
     public void shooterOn(double velocity){
-      m_velocity = velocity;
-      _shooter.setControl(d.withVelocity(m_velocity/60).withFeedForward(0.5)); // Divide by 60 to go from RPM -> RPS //Multiply m_velocity * 2 because i think it works
+      m_velocity = velocity/60;
+      _shooter.setControl(d.withVelocity(m_velocity).withFeedForward(0.5)); // Divide by 60 to go from RPM -> RPS 
     }
     public void shooterOff(){
       _shooter.set(0);
     }
     public void shooterOnTop(){
-      _shooter.set(-0.16);
+      _shooter.set(-0.16);  
     }
 
     public double getVelocity(){
-      return _shooter.getVelocity().getValueAsDouble()*(1);
+      return _shooter.getVelocity().getValueAsDouble()*(60);
     }
+
+    public double getTargetVelocity(){
+      return m_velocity;
+    }
+
+    public double getCurrent(){
+      return _shooter.getStatorCurrent().getValue();
+    }
+ 
 
     @Override
     public void periodic() {
-      SmartDashboard.putNumber("Shooter RPM", getVelocity()*60);
-      SmartDashboard.putNumber("Shooter RPS", getVelocity());
-        SmartDashboard.putNumber("Shooter TargetSpeed", m_velocity);
+      SmartDashboard.putNumber("Shooter RPM", getVelocity());
+      SmartDashboard.putNumber("Shooter RPS", getVelocity()/60);
+      SmartDashboard.putNumber("Shooter TargetSpeed", m_velocity);
     }
 }

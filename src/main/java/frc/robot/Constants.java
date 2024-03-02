@@ -22,16 +22,23 @@ public final class Constants {
     public static final double APRIL_TAG_HEIGHT = 57;// 57.25; //54
     public static final double LIMELIGHT_HEIGHT = 14;// 57.25; //54
     public static final double LIMELIGHT_ANGLE = 32;// 57.25; //54
-    public static final double SHOOTER_OFFSET_Y = 0; // Distance from Limelight
-    public static final double SHOOTER_OFFSET_X = 0; // Distance from Limelight
+
+    /** The height offset in comparison to the Limelight */
+    public static final double TURRET_OFFSET_Y = 0; // Distance from Limelight TODO
+    /** The distance offset in comparison to the Limelight */ 
+    public static final double TURRET_OFFSET_X = 0; // Distance from Limelight TODO
+    public static final double TURRET_GEAR_RATIO = 1; //TODO
+    public static final double TURRET_CANCODER_OFFSET = 0; //182.0/360; //TODO
+    public static final double TURRET_DEFAULT_POSITION = 20; //182.0/360; //TODO
+
 
     public static final double SPEAKER_HEIGHT = 92.193;
 
     
-    public static final double ELEVATOR_DEFAULT = 0.0;
-    public static final double ELEVATOR_AMP = 0.0;
-    public static final double ELEVATOR_SPEAKER = 0.0;
-    public static final double ELEVATOR_TRAP = 0.0;
+    public static final double ELEVATOR_DEFAULT = 0.0; //TODO
+    public static final double ELEVATOR_AMP = 0.0; //TODO
+    public static final double ELEVATOR_FLOOR = 0.0; //TODO
+    public static final double ELEVATOR_TRAP = 0.0; //TODO
 
     public static final double Mod0_ROTATION_OFFSET = 32.78;
     public static final double Mod1_ROTATION_OFFSET = -67.41;
@@ -166,6 +173,8 @@ public final class Constants {
         public static final double kPYController = 1.3;  //5; //1.3
         public static final double kPThetaController = 10;//-20  //-10;;
     
+        public static final double shooterCurrentSpike = 32;//-20  //-10;;
+
         /* Constraint for the motion profilied robot angle controller */
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
             new TrapezoidProfile.Constraints(
@@ -174,24 +183,40 @@ public final class Constants {
 
     }
 
-    public static int shooter = 34;
-    public static int shooter2 = 45;
+    public static final class AutoPositions{
+        public static final double TURRET_AUTON_POSITION1 = 0;
+        public static final double TURRET_AUTON_POSITION2 = 0;
+        public static final double TURRET_AUTON_POSITION3 = 0;
 
-    public static int intake = 48;
-    public static int turret = 43;//34
+    }
+    /**In RPM */
+    public static final class ShooterSpeeds{
+        public static final double SHOOTER_AUTON_SPEED1 = 4000;
+        public static final double SHOOTER_DEFAULT_SPEED = 0;
+    }
 
-    public static int hanger = 33;
-    public static int hanger2 = 47;
+    public static final int shooter = 34;
+    public static final int shooter2 = 45;
 
-    public static int elevator = 60;
-    public static int elevator2 = 61;
-    public static int transfer_intake = 62;
+    public static final int intake = 48;
+    public static final int turret = 43;//34
+    public static final int turret_CANCoder = 42;
 
-	public static double shootP = 0.10;//0.11
-	public static double shootI= 0.0;
-	public static double shootD= 0.0;
-	public static double shootV= 0.1033;//0.112;
-	public static double shootS= 0.05;//6;
+
+    public static final int hanger = 33;
+    public static final int hanger2 = 47;
+
+    public static final int elevator = 60;
+    public static final int elevator2 = 61;
+    public static final int transfer_intake = 62;
+    public static final int transfer_shooter = 63;
+
+
+	public static final double shootP = 0.10;//0.11
+	public static final double shootI= 0.0;
+	public static final double shootD= 0.0;
+	public static final double shootV= 0.1033;//0.112;
+	public static final double shootS= 0.05;//6;
 
     public static final int A_Button = 1;
     public static final int B_Button = 2;

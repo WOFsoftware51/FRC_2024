@@ -21,8 +21,8 @@ import frc.robot.Constants;
 public class Elevator extends SubsystemBase {
 
 
-  private TalonFX _elevator = new TalonFX(Constants.elevator);
-  private TalonFX _elevator2 = new TalonFX(Constants.elevator2);
+  private TalonFX _elevator = new TalonFX(Constants.elevator, Constants.CANIVORE_NAME);
+  private TalonFX _elevator2 = new TalonFX(Constants.elevator2, Constants.CANIVORE_NAME);
 
   private MotionMagicDutyCycle mMDutyCycle = new MotionMagicDutyCycle(1);
 
@@ -67,13 +67,17 @@ public class Elevator extends SubsystemBase {
   public void elevator_Goto_Position(double value)
   {
     mMDutyCycle.Slot = 0;
-    _elevator.setControl(mMDutyCycle.withPosition(value*360));  //Don't know the position right now
+    _elevator.setControl(mMDutyCycle.withPosition(value/360));  //Don't know the position right now  //Divide by 360 to convert to Degrees
   }
 
 
     
   public void elevatorOn(){
     _elevator.set((0.4));
+  }
+
+    public void elevatorOn(double x){
+    _elevator.set(x*0.5);
   }
 
   public void elevatorReverse(){

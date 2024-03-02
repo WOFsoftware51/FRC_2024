@@ -5,19 +5,27 @@
 package frc.robot.commands;
 
 
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorCommand extends Command
 {
   private final Elevator m_elevator;
   private Boolean in;
-  public ElevatorCommand(Elevator elevator, Boolean _in) 
+  private DoubleSupplier joystick;
+  private double joystickFixed= 0;
+
+
+  public ElevatorCommand(Elevator elevator, DoubleSupplier jDoubleSupplier) 
   { 
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_elevator = elevator;
     addRequirements(elevator);
-    this.in = _in;
+    this.joystick = jDoubleSupplier;
   }
 
   // Called when the command is initially scheduled.
@@ -31,14 +39,8 @@ public class ElevatorCommand extends Command
   @Override
   public void execute() 
   {    
-    if(in)
-    {
-      m_elevator.elevatorOn();
-    }
-    else if(in==false)
-    {
-      m_elevator.elevatorReverse();
-    }
+    joystickFixed = MathUtil.applyDeadband(joystick.getAsDouble(), Constants.stickDeadband);
+    m_elevator.elevatorOn(joystickFixed);
   }
 
   // Called once the command ends or is interrupted.

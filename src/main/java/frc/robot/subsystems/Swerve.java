@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathHolonomic;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -162,13 +163,61 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    public void zeroGyro(){
+        gyro.setYaw(0);
+    }
+
     public void boostOn(){
         speedMod = 1.0;
     }
      public void boostOff(){
         speedMod = Constants.DRIVE_SPEED;
     }
+
+    public double gotoDefaultGyroVal(){
+        double rotationVal;
+        if(yawFixed<-30){
+        rotationVal = -0.3;
+        }
+        else if(yawFixed<-10){
+          rotationVal = -0.15;
+        }
+        else if(yawFixed<-1){
+          rotationVal = -0.05;
+        }
+        else if(yawFixed>30){
+          rotationVal = 0.3;
+        }
+        else if(yawFixed>10){
+          rotationVal = 0.15;
+        }
+        else if(yawFixed>1){
+          rotationVal = 0.05;
+        }
+        else{
+          rotationVal = 0.0;
+        }
+
+        return rotationVal;
+    }
     
+    public double limelight_aim_proportional()
+    {    
+        double targetingAngularVelocity = 0;
+        final double kP = 0.001666;
+        final double kI = 0.000000; // 0.016;
+        final double kD = 0.00000125; // 0.008;
+        PIDController AimPID = new PIDController(kP, kI, kD);
+        
+        targetingAngularVelocity = AimPID.calculate(tx, 0);// -(tx * kP + kD*txRateOfChange() + kI*txIntegral());
+        
+        targetingAngularVelocity *= 4;
+  
+        targetingAngularVelocity *= -1;
+
+        return targetingAngularVelocity;
+    }
+
  // Assuming this method is part of a drivetrain subsystem that provides the necessary methods
     public Command followTrajectoryCommand(String pathString, boolean isFirstPath) {
     
@@ -199,21 +248,22 @@ public class Swerve extends SubsystemBase {
         );
     }
 
-    public double limelight_aim_proportional()
-    {    
-        double targetingAngularVelocity = 0;
-        final double kP = 0.001666;
-        final double kI = 0.000000; // 0.016;
-        final double kD = 0.00000125; // 0.008;
-        PIDController AimPID = new PIDController(kP, kI, kD);
-        
-        targetingAngularVelocity = AimPID.calculate(tx, 0);// -(tx * kP + kD*txRateOfChange() + kI*txIntegral());
-        
-        targetingAngularVelocity *= 4;
-  
-        targetingAngularVelocity *= -1;
 
-        return targetingAngularVelocity;
+    public void configureAuton(){
+        AutoBuilder.configureHolonomic(
+            this::getPose, // Robot pose supplier
+            this::zeroHeadingConsumer, // Robot pose supplier
+            this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            this::driveRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+            new HolonomicPathFollowerConfig(
+                new PIDConstants(Constants.AutoConstants.kPXController, 0.0, 0.0), // Translation PID constants 
+                new PIDConstants(Constants.AutoConstants.kPThetaController, 0.0, 0.0), // Rotation PID constants
+                Constants.Swerve.maxSpeed, // Max module speed, in m/s
+                Constants.Swerve.driveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
+                new ReplanningConfig(true, false)), // Default path replanning config. See the API for the options here
+            () -> false,
+            this // Reference to this subsystem to set requirements
+        );
     }
 
 
@@ -223,6 +273,7 @@ public class Swerve extends SubsystemBase {
 
         swerveOdometry.update(getGyroYaw(), getModulePositions());
         yawFixed = Math.abs(gyro.getYaw().getValue()% 360);
+        SmartDashboard.putNumber("yawFixeds", yawFixed); 
 
 
         for(SwerveModule mod : mSwerveMods){
@@ -236,6 +287,7 @@ public class Swerve extends SubsystemBase {
         ty = table.getEntry("ty").getDouble(0);
         tx = table.getEntry("tx").getDouble(0);
         botpose = table.getEntry("botpose").getDoubleArray(new double[6]); 
+        distance = (Constants.APRIL_TAG_HEIGHT-Constants.LIMELIGHT_HEIGHT)/(Math.tan(Math.toRadians(Constants.LIMELIGHT_ANGLE+ty)));
         // // // double bLat = botpose[6];
         
         SmartDashboard.putNumber("tx", tx);
@@ -250,10 +302,6 @@ public class Swerve extends SubsystemBase {
         Global_Variables.pitch = getGyroPitch().getDegrees();
         Global_Variables.tx = tx;
         Global_Variables.tx = ty;
-
-        distance = (Constants.APRIL_TAG_HEIGHT-Constants.LIMELIGHT_HEIGHT)/(Math.tan(Math.toRadians(Constants.LIMELIGHT_ANGLE+ty)));
-
-        
-
+        Global_Variables.distance = distance;
     }  
 }

@@ -22,24 +22,25 @@ public class IntakeCommand extends Command {
     public void initialize() {
         /* Get Values, Deadband*/
        m_intake.intake_init();
+       Global_Variables.isIntaking = true;
     }
 
 
     @Override
     public void execute() {
-        /* Get Values, Deadband*/
-        if(Global_Variables.getSensorVal()==(1) && !Global_Variables.isShooting){
+        if(Global_Variables.getSensorVal()==(1)){
             m_intake.intakeOff();
         }
         else{
             m_intake.intakeOn();
         }
-       
     }
+
 
     @Override
     public void end(boolean interrupted) {
         m_intake.intakeOff();
+        Global_Variables.isIntaking = false;
     }
 
     // Returns true when the command should end.

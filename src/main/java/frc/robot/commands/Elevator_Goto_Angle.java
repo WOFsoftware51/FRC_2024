@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
+import frc.robot.Global_Variables;
 import frc.robot.subsystems.Elevator;
 
 
@@ -28,25 +29,30 @@ public class Elevator_Goto_Angle extends Command {
 
     @Override
     public void execute() {
-        switch(m_button) {
-            case Constants.A_Button:   ////////////////////////////////////////////////////////////
-                elevatorTarget = Constants.ELEVATOR_AMP;
-                break;
+        if(Global_Variables.isIntaking){
+            elevatorTarget = Constants.ELEVATOR_DEFAULT;
+        }
+        else{
+            switch(m_button) {
+                case Constants.A_Button:   ////////////////////////////////////////////////////////////
+                    elevatorTarget = Constants.ELEVATOR_AMP;
+                    break;
 
-            case Constants.B_Button:  ////////////////////////////////////////////////////////////
-                elevatorTarget = Constants.ELEVATOR_SPEAKER;
-                break;
+                case Constants.B_Button:  ////////////////////////////////////////////////////////////
+                    elevatorTarget = Constants.ELEVATOR_FLOOR;
+                    break;
 
-            case Constants.X_Button:    ////////////////////////////////////////////////////////////
-                elevatorTarget = Constants.ELEVATOR_TRAP;
-                break;
+                case Constants.X_Button:    ////////////////////////////////////////////////////////////
+                    elevatorTarget = Constants.ELEVATOR_TRAP;
+                    break;
 
-            case Constants.Y_Button:       ////////////////////////////////////////////////////////////
-                elevatorTarget = Constants.ELEVATOR_DEFAULT;
-                break;
+                case Constants.Y_Button:       ////////////////////////////////////////////////////////////
+                    elevatorTarget = Constants.ELEVATOR_DEFAULT;
+                    break;
 
-            default:   ////////////////////////////////////////////////////////////
-                elevatorTarget = Constants.ELEVATOR_DEFAULT;
+                default:   ////////////////////////////////////////////////////////////
+                    elevatorTarget = Constants.ELEVATOR_DEFAULT;
+            }
         }
       
         m_Elevator.elevator_Goto_Position(elevatorTarget);

@@ -26,9 +26,9 @@ public class Auton_Subsystem extends SubsystemBase {
   public boolean isShooting = false;
 
 
-  public Command auton_Score(Turret turret, Transfer_Intake transfer, Shooter shooter){
+  public Command auton_Score(Turret turret, Transfer_Intake transfer, Shooter shooter, double turretAngle){
     return new SequentialCommandGroup(
-      auton_Aim(turret),
+      auton_Aim(turret, turretAngle),
       new Auton_Wait(2),
       auton_TransferShoot(transfer, shooter)
 );
@@ -38,9 +38,9 @@ public class Auton_Subsystem extends SubsystemBase {
       return new ShootCommand(m_Shooter,()-> Constants.ShooterSpeeds.SHOOTER_AUTON_SPEED1).until(new Auton_Wait(100).getAsBoolean());    
   }
 
-  public Command auton_Aim(Turret m_Turret){
+  public Command auton_Aim(Turret m_Turret, double turretAngle){
     return new ParallelRaceGroup(
-      new TurretAim(m_Turret).until(new Auton_Wait(100).getAsBoolean()),
+      new Turret_Goto_Angle(m_Turret, turretAngle).until(new Auton_Wait(100).getAsBoolean()),
       new WaitUntilCommand((()-> aimReady(m_Turret)))
     );
   }

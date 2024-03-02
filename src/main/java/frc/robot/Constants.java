@@ -29,7 +29,7 @@ public final class Constants {
     public static final double TURRET_OFFSET_X = 0; // Distance from Limelight TODO
     public static final double TURRET_GEAR_RATIO = 1; //TODO
     public static final double TURRET_CANCODER_OFFSET = 0; //182.0/360; //TODO
-    public static final double TURRET_DEFAULT_POSITION = 20; //182.0/360; //TODO
+    public static final double TURRET_DEFAULT_POSITION = 50.052; //182.0/360; //TODO
 
 
     public static final double SPEAKER_HEIGHT = 92.193;
@@ -40,17 +40,17 @@ public final class Constants {
     public static final double ELEVATOR_FLOOR = 0.0; //TODO
     public static final double ELEVATOR_TRAP = 0.0; //TODO
 
-    public static final double Mod0_ROTATION_OFFSET = 32.78;
-    public static final double Mod1_ROTATION_OFFSET = -67.41;
-    public static final double Mod2_ROTATION_OFFSET = 17.40;
-    public static final double Mod3_ROTATION_OFFSET = -100.01;
+    public static final double Mod0_ROTATION_OFFSET = (-134.56);//+180)%360;
+    public static final double Mod1_ROTATION_OFFSET = (-2.63);//+180)%360;
+    public static final double Mod2_ROTATION_OFFSET = (-59.68);//+180)%360;
+    public static final double Mod3_ROTATION_OFFSET = (-27.77);//+180)%360;
 
 
     public static final class Swerve {
         public static final int pigeonID = 1;
 
         public static final COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot90
-        COTSTalonFXSwerveConstants.SDS.MK4.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4.driveRatios.L1);
+        COTSTalonFXSwerveConstants.SDS.MK4.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4.driveRatios.L2);
 
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(20); //TODO: This must be tuned to specific robot
@@ -183,10 +183,34 @@ public final class Constants {
 
     }
 
-    public static final class AutoPositions{
-        public static final double TURRET_AUTON_POSITION1 = 0;
-        public static final double TURRET_AUTON_POSITION2 = 0;
-        public static final double TURRET_AUTON_POSITION3 = 0;
+    public static final class AutonTurretPositions{
+        public static final class Top{
+            public static final double Position_Start = 0;
+            public static final double Position_1 = 0;
+            public static final double Position_2 = 0;
+            public static final double Position_3 = 0;
+
+        }
+        public static final class Middle{
+            public static final double Position_Start = 0;
+            public static final double Position_1 = 0;
+            public static final double Position_2 = 0;
+            public static final double Position_3 = 0;
+
+        }
+        public static final class Bottom{
+            public static final double Position_Start = 0;
+            public static final double Position_1 = 0;
+            public static final double Position_2 = 0;
+            public static final double Position_3 = 0;
+
+        }
+        public static final class Misc{
+            public static final double POSITION_LEAVE_ZONE_0 = 0;
+        }
+
+
+
 
     }
     /**In RPM */
@@ -200,16 +224,16 @@ public final class Constants {
 
     public static final int intake = 48;
     public static final int turret = 43;//34
-    public static final int turret_CANCoder = 42;
+    public static final int turret_CANCoder = 51;
 
 
-    public static final int hanger = 33;
+    public static final int hanger = 35;
     public static final int hanger2 = 47;
 
     public static final int elevator = 60;
     public static final int elevator2 = 61;
     public static final int transfer_intake = 62;
-    public static final int transfer_shooter = 63;
+    public static final int transfer_shooter = 59;
 
 
 	public static final double shootP = 0.10;//0.11

@@ -13,8 +13,15 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.*;
-import frc.robot.autos.Blue_Autos.Blue_Leave_Zone;
-import frc.robot.autos.Red_Autos.Red_Leave_Zone;
+import frc.robot.autos.Blue_Autos.Top_Autos.*;
+import frc.robot.autos.Blue_Autos.Middle_Autos.*;
+import frc.robot.autos.Blue_Autos.Bottom_Autos.*;
+import frc.robot.autos.Blue_Autos.*;
+import frc.robot.autos.Red_Autos.Top_Autos.*;
+import frc.robot.autos.Red_Autos.Middle_Autos.*;
+import frc.robot.autos.Red_Autos.Bottom_Autos.*;
+import frc.robot.autos.Red_Autos.*;
+
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -48,6 +55,7 @@ public class RobotContainer {
     private final Transfer_Intake m_Transfer = new Transfer_Intake();
     private final Turret m_Turret = new Turret();
     private final Shooter m_Shooter = new Shooter();
+    private final Auton_Subsystem m_aSub = new Auton_Subsystem();
 
 
 
@@ -55,13 +63,15 @@ public class RobotContainer {
     public RobotContainer() {
         String[] aPositions = {"Top", "Middle", "Bottom"};
 
-        SmartDashboard.putData("Auton", a_chooser);
-        a_chooser.setDefaultOption("Test Auto", 1);
-        a_chooser.addOption("Do Nothing Auto", 2);
 
-        a_chooser.addOption("0, 1, 2 Auto", 3);
-        a_chooser.addOption("Leave Zone", 4);
-        a_chooser.addOption("0 Leave Zone Auto", 5);
+        printAutons();
+        SmartDashboard.putData("Auton", a_chooser);
+        a_chooser.setDefaultOption("Leave Zone", 1);
+        a_chooser.addOption("Leave Zone + Score", 2);
+
+        a_chooser.addOption("0, 1, Auto", 3);
+        a_chooser.addOption("0, 1, 2 Auto", 4);
+        a_chooser.addOption("0, 1, 2, 3 Auto", 5);
         a_chooser.addOption("0 Auto", 6);
         a_chooser.addOption("0, 1, 2, 3 Auto", 7);
         a_chooser.addOption("0, 1 Auto", 8);
@@ -148,6 +158,19 @@ public class RobotContainer {
         new Trigger((() -> operator.getRightTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeShoot(m_Transfer));
         
     }
+    public void printAutons(){
+        SmartDashboard.putData("Auton", a_chooser);
+
+        a_chooser.setDefaultOption("Leave Zone", 1);
+        a_chooser.addOption("Leave Zone + Score", 2);
+
+        a_chooser.addOption("0, 1, Auto", 3);
+        a_chooser.addOption("0, 1, 2 Auto", 4);
+        a_chooser.addOption("0, 1, 2, 3 Auto", 5);
+        a_chooser.addOption("0, 3, Auto", 6);
+        a_chooser.addOption("0, 3, 2 Auto", 7);
+        a_chooser.addOption("0, 3, 2, 1 Auto", 8);
+    }
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -179,6 +202,14 @@ public class RobotContainer {
         switch (a_chooser.getSelected()) 
         {
             case 1: return new Blue_Leave_Zone(s_Swerve);
+            case 2: return new Blue_Leave_Zone_0(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 3: return new Blue_Auto_0_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 4: return new Blue_Auto_0_1_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 5: return new Blue_Auto_0_1_2_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 6: return new Blue_Auto_0_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 7: return new Blue_Auto_0_3_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 8: return new Blue_Auto_0_3_2_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+
 
             default: return new exampleAuto(s_Swerve);
         }
@@ -187,6 +218,13 @@ public class RobotContainer {
         switch (a_chooser.getSelected()) 
         {
             case 1: return new Red_Leave_Zone(s_Swerve);
+            case 2: return new Red_Leave_Zone_0(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 3: return new Red_Auto_0_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 4: return new Red_Auto_0_1_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 5: return new Red_Auto_0_1_2_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 8: return new Red_Auto_0_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 7: return new Red_Auto_0_3_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 6: return new Red_Auto_0_3_2_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
 
             default: return new exampleAuto(s_Swerve);
         }

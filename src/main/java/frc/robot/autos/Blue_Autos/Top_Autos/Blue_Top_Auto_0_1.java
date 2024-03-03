@@ -1,4 +1,4 @@
-package frc.robot.autos.Red_Autos.Top_Autos;
+package frc.robot.autos.Blue_Autos.Top_Autos;
 
 import frc.robot.Constants;
 import frc.robot.Global_Variables;
@@ -15,14 +15,14 @@ import frc.robot.subsystems.Turret;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
-public class Red_Auto_0_1 extends SequentialCommandGroup {
+public class Blue_Top_Auto_0_1 extends SequentialCommandGroup {
 
 
-    public Red_Auto_0_1(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
+    public Blue_Top_Auto_0_1(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
         addRequirements(swerve, turret, shooter, aSub, transfer);
 
         
@@ -33,7 +33,7 @@ public class Red_Auto_0_1 extends SequentialCommandGroup {
                 aSub.auton_Intake(intake),
                 new SequentialCommandGroup(
                     aSub.auton_Score(turret, transfer, shooter),
-                    new PathPlannerAuto("Red_0_1"),
+                    new PathPlannerAuto("Blue_0_1"),
                     aSub.auton_Score(turret, transfer, shooter)
                 )
             )

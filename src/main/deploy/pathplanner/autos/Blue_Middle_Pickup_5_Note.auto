@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.93,
-      "y": 5.562647359246215
+      "x": 2.88,
+      "y": 5.56
     },
     "rotation": 0
   },
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_Middle_Pickup_Note"
+            "pathName": "Blue_Middle_Pickup_5_Note"
           }
         }
       ]
     }
   },
-  "folder": "Test Paths",
+  "folder": "Blue Paths",
   "choreoAuto": false
 }

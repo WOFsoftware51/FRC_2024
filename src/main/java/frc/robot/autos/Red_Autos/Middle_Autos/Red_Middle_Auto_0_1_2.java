@@ -1,4 +1,4 @@
-package frc.robot.autos.Red_Autos.Bottom_Autos;
+package frc.robot.autos.Red_Autos.Middle_Autos;
 
 import frc.robot.Constants;
 import frc.robot.Global_Variables;
@@ -16,12 +16,12 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
-public class Red_Auto_0_3_2_1 extends SequentialCommandGroup {
+public class Red_Middle_Auto_0_1_2 extends SequentialCommandGroup {
     Swerve s_Swerve;
     Turret m_Turret;
     Shooter m_Shooter;
 
-    public Red_Auto_0_3_2_1(Swerve swerve, Turret turret, Shooter shooter){
+    public Red_Middle_Auto_0_1_2(Swerve swerve, Turret turret, Shooter shooter){
         this.s_Swerve = swerve;
         this.m_Turret = turret;
         this.m_Shooter = shooter;
@@ -37,7 +37,6 @@ public class Red_Auto_0_3_2_1 extends SequentialCommandGroup {
             ),
             new Auton_Wait(2),
             new Turret_Goto_Angle(m_Turret, Constants.AutoPositions.TURRET_AUTON_POSITION2).until(new Auton_Wait(100).getAsBoolean()),
-            new ShootCommand(m_Shooter,()-> Constants.ShooterSpeeds.SHOOTER_DEFAULT_SPEED).until(new Auton_Wait(100).getAsBoolean()),
             new PathPlannerAuto("Test_Auto")
         );
     }

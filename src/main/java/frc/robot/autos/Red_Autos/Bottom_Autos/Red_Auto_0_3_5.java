@@ -3,6 +3,7 @@ package frc.robot.autos.Red_Autos.Bottom_Autos;
 import frc.robot.Constants;
 import frc.robot.Global_Variables;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.TurretCommand;
 import frc.robot.commands.Turret_Goto_Angle;
 import frc.robot.commands_Auton.Auton_Wait;
 import frc.robot.subsystems.Shooter;
@@ -11,17 +12,21 @@ import frc.robot.subsystems.Turret;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-
-public class Red_Auto_0_3_2_1 extends SequentialCommandGroup {
+/////////////////////////
+public class Red_Auto_0_3_5 extends SequentialCommandGroup {
     Swerve s_Swerve;
     Turret m_Turret;
     Shooter m_Shooter;
 
-    public Red_Auto_0_3_2_1(Swerve swerve, Turret turret, Shooter shooter){
+    public Red_Auto_0_3_5(Swerve swerve, Turret turret, Shooter shooter){
         this.s_Swerve = swerve;
         this.m_Turret = turret;
         this.m_Shooter = shooter;

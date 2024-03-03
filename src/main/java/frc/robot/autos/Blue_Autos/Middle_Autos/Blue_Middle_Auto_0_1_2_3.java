@@ -1,4 +1,4 @@
-package frc.robot.autos.Red_Autos.Bottom_Autos;
+package frc.robot.autos.Blue_Autos.Middle_Autos;
 
 import frc.robot.Constants;
 import frc.robot.Global_Variables;
@@ -16,12 +16,12 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
-public class Red_Auto_0_3_2_1 extends SequentialCommandGroup {
+public class Blue_Middle_Auto_0_1_2_3 extends SequentialCommandGroup {
     Swerve s_Swerve;
     Turret m_Turret;
     Shooter m_Shooter;
 
-    public Red_Auto_0_3_2_1(Swerve swerve, Turret turret, Shooter shooter){
+    public Blue_Middle_Auto_0_1_2_3(Swerve swerve, Turret turret, Shooter shooter){
         this.s_Swerve = swerve;
         this.m_Turret = turret;
         this.m_Shooter = shooter;

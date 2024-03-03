@@ -34,14 +34,13 @@ public class Transfer_IntakeShoot extends Command {
         }
         else{
            m_transferIntake.transferOn();
-            m_transferIntake.shooter_transferReverse(); 
+            m_transferIntake.shooter_transferOn(); 
         }
     }
 
     @Override
     public void end(boolean interrupted) {
         m_transferIntake.transferOff();
-        m_transferIntake.shooter_transferOff(); 
     }
 
     // Returns true when the command should end.

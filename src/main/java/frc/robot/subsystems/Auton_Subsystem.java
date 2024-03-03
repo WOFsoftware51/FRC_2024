@@ -7,10 +7,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -30,9 +26,9 @@ public class Auton_Subsystem extends SubsystemBase {
   public boolean isShooting = false;
 
 
-  public Command auton_Score(Turret turret, Transfer_Intake transfer, Shooter shooter){
+  public Command auton_Score(Turret turret, Transfer_Intake transfer, Shooter shooter, double turretAngle){
     return new SequentialCommandGroup(
-      auton_Aim(turret),
+      auton_Aim(turret, turretAngle),
       new Auton_Wait(2),
       auton_TransferShoot(transfer, shooter)
 );
@@ -42,9 +38,9 @@ public class Auton_Subsystem extends SubsystemBase {
       return new ShootCommand(m_Shooter,()-> Constants.ShooterSpeeds.SHOOTER_AUTON_SPEED1).until(new Auton_Wait(100).getAsBoolean());    
   }
 
-  public Command auton_Aim(Turret m_Turret){
+  public Command auton_Aim(Turret m_Turret, double turretAngle){
     return new ParallelRaceGroup(
-      new TurretAim(m_Turret).until(new Auton_Wait(100).getAsBoolean()),
+      new Turret_Goto_Angle(m_Turret, turretAngle).until(new Auton_Wait(100).getAsBoolean()),
       new WaitUntilCommand((()-> aimReady(m_Turret)))
     );
   }
@@ -93,29 +89,6 @@ public class Auton_Subsystem extends SubsystemBase {
     }
 
     return isShooting;
-
-  }
-
-  public Command ledRed(CANdle_Subsystem m_candle){
-            return new SequentialCommandGroup( 
-              new InstantCommand(
-              ()-> m_candle.CANdle_init()
-            ),
-            new RunCommand(
-              ()-> m_candle.CANdle_Red()
-            )
-            );
-  }
-
-
-  public Command ledBlue(CANdle_Subsystem m_candle){
-            return new SequentialCommandGroup( 
-              new InstantCommand(
-              ()-> m_candle.CANdle_init()
-            ), 
-            new RunCommand(
-              ()-> m_candle.CANdle_Blue()
-            ));
   }
 
   @Override

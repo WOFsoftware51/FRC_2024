@@ -9,18 +9,19 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.*;
-import frc.robot.autos.Blue Autos.Middle Autos.Blue_Auto_0_1;
-import frc.robot.autos.Blue_Autos.Blue_Leave_Zone;
-import frc.robot.autos.Blue_Autos.Blue_Leave_Zone_0;
-import frc.robot.autos.Red_Autos.Red_Leave_Zone;
-import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_0_3;
-import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_0_3_2;
-import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_0_3_2_1;
+import frc.robot.autos.Blue_Autos.Top_Autos.*;
+import frc.robot.autos.Blue_Autos.Middle_Autos.*;
+import frc.robot.autos.Blue_Autos.Bottom_Autos.*;
+import frc.robot.autos.Blue_Autos.*;
+import frc.robot.autos.Red_Autos.Top_Autos.*;
+import frc.robot.autos.Red_Autos.Middle_Autos.*;
+import frc.robot.autos.Red_Autos.Bottom_Autos.*;
+import frc.robot.autos.Red_Autos.*;
+
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -62,13 +63,15 @@ public class RobotContainer {
     public RobotContainer() {
         String[] aPositions = {"Top", "Middle", "Bottom"};
 
-        SmartDashboard.putData("Auton", a_chooser);
-        a_chooser.setDefaultOption("Test Auto", 1);
-        a_chooser.addOption("Do Nothing Auto", 2);
 
-        a_chooser.addOption("0, 1, 2 Auto", 3);
-        a_chooser.addOption("Leave Zone", 4);
-        a_chooser.addOption("0 Leave Zone Auto", 5);
+        printAutons();
+        SmartDashboard.putData("Auton", a_chooser);
+        a_chooser.setDefaultOption("Leave Zone", 1);
+        a_chooser.addOption("Leave Zone + Score", 2);
+
+        a_chooser.addOption("0, 1, Auto", 3);
+        a_chooser.addOption("0, 1, 2 Auto", 4);
+        a_chooser.addOption("0, 1, 2, 3 Auto", 5);
         a_chooser.addOption("0 Auto", 6);
         a_chooser.addOption("0, 1, 2, 3 Auto", 7);
         a_chooser.addOption("0, 1 Auto", 8);
@@ -155,16 +158,29 @@ public class RobotContainer {
         new Trigger((() -> operator.getRightTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeShoot(m_Transfer));
         
     }
+    public void printAutons(){
+        SmartDashboard.putData("Auton", a_chooser);
+
+        a_chooser.setDefaultOption("Leave Zone", 1);
+        a_chooser.addOption("Leave Zone + Score", 2);
+
+        a_chooser.addOption("0, 1, Auto", 3);
+        a_chooser.addOption("0, 1, 2 Auto", 4);
+        a_chooser.addOption("0, 1, 2, 3 Auto", 5);
+        a_chooser.addOption("0, 3, Auto", 6);
+        a_chooser.addOption("0, 3, 2 Auto", 7);
+        a_chooser.addOption("0, 3, 2, 1 Auto", 8);
+    }
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
      * @return the command to run in autonomous
      */
-
     public Command getAutonomousCommand() {
         Optional<Alliance> ally = DriverStation.getAlliance();
-        Command auton = blueAutons();
+        Command auton = null;
+        // An ExampleCommand will run in autonomous
 
         if (ally.isPresent()) {
             if (ally.get() == Alliance.Red) {
@@ -181,11 +197,12 @@ public class RobotContainer {
 
     }
 
+
     private Command blueAutons(){
         switch (a_chooser.getSelected()) 
         {
             case 1: return new Blue_Leave_Zone(s_Swerve);
-            case 2: return new Blue_Leave_Zone_0(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer);
+            case 2: return new Blue_Leave_Zone_0(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 3: return new Blue_Auto_0_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 4: return new Blue_Auto_0_1_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 5: return new Blue_Auto_0_1_2_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);

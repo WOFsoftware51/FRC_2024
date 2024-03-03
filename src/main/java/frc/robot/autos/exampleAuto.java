@@ -13,9 +13,6 @@ public class exampleAuto extends SequentialCommandGroup {
         this.s_Swerve = swerve;
         addRequirements(s_Swerve);
 
-        String pathFile1 = "Test_Path";
-        
-        Command followPath1 = s_Swerve.followTrajectoryCommand(pathFile1);
 
         addCommands(
             new InstantCommand(() -> s_Swerve.zeroGyro()),

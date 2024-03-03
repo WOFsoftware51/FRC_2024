@@ -15,7 +15,6 @@ public class HangerManualCommand extends Command {
 
     public HangerManualCommand(Hanger hanger, DoubleSupplier joystickVal) {
         this.m_Hanger = hanger;
-        this.joystick = joystickVal;
         addRequirements(m_Hanger);
         // timer = new Timer();
     }

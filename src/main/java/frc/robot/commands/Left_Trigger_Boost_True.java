@@ -26,14 +26,14 @@ public class Left_Trigger_Boost_True extends Command {
   @Override
   public void execute() 
   {
-    Global_Variables.right_trigger_boost = true;
+    Global_Variables.left_trigger_boost = true;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) 
   {
-    Global_Variables.right_trigger_boost = false;
+    Global_Variables.left_trigger_boost = false;
   }
 
   // Returns true when the command should end.

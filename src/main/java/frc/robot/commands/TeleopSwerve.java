@@ -9,7 +9,6 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
@@ -59,10 +58,6 @@ public class TeleopSwerve extends Command {
             rotationVal * Constants.Swerve.maxAngularVelocity*speedModifier, 
             !robotCentricSup.getAsBoolean(), 
             true
-        ); 
-
-        // s_Swerve.driveRelative(
-        //     new ChassisSpeeds(translationVal*Constants.Swerve.maxSpeed, strafeVal*Constants.Swerve.maxSpeed, rotationVal*Constants.Swerve.maxAngularVelocity)
-        // );
+        );
     }
 }

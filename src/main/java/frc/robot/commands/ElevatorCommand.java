@@ -4,59 +4,50 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.lib.math.Conversions;
 import frc.robot.Constants;
-import frc.robot.Global_Variables;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Elevator;
 
-
-public class Arm_Setposition extends Command
+public class ElevatorCommand extends Command
 {
+  private final Elevator m_elevator;
+  private Boolean in;
+  private DoubleSupplier joystick;
+  private double joystickFixed= 0;
 
-  private final Arm m_arm;
-  
-  private double armEncoder = 0.0;
-  private double armCANCoder = 0.0;
-  private double armSpeed = 0.0;
 
-  private int button = 0;
-
-  /** Creates a new Arm. */
-  public Arm_Setposition(Arm arm, int Button) 
-  {
+  public ElevatorCommand(Elevator elevator, DoubleSupplier jDoubleSupplier) 
+  { 
     // Use addRequirements() here to declare subsystem dependencies.
-    this.m_arm = arm;
-    addRequirements(arm);
-    this.button = Button;
+    this.m_elevator = elevator;
+    addRequirements(elevator);
+    this.joystick = jDoubleSupplier;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize()
+  public void initialize() 
   {
-    m_arm.arm_init();    
+      m_elevator.elevator_init();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() 
-  {
-    
-    armEncoder = m_arm.getArm_encoder();
-    armCANCoder = m_arm.getArm_CANCoder();
-    armSpeed = m_arm.Arm_Speed();
-
-    m_arm.Arm_Goto_Angle(-m_arm.turretAngleToScore+90);
-
+  {    
+    joystickFixed = MathUtil.applyDeadband(joystick.getAsDouble(), Constants.stickDeadband);
+    m_elevator.elevatorOn(joystickFixed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) 
   {
-    m_arm.arm_off();
+    m_elevator.elevatorOff();
   }
 
   // Returns true when the command should end.

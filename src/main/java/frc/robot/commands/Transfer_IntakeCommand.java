@@ -21,18 +21,18 @@ public class Transfer_IntakeCommand extends Command {
     @Override
     public void initialize() {
         /* Get Values, Deadband*/
-       m_transferIntake.intake_init();
+        m_transferIntake.intake_init();
     }
 
 
     @Override
     public void execute() {
         /* Get Values, Deadband*/
-        if(Global_Variables.getSensorVal()==(1)){
+        if(Global_Variables.getSensorVal()==(-1)){
             m_transferIntake.transferOff();
         }
-        else{
-           m_transferIntake.transferOn();
+        else{   
+            m_transferIntake.transferOn();
         }
     }
 

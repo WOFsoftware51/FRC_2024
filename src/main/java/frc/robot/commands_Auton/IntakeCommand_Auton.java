@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands_Auton;
 
 import java.util.function.DoubleSupplier;
 
@@ -7,12 +7,12 @@ import frc.robot.Global_Variables;
 import frc.robot.subsystems.Intake;
 
 
-public class IntakeCommand extends Command {    
+public class IntakeCommand_Auton extends Command {    
     public Intake m_intake;   
     public DoubleSupplier joystick;
     // private Timer timer;
 
-    public IntakeCommand(Intake intake) {
+    public IntakeCommand_Auton(Intake intake) {
         this.m_intake = intake;
         addRequirements(m_intake);
         // timer = new Timer();

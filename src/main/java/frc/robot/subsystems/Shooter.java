@@ -17,15 +17,15 @@ public class Shooter extends SubsystemBase {
 
 
 
-    private TalonFX _shooter = new TalonFX(Constants.shooter);
-    private TalonFX _shooter2 = new TalonFX(Constants.shooter2);
+    private TalonFX _shooter = new TalonFX(Constants.shooter, Constants.CANIVORE_NAME);
+    private TalonFX _shooter2 = new TalonFX(Constants.shooter2, Constants.CANIVORE_NAME);
     private VelocityVoltage d = new VelocityVoltage(0,0,true,0,0,false,false,false);
     private double m_velocity = 0; 
 
     public void shooter_init() 
     {
-      _shooter.setNeutralMode(NeutralModeValue.Brake);
-      _shooter2.setNeutralMode(NeutralModeValue.Brake);
+      _shooter.setNeutralMode(NeutralModeValue.Coast);
+      _shooter2.setNeutralMode(NeutralModeValue.Coast);
       _shooter.setInverted(true);
 
       TalonFXConfiguration configs = new TalonFXConfiguration();
@@ -53,18 +53,19 @@ public class Shooter extends SubsystemBase {
 
 
     public void shooterOn(double velocity){
-      m_velocity = velocity/60;
-      _shooter.setControl(d.withVelocity(m_velocity).withFeedForward(0.5)); // Divide by 60 to go from RPM -> RPS 
+    //   m_velocity = velocity;
+    //   _shooter.setControl(d.withVelocity(m_velocity/60).withFeedForward(0.5)); // Divide by 60 to go from RPM -> RPS 
+        _shooter.set(0.8);
     }
     public void shooterOff(){
       _shooter.set(0);
     }
     public void shooterOnTop(){
-      _shooter.set(-0.16);  
+      _shooter.set(-0.16);
     }
 
     public double getVelocity(){
-      return _shooter.getVelocity().getValueAsDouble()*(60);
+      return _shooter.getVelocity().getValueAsDouble()*(1);
     }
 
     public double getTargetVelocity(){
@@ -74,12 +75,11 @@ public class Shooter extends SubsystemBase {
     public double getCurrent(){
       return _shooter.getStatorCurrent().getValue();
     }
- 
 
     @Override
     public void periodic() {
-      SmartDashboard.putNumber("Shooter RPM", getVelocity());
-      SmartDashboard.putNumber("Shooter RPS", getVelocity()/60);
-      SmartDashboard.putNumber("Shooter TargetSpeed", m_velocity);
+      SmartDashboard.putNumber("Shooter RPM", getVelocity()*60);
+      SmartDashboard.putNumber("Shooter RPS", getVelocity());
+        SmartDashboard.putNumber("Shooter TargetSpeed", m_velocity);
     }
 }

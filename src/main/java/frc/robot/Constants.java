@@ -20,16 +20,9 @@ public final class Constants {
 
     
     public static final double APRIL_TAG_HEIGHT = 57;// 57.25; //54
-    public static final double LIMELIGHT_HEIGHT = 14;// 57.25; //54
-    public static final double LIMELIGHT_ANGLE = 32;// 57.25; //54
+    public static final double LIMELIGHT_HEIGHT = 11;// 57.25; //54
+    public static final double LIMELIGHT_ANGLE = 15;// 57.25; //54
 
-    /** The height offset in comparison to the Limelight */
-    public static final double TURRET_OFFSET_Y = 0; // Distance from Limelight TODO
-    /** The distance offset in comparison to the Limelight */ 
-    public static final double TURRET_OFFSET_X = 0; // Distance from Limelight TODO
-    public static final double TURRET_GEAR_RATIO = 1; //TODO
-    public static final double TURRET_CANCODER_OFFSET = 0; //182.0/360; //TODO
-    public static final double TURRET_DEFAULT_POSITION = 50.052; //182.0/360; //TODO
 
 
     public static final double SPEAKER_HEIGHT = 92.193;
@@ -164,8 +157,8 @@ public final class Constants {
         }
     }
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
-        public static final double kMaxSpeedMetersPerSecond = 3;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+        public static final double kMaxSpeedMetersPerSecond = 4.5;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 4.5;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
     
@@ -208,11 +201,23 @@ public final class Constants {
         public static final class Misc{
             public static final double POSITION_LEAVE_ZONE_0 = 0;
         }
-
-
-
-
     }
+
+        public static final class Turret{
+
+            /** The height offset in comparison to the Limelight */
+            public static final double TURRET_OFFSET_Y = 0; // Distance from Limelight TODO
+            /** The distance offset in comparison to the Limelight */ 
+            public static final double TURRET_OFFSET_X = 0; // Distance from Limelight TODO
+            public static final double TURRET_GEAR_RATIO = 1; //TODO
+            public static final double TURRET_CANCODER_OFFSET = 76.904297; //182.0/360; //TODO
+            public static final double TURRET_DEFAULT_POSITION = 50.052; //182.0/360; //TODO
+
+
+            public static final int turret = 43;//34
+            public static final int turret_CANCoder = 51;
+        }
+
     /**In RPM */
     public static final class ShooterSpeeds{
         public static final double SHOOTER_AUTON_SPEED1 = 4000;
@@ -223,8 +228,6 @@ public final class Constants {
     public static final int shooter2 = 45;
 
     public static final int intake = 48;
-    public static final int turret = 43;//34
-    public static final int turret_CANCoder = 51;
 
 
     public static final int hanger = 35;

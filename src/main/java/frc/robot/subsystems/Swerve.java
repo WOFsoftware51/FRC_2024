@@ -45,7 +45,7 @@ public class Swerve extends SubsystemBase {
 
 
     public Swerve() {
-        gyro = new Pigeon2(Constants.Swerve.pigeonID);
+        gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.CANIVORE_NAME);
         gyro.getConfigurator().apply(new Pigeon2Configuration());
         gyro.setYaw(0);
 
@@ -283,25 +283,27 @@ public class Swerve extends SubsystemBase {
         }
         
 
-        tv = table.getEntry("tv").getDouble(0);
-        ty = table.getEntry("ty").getDouble(0);
-        tx = table.getEntry("tx").getDouble(0);
-        botpose = table.getEntry("botpose").getDoubleArray(new double[6]); 
-        distance = (Constants.APRIL_TAG_HEIGHT-Constants.LIMELIGHT_HEIGHT)/(Math.tan(Math.toRadians(Constants.LIMELIGHT_ANGLE+ty)));
-        // // // double bLat = botpose[6];
+        // tv = table.getEntry("tv").getDouble(0);
+        // ty = table.getEntry("ty").getDouble(0);
+        // tx = table.getEntry("tx").getDouble(0);
+        // botpose = table.getEntry("botpose").getDoubleArray(new double[6]); 
+        // distance = (Constants.APRIL_TAG_HEIGHT-Constants.LIMELIGHT_HEIGHT)/(Math.tan(Math.toRadians(Constants.LIMELIGHT_ANGLE+ty)));
+        // // // // double bLat = botpose[6];
         
-        SmartDashboard.putNumber("tx", tx);
-        SmartDashboard.putNumber("tv", tv);
-        SmartDashboard.putNumber("ty", ty);
+        // SmartDashboard.putNumber("tx", tx);
+        // SmartDashboard.putNumber("tv", tv);
+        // SmartDashboard.putNumber("ty", ty);
 
-        SmartDashboard.putBoolean("Left Bumper", Global_Variables.left_trigger_boost);
-        SmartDashboard.putBoolean("Right Bumper", Global_Variables.right_trigger_boost);
+        // SmartDashboard.putBoolean("Left Bumper", Global_Variables.left_trigger_boost);
+        // SmartDashboard.putBoolean("Right Bumper", Global_Variables.right_trigger_boost);
 
-        Global_Variables.yaw = getGyroYaw().getDegrees();
-        Global_Variables.roll = getGyroRoll().getDegrees();
-        Global_Variables.pitch = getGyroPitch().getDegrees();
+        // Global_Variables.yaw = getGyroYaw().getDegrees();
+        // Global_Variables.roll = getGyroRoll().getDegrees();
+        // Global_Variables.pitch = getGyroPitch().getDegrees();
         Global_Variables.tx = tx;
         Global_Variables.tx = ty;
+        Global_Variables.tv = tv;
         Global_Variables.distance = distance;
+
     }  
 }

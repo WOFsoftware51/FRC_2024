@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import frc.robot.Constants;
+import frc.robot.Global_Variables;
 import frc.robot.subsystems.Turret;
 
 
@@ -25,9 +27,13 @@ public class TurretAim extends Command {
     @Override
     public void execute() {
         /* Get Values, Deadband*/
-       m_turret.turret_Goto_angle(m_turret.turretAngleToScore);
+        if(Global_Variables.tv == 1){
+           m_turret.turret_Goto_angle(m_turret.getTurretAimTarget());
+        }
+        else{
+            new Turret_Goto_Angle(m_turret, Constants.Turret.TURRET_DEFAULT_POSITION);
+        }
     }
-
     @Override
     public void end(boolean interrupted) {
         m_turret.turretOff();

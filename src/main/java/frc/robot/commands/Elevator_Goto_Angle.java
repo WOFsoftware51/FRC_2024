@@ -34,27 +34,27 @@ public class Elevator_Goto_Angle extends Command {
         }
         else{
             switch(m_button) {
-                case Constants.A_Button:   ////////////////////////////////////////////////////////////
+                case Constants.A_Button:   
                     elevatorTarget = Constants.ELEVATOR_AMP;
                     break;
 
-                case Constants.B_Button:  ////////////////////////////////////////////////////////////
+                case Constants.B_Button:  
                     elevatorTarget = Constants.ELEVATOR_FLOOR;
                     break;
 
-                case Constants.X_Button:    ////////////////////////////////////////////////////////////
+                case Constants.X_Button:    
                     elevatorTarget = Constants.ELEVATOR_TRAP;
                     break;
 
-                case Constants.Y_Button:       ////////////////////////////////////////////////////////////
+                case Constants.Y_Button:       
                     elevatorTarget = Constants.ELEVATOR_DEFAULT;
                     break;
 
-                default:   ////////////////////////////////////////////////////////////
+                default:   
                     elevatorTarget = Constants.ELEVATOR_DEFAULT;
             }
         }
-      
+        
         m_Elevator.elevator_Goto_Position(elevatorTarget);
     }
 

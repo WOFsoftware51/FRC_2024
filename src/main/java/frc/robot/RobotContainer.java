@@ -105,7 +105,7 @@ public class RobotContainer {
 
         m_Hanger.setDefaultCommand(new HangerManualCommand(m_Hanger, ()-> operator.getRightY()));
 
-        m_Turret.setDefaultCommand(new Turret_Goto_Angle(m_Turret, Constants.TURRET_DEFAULT_POSITION));
+        m_Turret.setDefaultCommand(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_DEFAULT_POSITION));
         
         // Configure the button bindings
         configureButtonBindings();
@@ -131,7 +131,7 @@ public class RobotContainer {
         //GOTO Default Position and Rev up Shooter: Driver[LeftBumper]
         new Trigger(driver::getLeftBumper).whileTrue(new TelopSwerveDefaultAim(s_Swerve, () -> -driver.getRawAxis(translationAxis), () -> -driver.getRawAxis(strafeAxis)));
         new Trigger(driver::getLeftBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
-        new Trigger(driver::getLeftBumper).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.TURRET_DEFAULT_POSITION));
+        new Trigger(driver::getLeftBumper).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_DEFAULT_POSITION));
 
         //Transfer and Floor Intake: Operator[LeftTrigger]
         new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new IntakeCommand(m_Intake));
@@ -144,9 +144,9 @@ public class RobotContainer {
         new Trigger(operator::getRightBumper).whileTrue(new IntakeCommand_Reverse(m_Intake));
 
         //Elevator Setpositions: Operator[A, B, X, Y]
-        new Trigger(operator::getAButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.A_Button));
+        // new Trigger(operator::getAButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.A_Button));
         new Trigger(operator::getBButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.B_Button));
-        new Trigger(operator::getXButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.X_Button));
+        // new Trigger(operator::getXButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.X_Button));
         new Trigger(operator::getYButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.Y_Button));
 
         // Hangar Command: Operator[BackButton, StartButton]

@@ -1,10 +1,6 @@
 package frc.robot.autos.Blue_Autos.Middle_Autos;
 
 import frc.robot.Constants;
-import frc.robot.Global_Variables;
-import frc.robot.commands.ShootCommand;
-import frc.robot.commands.Turret_Goto_Angle;
-import frc.robot.commands_Auton.Auton_Wait;
 import frc.robot.subsystems.Auton_Subsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -17,8 +13,6 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-
 public class Blue_Auto_0_2 extends SequentialCommandGroup {
 
     public Blue_Auto_0_2(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){

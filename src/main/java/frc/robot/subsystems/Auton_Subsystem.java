@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,7 +22,7 @@ public class Auton_Subsystem extends SubsystemBase {
   /** Creates a new Auton_Subsystem. */
   public Auton_Subsystem() {}
 
-  public boolean isShooting = false;
+  private boolean isShooting = false;
 
 
   public Command auton_Score(Turret turret, Transfer_Intake transfer, Shooter shooter, double turretAngle){
@@ -59,7 +58,7 @@ public class Auton_Subsystem extends SubsystemBase {
 
   public boolean aimReady(Turret mTurret){
     boolean bool = false;
-    if(Math.abs(mTurret.getTurretEncoder()) > Math.abs(mTurret.turretAngleToScore)-1 && mTurret.getTurretEncoder() < Math.abs(mTurret.turretAngleToScore)+1){
+    if(Math.abs(mTurret.getTurretEncoder()) > Math.abs(mTurret.getTurretAimTarget())-1 && mTurret.getTurretEncoder() < Math.abs(mTurret.getTurretAimTarget())+1){
       bool = true;
     }
     else{
@@ -90,6 +89,28 @@ public class Auton_Subsystem extends SubsystemBase {
 
     return isShooting;
   }
+
+  // public Command ledRed(CANdle_Subsystem m_candle){
+  //           return new SequentialCommandGroup( 
+  //             new InstantCommand(
+  //             ()-> m_candle.CANdle_init()
+  //           ),
+  //           new RunCommand(
+  //             ()-> m_candle.CANdle_Red()
+  //           )
+  //           );
+  // }
+
+
+  // public Command ledBlue(CANdle_Subsystem m_candle){
+  //           return new SequentialCommandGroup( 
+  //             new InstantCommand(
+  //             ()-> m_candle.CANdle_init()
+  //           ), 
+  //           new RunCommand(
+  //             ()-> m_candle.CANdle_Blue()
+  //           ));
+  // }
 
   @Override
   public void periodic() {

@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Hanger extends SubsystemBase {
 
 
-    private TalonFX _hanger = new TalonFX(Constants.hanger);
-    private TalonFX _hanger2 = new TalonFX(Constants.hanger2);
+    private TalonFX _hanger = new TalonFX(Constants.hanger,  Constants.CANIVORE_NAME);
+    private TalonFX _hanger2 = new TalonFX(Constants.hanger2, Constants.CANIVORE_NAME);
 
   
     public void hanger_init() {
@@ -63,14 +63,14 @@ public class Hanger extends SubsystemBase {
     
     @Override
     public void periodic(){
-      if(_hanger.getForwardLimit().getValue()==ForwardLimitValue.Open)
-      {
-        hanger_resetEncoder1();
-      }
-      if(_hanger2.getForwardLimit().getValue()==ForwardLimitValue.Open)
-      {
-        hanger_resetEncoder2();
-      }
+    //   if(_hanger.getForwardLimit().getValue()==ForwardLimitValue.Open)
+    //   {
+    //     hanger_resetEncoder1();
+    //   }
+    //   if(_hanger2.getForwardLimit().getValue()==ForwardLimitValue.Open)
+    //   {
+    //     hanger_resetEncoder2();
+    //   }
     }
   
   }

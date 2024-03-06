@@ -21,12 +21,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase {
 
-  private final TalonFX _turret = new TalonFX(Constants.turret); //turret);
-  private final CANcoder turretCANCoder = new CANcoder(Constants.turret_CANCoder, Constants.CANIVORE_NAME);
+  private final TalonFX _turret = new TalonFX(Constants.Turret.turret, Constants.CANIVORE_NAME); //turret);
+  private final CANcoder turretCANCoder = new CANcoder(Constants.Turret.turret_CANCoder, Constants.CANIVORE_NAME);
 
   private MotionMagicDutyCycle mMDutyCycle = new MotionMagicDutyCycle(0);
   private VoltageOut vOut = new VoltageOut(0, false, false, false, false);
-  public double turretAngleToScore = 0.0;
+  private double turretAngleToScore = 0.0;
 
 
   // private AnalogInput ns = new AnalogInput(0);
@@ -70,7 +70,7 @@ public class Turret extends SubsystemBase {
 
   public void turret_Goto_angle(double x){
     mMDutyCycle.Slot = 0;
-    _turret.setControl(mMDutyCycle.withPosition((x/360)/Constants.TURRET_GEAR_RATIO)); //Divide by 360 to convert Degrees to Rotations
+    _turret.setControl(mMDutyCycle.withPosition((-x/360)/Constants.Turret.TURRET_GEAR_RATIO)); //Divide by 360 to convert Degrees to Rotations
   }
   
   public void turretOff(){
@@ -94,15 +94,23 @@ public class Turret extends SubsystemBase {
 
   public void updateEncoder(){
     if(getTurret_CANCoder()!=0){
-      _turret.getConfigurator().setPosition(Constants.TURRET_CANCODER_OFFSET-(getTurret_CANCoder()));
+      _turret.getConfigurator().setPosition(Constants.Turret.TURRET_CANCODER_OFFSET-(getTurret_CANCoder()));
     }
+  }
+  /**
+   * @return the turret angle to score based on the limelight
+   */
+  public double getTurretAimTarget(){
+    return turretAngleToScore;
   }
 
   @Override
   public void periodic(){
     SmartDashboard.putNumber("Turret Pos", getTurretEncoder());
+    SmartDashboard.putNumber("Turret CANCoder Pos", getTurret_CANCoder());
 
-    turretAngleToScore = Math.atan((Constants.SPEAKER_HEIGHT - Constants.LIMELIGHT_HEIGHT - Constants.TURRET_OFFSET_Y)/(Global_Variables.distance+Constants.TURRET_OFFSET_X)) * 360/(2*Math.PI); 
+
+    turretAngleToScore = Math.atan((Constants.SPEAKER_HEIGHT - Constants.LIMELIGHT_HEIGHT - Constants.Turret.TURRET_OFFSET_Y)/(Global_Variables.distance+Constants.Turret.TURRET_OFFSET_X)) * 360/(2*Math.PI); 
 
   }
 

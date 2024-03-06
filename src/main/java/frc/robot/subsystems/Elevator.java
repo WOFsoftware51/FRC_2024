@@ -24,7 +24,7 @@ public class Elevator extends SubsystemBase {
   private TalonFX _elevator = new TalonFX(Constants.elevator, Constants.CANIVORE_NAME);
   private TalonFX _elevator2 = new TalonFX(Constants.elevator2, Constants.CANIVORE_NAME);
 
-  private MotionMagicDutyCycle mMDutyCycle = new MotionMagicDutyCycle(1);
+  private MotionMagicDutyCycle mMDutyCycle = new MotionMagicDutyCycle(0);
 
   /** Creates a new extend. */
   public void elevator_init()
@@ -55,7 +55,7 @@ public class Elevator extends SubsystemBase {
     _elevator.setNeutralMode(NeutralModeValue.Brake);
     _elevator.setInverted(false);
 
-    _elevator2.setControl(new Follower(Constants.elevator, false));
+    _elevator2.setControl(new Follower(Constants.elevator, true));
 
   }
 
@@ -111,10 +111,10 @@ public class Elevator extends SubsystemBase {
     SmartDashboard.putBoolean("Forward Limit", _elevator.getForwardLimit().getValue() == ForwardLimitValue.Open);
     SmartDashboard.putBoolean("Rev L imit", _elevator.getReverseLimit().getValue() == ReverseLimitValue.Open);
 
-    if(_elevator.getForwardLimit().getValue()==ForwardLimitValue.Open)
-    {
-      elevator_resetEncoder();
-    }
+    // if(_elevator.getForwardLimit().getValue()==ForwardLimitValue.Open)
+    // {
+    //   elevator_resetEncoder();
+    // }
 
   }
 }

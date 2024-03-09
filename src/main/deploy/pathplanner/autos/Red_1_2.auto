@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 13.66,
+      "x": 13.661,
       "y": 6.993433111556562
     },
-    "rotation": -90.0
+    "rotation": 153.98
   },
   "command": {
     "type": "sequential",
@@ -20,6 +20,6 @@
       ]
     }
   },
-  "folder": "Red Paths",
+  "folder": null,
   "choreoAuto": false
 }

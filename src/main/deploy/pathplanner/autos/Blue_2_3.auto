@@ -5,7 +5,7 @@
       "x": 2.88,
       "y": 5.55
     },
-    "rotation": -90.0
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -20,6 +20,6 @@
       ]
     }
   },
-  "folder": "Blue Paths",
+  "folder": null,
   "choreoAuto": false
 }

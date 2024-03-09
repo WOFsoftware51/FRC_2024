@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 13.66,
+      "x": 13.661,
       "y": 5.56
     },
     "rotation": 180.0
@@ -20,6 +20,6 @@
       ]
     }
   },
-  "folder": "Red Paths",
+  "folder": null,
   "choreoAuto": false
 }

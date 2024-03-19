@@ -97,7 +97,7 @@ public class Shooter extends SubsystemBase {
       SmartDashboard.putNumber("Shooter TargetSpeed", m_velocity);
       
       Global_Variables.shooterTarget = m_velocity;
-      Global_Variables.shooterSpeed = getVelocity2();
+      Global_Variables.shooterSpeed = getVelocity2()*60;
 
     }
 } 

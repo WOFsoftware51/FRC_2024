@@ -2,7 +2,6 @@ package frc.robot;
 
 import java.util.Optional;
 
-import com.pathplanner.lib.path.GoalEndState;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -22,19 +21,26 @@ import frc.robot.autos.Blue_Autos.Bottom_Autos.Blue_Auto_0_3;
 import frc.robot.autos.Blue_Autos.Bottom_Autos.Blue_Auto_0_3_2;
 import frc.robot.autos.Blue_Autos.Bottom_Autos.Blue_Auto_0_3_2_1;
 import frc.robot.autos.Blue_Autos.Bottom_Autos.Blue_Auto_Bumper_0_3;
+import frc.robot.autos.Blue_Autos.Bottom_Autos.Blue_Auto_Bumper_0_8;
+import frc.robot.autos.Blue_Autos.Bottom_Autos.Blue_Auto_Bumper_0_8_7;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1_2;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1_2_3;
+import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_4;
 import frc.robot.autos.Red_Autos.Red_Leave_Zone;
 import frc.robot.autos.Red_Autos.Red_Leave_Zone_0;
 import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_0_3;
 import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_0_3_2;
 import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_0_3_2_1;
-import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Middle_0;
+import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_Bumper_0_3;
+import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_Bumper_0_8;
+import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_Bumper_0_8_7;
+import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Middle_0_2;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1_2;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1_2_3;
-import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Top_0_Bumper;
+import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1;
+import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_4;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -50,7 +56,7 @@ public class RobotContainer {
     private final XboxController operator = new XboxController(1);
     private final XboxController testController = new XboxController(2);
     private final SendableChooser<Integer> a_chooser = new SendableChooser<>();
-    private final SendableChooser<Boolean> b_chooser = new SendableChooser<>();
+    // private final SendableChooser<Boolean> b_chooser = new SendableChooser<>();
 
 
     private final SendableChooser<Double> s_chooser = new SendableChooser<>();
@@ -114,14 +120,15 @@ public class RobotContainer {
                 s_Swerve, 
                 () -> -driver.getRawAxis(translationAxis), 
                 () -> -driver.getRawAxis(strafeAxis), 
-                () -> driver.getRawAxis(rotationAxis), 
+                () -> -driver.getRawAxis(rotationAxis), 
                 () -> false //() -> robotCentric.getAsBoolean()
             )
         );
         
+
         m_Elevator.setDefaultCommand(new ElevatorCommand(m_Elevator, ()-> -operator.getLeftY())); //-operator.getLeftY()));
-        // m_Turret.setDefaultCommand(new TurretCommand(m_Turret, ()-> testController.getRightY()));
-        m_Hanger.setDefaultCommand(new HangerManualCommand(m_Hanger, ()-> operator.getRightY()));
+        m_Turret.setDefaultCommand(new TurretCommand(m_Turret, ()-> testController.getRightY()));
+        m_Hanger.setDefaultCommand(new HangerManualCommand(m_Hanger, ()-> -operator.getRightY()));
 
         // m_Hanger.setDefaultCommand(new HangerManualCommand_SeperateControl(m_Hanger, ()-> testController.getRightY(), ()-> testController.getLeftY()));
 
@@ -150,54 +157,65 @@ public class RobotContainer {
         new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new Right_Trigger_Boost_True());
 
         
-        
-        //CANDle Commands
-        // new Trigger(driver::getLeftBumper).whileTrue(new CANdle_Purple_Command(m_Candle));
+        /*CANDle Commands*/
+        new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new CANdle_Solid_White_Animation(m_Candle));
+        // new Trigger(driver::getLeftBumper).whileTrue(new CANdle_Purple_Command(m_Candle)); 
         new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new CANdle_Intake_Command(m_Candle));
 
-        new Trigger(testController::getBButton).whileTrue(new RunCommand(()-> m_Candle.CANdle_Solid_Green()));
-        new Trigger(testController::getAButton).whileTrue(new RunCommand(()-> m_Candle.CANdle_Red()));
-        new Trigger(driver::getRightBumper).whileTrue(new CANdle_LockOn_Command(m_Candle));
+        // new Trigger(testController::getBButton).whileTrue(new RunCommand(()-> m_Candle.CANdle_Solid_Green()));
+        // new Trigger(testController::getAButton).whileTrue(new RunCommand(()-> m_Candle.CANdle_Red()));
+        // new Trigger(driver::getRightBumper).whileTrue(new CANdle_LockOn_Command(m_Candle));
+        new Trigger(operator::getXButton).whileTrue(new CANdle_LockOn_Command(m_Candle));
         // new Trigger(driver::getLeftBumper).whileTrue(new CANdle_LockOn_Command(m_Candle));
+        new Trigger(driver::getBButton).whileTrue(new CANdle_LockOn_Command(m_Candle));
 
 
 
-        //Aiming to Score and Rev up Shooter: Driver[RightBumper]
-        // new Trigger(driver::getRightBumper).whileTrue(new TelopSwerveAim(s_Swerve, () -> -driver.getRawAxis(translationAxis), () -> -driver.getRawAxis(strafeAxis)));
+        /*Aiming to Score and Rev up Shooter: Driver[RightBumper] */
+        new Trigger(operator::getXButton).whileTrue(new TelopSwerveAim(s_Swerve, () -> -driver.getRawAxis(translationAxis), () -> -driver.getRawAxis(strafeAxis)));
         // new Trigger(driver::getRightBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
-        // new Trigger(driver::getRightBumper).whileTrue(new TurretAim(m_Turret));
+        new Trigger(operator::getXButton).whileTrue(new TurretAim(m_Turret));
         // new Trigger(driver::getRightBumper).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_DEFAULT_POSITION));
         new Trigger(operator::getXButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
 
+        /**Half Court Shot */
+        new Trigger(driver::getBackButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+        new Trigger(driver::getBackButton).whileTrue(new Turret_Goto_Angle(m_Turret, 13));
+        // new Trigger(driver::getBackButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
 
 
-        //GOTO Default Position and Rev up Shooter: Driver[LeftBumper]
-        new Trigger(driver::getLeftBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+
+        /*GOTO Default Position and Rev up Shooter: Driver[LeftBumper]*/
+        // new Trigger(driver::getLeftBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+        new Trigger(operator::getBButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+
         // new Trigger(driver::getLeftBumper).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_PROTECTED_POSITION));
+        new Trigger(operator::getBButton).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_PROTECTED_POSITION));
 
-        //Transfer and Floor Intake: Operator[LeftTrigger]
+        /*Transfer and Floor Intake: Operator[LeftTrigger]*/
         new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new IntakeCommand(m_Intake));
-        // new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeCommand(m_Transfer));
-        new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeShoot(m_Transfer));
+        new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeCommand(m_Transfer));
 
-        //Transfer Intake Poop: Operator[RightBumper]
+        // new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeShoot(m_Transfer));
+
+        /*Transfer Intake Poop: Operator[RightBumper]*/
         new Trigger(operator::getRightBumper).whileTrue(new Transfer_IntakeCommand_Reverse(m_Transfer));
 
-        //Floor Intake Reverse: Operator[LeftBumper] 
+        /*Floor Intake Reverse: Operator[LeftBumper] */
         new Trigger(operator::getLeftBumper).whileTrue(new IntakeCommand_Reverse(m_Intake));
 
-        //Elevator Setpositions: Operator[A, B, X, Y]
+        /*Elevator Setpositions: Operator[A, B, X, Y]*/
         new Trigger(operator::getAButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.A_Button));//////
         // new Trigger(operator::getBButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.B_Button));//////
         // new Trigger(operator::getXButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.X_Button));
         new Trigger(operator::getYButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.Y_Button));//////
 
-        // Hangar Command: Operator[BackButton, StartButton]
+        /* Hangar Command: Operator[BackButton, StartButton]*/
         new Trigger(operator::getBackButton).whileTrue(new HangerCommand(m_Hanger, true));
         new Trigger(operator::getStartButton).whileTrue(new HangerCommand(m_Hanger, false));
 
+        /*Shoot: Operator[RightTrigger]*/
 
-        //Shoot: Operator[RightTrigger]
         // new Trigger((() -> operator.getRightTriggerAxis() > 0.80)).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
         new Trigger((() -> operator.getRightTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeShoot(m_Transfer));
 
@@ -207,19 +225,21 @@ public class RobotContainer {
         SmartDashboard.putData("Auton", a_chooser);
 
         a_chooser.setDefaultOption("Leave Zone", 1);
-        a_chooser.addOption("Leave Zone + Score", 2);
+        // a_chooser.addOption("Leave Zone + Score", 2);
 
-        a_chooser.addOption("0, 1, Auto", 3);
-        a_chooser.addOption("0, 1, 2 Auto", 4);
-        a_chooser.addOption("0, 1, 2, 3 Auto", 5);
-        a_chooser.addOption("0, 3, Auto", 6);
-        a_chooser.addOption("0, 3, 2 Auto", 7);
-        a_chooser.addOption("0, 3, 2, 1 Auto", 8);
-        a_chooser.addOption("Middle Bumper", 9);
+        // a_chooser.addOption("0, 1, Auto", 3);
+        // a_chooser.addOption("0, 1, 2 Auto", 4);
+        // a_chooser.addOption("0, 1, 2, 3 Auto", 5);
+        // a_chooser.addOption("0, 3, Auto", 6);
+        // a_chooser.addOption("0, 3, 2 Auto", 7);
+        // a_chooser.addOption("0, 3, 2, 1 Auto", 8);
+        a_chooser.addOption("0, 2 Bumper Auto", 9);
         a_chooser.addOption("0, 3 Bumper Auto", 10);
         a_chooser.addOption("0, 1 Bumper Auto", 11);
-
-
+        a_chooser.addOption("0, 8 Bumper Auto", 12);
+        a_chooser.addOption("0, 8, 7 Bumper Auto", 13);
+        a_chooser.addOption("0, 1, 4 Bumper Auto", 14);
+        
     }
 
     /**
@@ -259,11 +279,17 @@ public class RobotContainer {
             case 6: return new Blue_Auto_0_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 7: return new Blue_Auto_0_3_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 8: return new Blue_Auto_0_3_2_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
-            case 9: return new Red_Auto_Middle_0(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 9: return new Red_Auto_Middle_0_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 10: return new Blue_Auto_Bumper_0_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
-            default: return new exampleAuto(s_Swerve);
+            case 11: return new Red_Auto_Bumper_0_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 12: return new Blue_Auto_Bumper_0_8(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 13: return new Blue_Auto_Bumper_0_8_7(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 14: return new Blue_Auto_Bumper_0_1_4(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+
+            default: return new Blue_Leave_Zone(s_Swerve);
         }
     }
+
     private Command redAutons(){
         switch (a_chooser.getSelected()) 
         {
@@ -272,12 +298,17 @@ public class RobotContainer {
             case 3: return new Red_Auto_0_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 4: return new Red_Auto_0_1_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 5: return new Red_Auto_0_1_2_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
-            case 8: return new Red_Auto_0_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
-            case 7: return new Red_Auto_0_3_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 6: return new Red_Auto_0_3_2_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
-            case 9: return new Red_Auto_Middle_0(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
-            case 11: return new Blue_Auto_Bumper_0_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 7: return new Red_Auto_0_3_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 8: return new Red_Auto_0_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 9: return new Red_Auto_Middle_0_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 10: return new Red_Auto_Bumper_0_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 11: return new Red_Auto_Bumper_0_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 12: return new Red_Auto_Bumper_0_8(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 13: return new Red_Auto_Bumper_0_8_7(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 14: return new Red_Auto_Bumper_0_1_4(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
 
-            default: return new exampleAuto(s_Swerve);
+            default: return new Red_Leave_Zone(s_Swerve);
         }
-    }}
+    }
+}

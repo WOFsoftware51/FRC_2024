@@ -1,6 +1,5 @@
 package frc.robot.autos.Blue_Autos.Top_Autos;
 
-import frc.robot.Constants;
 import frc.robot.subsystems.Auton_Subsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;

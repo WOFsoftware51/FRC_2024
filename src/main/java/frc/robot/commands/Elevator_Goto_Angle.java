@@ -60,7 +60,7 @@ public class Elevator_Goto_Angle extends Command {
         if(elevatorTarget < m_Elevator.elevator_encoder()){
 
             if(elevatorTarget+5 > m_Elevator.elevator_encoder()){
-            elevatorPow = 0.2;
+                elevatorPow = 0.2;
             }
             else
             {

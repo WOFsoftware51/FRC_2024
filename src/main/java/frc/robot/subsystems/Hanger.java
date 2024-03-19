@@ -3,8 +3,11 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.ForwardLimitValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.ReverseLimitValue;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -80,14 +83,18 @@ public class Hanger extends SubsystemBase {
     
     @Override
     public void periodic(){
-    //   if(_hanger.getForwardLimit().getValue()==ForwardLimitValue.Open)
-    //   {
-    //     hanger_resetEncoder1();
-    //   }
-    //   if(_hanger2.getForwardLimit().getValue()==ForwardLimitValue.Open)
-    //   {
-    //     hanger_resetEncoder2();
-    //   }
+      // if(_hanger.getForwardLimit().getValue()==ForwardLimitValue.Open)
+      // {
+      //   resetEncoder1();
+      // }
+      // if(_hanger2.getForwardLimit().getValue()==ForwardLimitValue.Open)
+      // {
+      //   resetEncoder2();
+      // }
+      
+      SmartDashboard.putNumber("Hangar 1 encoder", getEncoder1());
+      SmartDashboard.putNumber("Hangar 2 encoder", getEncoder2());
+  
     }
   
   }

@@ -4,11 +4,9 @@
 
 package frc.robot.commands;
 
-import org.opencv.imgproc.GeneralizedHoughBallard;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Global_Variables;
-import frc.robot.Constants.Swerve;
 import frc.robot.subsystems.CANdle_Subsystem;
 
 public class CANdle_LockOn_Command extends Command {
@@ -46,7 +44,7 @@ public class CANdle_LockOn_Command extends Command {
     }
 
     if(Global_Variables.tv==1){
-      if(Global_Variables.swerveLimelightTarget < 3 && Global_Variables.swerveLimelightTarget > -3){
+      if(Global_Variables.swerveLimelightTarget < 1.5 && Global_Variables.swerveLimelightTarget > -1.5){
         swerveLockOn = true;
       }
       else{
@@ -54,12 +52,12 @@ public class CANdle_LockOn_Command extends Command {
       }
     }
     else{
-      if((Global_Variables.yawFixed > 357 || Global_Variables.yawFixed < 3)){
-        swerveLockOn = true;
-      }
-      else{
+      // if((Global_Variables.yawFixed > 357 || Global_Variables.yawFixed < 3)){
+      //   swerveLockOn = true;
+      // }
+      // else{
         swerveLockOn = false;
-      }
+      // }
     }
 
     if(Global_Variables.shooterSpeed > Global_Variables.shooterTarget-500 && Global_Variables.shooterSpeed < Global_Variables.shooterTarget + 500){

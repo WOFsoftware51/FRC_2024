@@ -11,6 +11,8 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ForwardLimitValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.ReverseLimitSourceValue;
+import com.ctre.phoenix6.signals.ReverseLimitTypeValue;
 import com.ctre.phoenix6.signals.ReverseLimitValue;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -25,7 +27,7 @@ public class Elevator extends SubsystemBase {
 
   private TalonFX _elevator = new TalonFX(Constants.elevator2, Constants.CANIVORE_NAME);
   private TalonFX _elevator2 = new TalonFX(Constants.elevator, Constants.CANIVORE_NAME);
-  private DigitalInput limitSwitch = new DigitalInput(0);
+  private DigitalInput limitSwitch = new DigitalInput(9);
 
   private MotionMagicDutyCycle mMDutyCycle = new MotionMagicDutyCycle(0);
 
@@ -41,12 +43,12 @@ public class Elevator extends SubsystemBase {
       count++;
     }
 
-    _elevator.setNeutralMode(NeutralModeValue.Coast);
-    _elevator.setNeutralMode(NeutralModeValue.Coast);
-    _elevator.setInverted(false);
+    // _elevator.setNeutralMode(NeutralModeValue.Coast);
+    // _elevator.setNeutralMode(NeutralModeValue.Coast);
+    // _elevator.setInverted(false);
   
 
-    // TalonFXConfiguration cfg = new TalonFXConfiguration();
+    TalonFXConfiguration cfg = new TalonFXConfiguration();
     // MotionMagicConfigs mm = cfg.MotionMagic;
     // mm.MotionMagicCruiseVelocity = 80; // 5 rotations per second cruise
     // mm.MotionMagicAcceleration = 160; //80 // Take approximately 0.5 seconds to reach max vel
@@ -67,8 +69,23 @@ public class Elevator extends SubsystemBase {
     // FeedbackConfigs fConfigs = cfg.Feedback;
     // fConfigs.SensorToMechanismRatio = 70;
 
+
+    // cfg.HardwareLimitSwitch.ReverseLimitSource = ReverseLimitSourceValue.LimitSwitchPin;
+    // cfg.HardwareLimitSwitch.ReverseLimitRemoteSensorID = Constants.turret_CANCoder;
+    // cfg.HardwareLimitSwitch.ReverseLimitType = ReverseLimitTypeValue.NormallyClosed;
+    // cfg.HardwareLimitSwitch.withReverseLimitAutosetPositionValue(0.411865);
+    // // cfg.HardwareLimitSwitch.ReverseLimitAutosetPositionValue = 0.411;
+    // cfg.HardwareLimitSwitch.withReverseLimitAutosetPositionEnable(true);
+    // // cfg.HardwareLimitSwitch.ReverseLimitAutosetPositionEnable = true;
+    // cfg.HardwareLimitSwitch.withReverseLimitEnable(true);
+
+    _elevator.getConfigurator().apply(cfg, 0.050);
+
+
     _elevator.setNeutralMode(NeutralModeValue.Brake);
     _elevator.setInverted(false);
+
+    
 
     // _elevator2.setControl(new Follower(Constants.elevator, true));
 
@@ -93,7 +110,7 @@ public class Elevator extends SubsystemBase {
 
     public void elevatorOn(double x){
     // _elevator.setControl(voltageOut.withOutput(12*(x*0.5)));
-    _elevator.set(-x*0.5);
+    _elevator.set(-x*0.85);
   }
 
   public void elevatorReverse(){
@@ -139,8 +156,7 @@ public class Elevator extends SubsystemBase {
   {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Elevator Encoder", elevator_encoder());
-    // SmartDashboard.putBoolean("Turret Forward Limit", _elevator.getForwardLimit().getValue() == ForwardLimitValue.Open);
-    // SmartDashboard.putBoolean("Turret Rev L imit", _elevator.getReverseLimit().getValue() == ReverseLimitValue.Open);
+    SmartDashboard.putBoolean("Elevator LimitSwitch", limitSwitchVal());
     // SmartDashboard.putNumber("Elevator Closed Loop Output", _elevator.getClosedLoopOutput().getValue());
 
     // if(limitSwitchVal()){

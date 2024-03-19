@@ -47,6 +47,8 @@ public class Swerve extends SubsystemBase {
     public double txCenterRobot = 0.0;  
     public double yawFixed = 0.0;
 
+    Optional<Alliance> ally = DriverStation.getAlliance();
+
     public double botpose[];
 
 
@@ -62,11 +64,11 @@ public class Swerve extends SubsystemBase {
             new SwerveModule(3, Constants.Swerve.Mod3.constants)
         };
 
-        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
+        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());//, new Pose2d()); //TODO Test This
 
         configureAuton();
     }
-
+    /**Drive command used in auton */
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) 
     {
         SwerveModuleState[] swerveModuleStates =
@@ -88,17 +90,18 @@ public class Swerve extends SubsystemBase {
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
     }    
-
+    /** Robot Relative Drive
+     * <P>Drive command used in auton */
     public void driveRelative(ChassisSpeeds driveMSupplier) {
-        SwerveModuleState[] swerveModuleStates =
-            Constants.Swerve.swerveKinematics.toSwerveModuleStates(
-                driveMSupplier
-             );
+        SwerveModuleState[] swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(driveMSupplier);
+
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
 
         for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], true);
+            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], true); //false); //TODO test this
         }
+        //Use this instead?
+        /*setModuleStates(swerveModuleStates) */
     }    
 
     /* Used by SwerveControllerCommand in Auto */
@@ -119,7 +122,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public ChassisSpeeds getChassisSpeeds(){
-        return Constants.Swerve.swerveKinematics.toChassisSpeeds(this.getModuleStates()); // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        return Constants.Swerve.swerveKinematics.toChassisSpeeds(this.getModuleStates());
     }    
 
     public SwerveModulePosition[] getModulePositions(){
@@ -174,6 +177,9 @@ public class Swerve extends SubsystemBase {
     public void zeroGyro(){
         gyro.setYaw(0);
     }
+    public void setGyro(double newValue){
+        gyro.setYaw(newValue);
+    }
 
     public void boostOn(){
         speedMod = 1.0;
@@ -201,9 +207,9 @@ public class Swerve extends SubsystemBase {
         {
             rotationVal = 0;
         }
-        return -rotationVal;
+        return rotationVal;
     }
-    
+    /**Aiming Swerve with Limelight Towards AprilTag */
     public double limelight_aim_proportional()
     {    
         double targetingAngularVelocity = 0;
@@ -226,7 +232,9 @@ public class Swerve extends SubsystemBase {
         return Global_Variables.tx;
     }
 
- // Assuming this method is part of a drivetrain subsystem that provides the necessary methods
+    /**Directly follows a Pathplanner path
+     * <p> NOTE: May not work because pose get weird. Sidestepped the issue by following a Pathplanner Auton and overriding the Pose in there instead.
+     */
     public Command followTrajectoryCommand(String pathString, boolean isFirstPath) {
     
         PathPlannerPath path = PathPlannerPath.fromPathFile(pathString);
@@ -256,7 +264,7 @@ public class Swerve extends SubsystemBase {
         );
     }
 
-
+    /**Configurer for Pathplanner Auton */
     public void configureAuton(){
         AutoBuilder.configureHolonomic(
             this::getPose, // Robot pose supplier
@@ -268,12 +276,21 @@ public class Swerve extends SubsystemBase {
                 new PIDConstants(Constants.AutoConstants.kPThetaController, 0.0, 0.0), // Rotation PID constants
                 Constants.Swerve.maxSpeed, // Max module speed, in m/s
                 Constants.Swerve.driveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
-                new ReplanningConfig(true, false)), // Default path replanning config. See the API for the options here
+                new ReplanningConfig()), // Default path replanning config. See the API for the options here
             () -> false,
             this // Reference to this subsystem to set requirements
         );
     }
+    /**Resets Yaw
+     *<p>Values range from [-180, 180]
+     */
+    public void setYawWrapped(double newAngle){
+        gyro.setYaw(180-newAngle); 
+    }
 
+    public double getDistanceYFixed(){
+        return ((0.0)*Math.pow(distanceY, 0) + 0.0);
+    }
 
     @Override
     public void periodic(){
@@ -283,6 +300,7 @@ public class Swerve extends SubsystemBase {
         yawFixed = Math.abs((360-gyro.getAngle())% 360);
 
         SmartDashboard.putNumber("yawFixeds", yawFixed); 
+        SmartDashboard.putNumber("yaw", gyro.getAngle()); 
 
 
         for(SwerveModule mod : mSwerveMods){
@@ -298,17 +316,14 @@ public class Swerve extends SubsystemBase {
         // botpose = table.getEntry("botpose").getDoubleArray(new double[6]); 
         distanceY = (Constants.APRIL_TAG_HEIGHT-Constants.LIMELIGHT_HEIGHT)/(Math.tan(Math.toRadians(Constants.LIMELIGHT_ANGLE+ty)));
         distanceX = distanceY/(Math.tan(Math.toRadians(tx)));
-        txCenterRobot = Math.atan(distanceY/(distanceX+Math.tan(Global_Variables.tx)));
+        // txCenterRobot = Math.atan(distanceY/(distanceX+Math.tan(Global_Variables.tx)));
         // // // // double bLat = botpose[6];
 
         SmartDashboard.putNumber("tx", Global_Variables.tx);
         SmartDashboard.putNumber("tv", Global_Variables.tv);
         SmartDashboard.putNumber("ty", Global_Variables.ty);
-        SmartDashboard.putNumber("distanceY", distanceY);
-        SmartDashboard.putNumber("txCenterRobot", txCenterRobot);
 
 
-        Optional<Alliance> ally = DriverStation.getAlliance();
         if (ally.isPresent()) {
             if (ally.get() == Alliance.Red) {
                 table.getEntry("pipeline").setNumber(0);
@@ -326,7 +341,8 @@ public class Swerve extends SubsystemBase {
         Global_Variables.ty = ty;
         Global_Variables.tv = tv;
         Global_Variables.distanceY = distanceY;
+        Global_Variables.distanceYFixed = getDistanceYFixed();
         Global_Variables.yawFixed = yawFixed;
-        Global_Variables.swerveLimelightTarget = limelightTarget();
+        Global_Variables.swerveLimelightTarget = limelight_aim_proportional();
     }  
 }

@@ -10,6 +10,7 @@ import frc.robot.Constants;
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdleConfiguration;
+import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.LarsonAnimation;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
@@ -95,10 +96,21 @@ public class CANdle_Subsystem extends SubsystemBase
     m_toAnimate = new LarsonAnimation(100, 10, 100, 0, 1.0, LedCount, BounceMode.Front, 7, 9);
   }
 
+  public void CANdle_Fire_Animation() 
+  {  
+    m_toAnimate = new FireAnimation(1, 0.5, LedCount, 0.75, 0.1, true, 9);
+  }
+  public void CANdle_Solid_White() 
+  {  
+    m_toAnimate = new StrobeAnimation(200, 200, 200, 100, 0.5, LedCount, 9);
+  }
+
   @Override
   public void periodic() 
   {  
     m_candle.animate(m_toAnimate);
+
+    
   }
 }
 

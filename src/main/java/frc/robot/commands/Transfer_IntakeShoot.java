@@ -29,12 +29,13 @@ public class Transfer_IntakeShoot extends Command {
     public void execute() {
         /* Get Values, Deadband*/
         if(!Global_Variables.isShooting){
-            if(Global_Variables.getSensorVal()==(1)){
+            // if(Global_Variables.getSensorVal()==(1)){
                 m_transferIntake.transferOff();
-            }
-            else{   
-                m_transferIntake.transferOn();
-            }        
+            // }
+            // else{   
+            //     m_transferIntake.transferOn();
+            // }        
+            m_transferIntake.shooter_transferOff(); 
         }
         else{
             m_transferIntake.transferOn();

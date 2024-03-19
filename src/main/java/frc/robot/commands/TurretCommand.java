@@ -42,7 +42,6 @@ public class TurretCommand extends Command {
         turretEncoder = m_turret.getTurretEncoder();
         turretCANCoder = m_turret.getTurret_CANCoder();
 
-    
 
         // double joystickFixed = MathUtil.applyDeadband(joystick.getAsDouble(), Constants.stickDeadband);
       

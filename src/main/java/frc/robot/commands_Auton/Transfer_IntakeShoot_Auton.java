@@ -7,12 +7,12 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
-public class Transfer_IntakeShoot extends Command {    
+public class Transfer_IntakeShoot_Auton extends Command {    
     public Transfer_Intake m_transferIntake;   
     public DoubleSupplier joystick;
     // private Timer timer;
 
-    public Transfer_IntakeShoot(Transfer_Intake transferIntake) {
+    public Transfer_IntakeShoot_Auton(Transfer_Intake transferIntake) {
         this.m_transferIntake = transferIntake;
         addRequirements(m_transferIntake);
         // timer = new Timer();
@@ -26,20 +26,14 @@ public class Transfer_IntakeShoot extends Command {
 
     @Override
     public void execute() {
-        /* Get Values, Deadband*/
-        if(Global_Variables.getSensorVal()==(1) && !Global_Variables.isShooting){
-            m_transferIntake.transferOff();
-            m_transferIntake.shooter_transferOff();
-        }
-        else{
-           m_transferIntake.transferOn();
-            m_transferIntake.shooter_transferOn(); 
-        }
+        m_transferIntake.transferOn();
+        m_transferIntake.shooter_transferReverse(); 
     }
 
     @Override
     public void end(boolean interrupted) {
         m_transferIntake.transferOff();
+        m_transferIntake.shooter_transferOn(); 
     }
 
     // Returns true when the command should end.

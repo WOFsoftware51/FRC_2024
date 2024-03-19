@@ -16,6 +16,7 @@ public class Global_Variables
     public static double ty = 0;
     public static double tv = 0;
     public static double distanceY = 0;
+    public static double distanceYFixed = 0;
     public static double distanceX = 0;
     // public static final SendableChooser<Boolean> pipeline_chooser = new SendableChooser<>();
 

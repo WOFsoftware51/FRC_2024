@@ -8,14 +8,14 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
-public class ShootCommand_Auton extends Command {    
+public class ShootCommand_Start extends Command {    
     private Shooter m_shooter;    
     private DoubleSupplier vSupplier;
     private double shotSpeed;
     // private Timer timer;
 
     /**Doesn't Stop Shooting When Interupted */
-    public ShootCommand_Auton(Shooter shooter, DoubleSupplier supplierV) {
+    public ShootCommand_Start(Shooter shooter, DoubleSupplier supplierV) {
         this.m_shooter = shooter;
         this.vSupplier = supplierV;
         addRequirements(m_shooter);
@@ -40,7 +40,7 @@ public class ShootCommand_Auton extends Command {
 
     @Override
     public void end(boolean interrupted) {
-
+        Global_Variables.isShooting = false;
     }
 
     // Returns true when the command should end.

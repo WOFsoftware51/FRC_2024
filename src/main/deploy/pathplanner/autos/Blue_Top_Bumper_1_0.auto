@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.788613602904809,
-      "y": 4.414985377759629
+      "x": 3.391,
+      "y": 7.31
     },
-    "rotation": -119.74000000000001
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Red_Bumper_0_3"
+            "pathName": "Blue_Top_Bumper_1_0"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Blue Paths",
   "choreoAuto": false
 }

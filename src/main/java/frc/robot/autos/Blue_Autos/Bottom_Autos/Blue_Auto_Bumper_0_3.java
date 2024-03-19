@@ -1,6 +1,5 @@
 package frc.robot.autos.Blue_Autos.Bottom_Autos;
 
-import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Transfer_IntakeShoot;
 import frc.robot.commands_Auton.Auton_Wait;
@@ -26,36 +25,30 @@ public class Blue_Auto_Bumper_0_3 extends SequentialCommandGroup {
         
         addCommands(
             new InstantCommand(() -> swerve.zeroGyro()),
-                new SequentialCommandGroup(
-                    new ParallelRaceGroup(
-                        new Auton_Wait(100),
-                        aSub.auton_Shooter(shooter)
-                        ),
-                    new ParallelRaceGroup(
-                        new Auton_Wait(75),
-                        aSub.auton_Shooter(shooter),
-                        new Transfer_IntakeShoot(transfer)
-                        ),
-                        new ParallelRaceGroup(
-                            new Transfer_IntakeShoot(transfer),
-                            new IntakeCommand(intake),
-                            new PathPlannerAuto("Red_Bumper_0_1")
-                        ),
-                        new ParallelRaceGroup(
-                            new Auton_Wait(50),
-                            new IntakeCommand(intake)
-                        ),
-                        new PathPlannerAuto("Red_Bumper_1_0"),
-                        new ParallelRaceGroup(
-                            new Auton_Wait(100),
-                            aSub.auton_Shooter(shooter)
-                            ),
-                        new ParallelRaceGroup(
-                            new Auton_Wait(100),
-                            aSub.auton_Shooter(shooter),
-                            new Transfer_IntakeShoot(transfer)
-                            )
-                )
+            new ParallelRaceGroup(
+                new Auton_Wait(75),
+                aSub.auton_Shooter_Start(shooter)
+            ),
+            new ParallelRaceGroup(
+                new Auton_Wait(125),
+                aSub.auton_Shoot(transfer)
+            ),
+            new ParallelRaceGroup(
+                new Transfer_IntakeShoot(transfer),
+                new IntakeCommand(intake),
+                new PathPlannerAuto("Blue_Bottom_Bumper_0_3")
+            ),
+            // new ParallelRaceGroup(
+            //     new Auton_Wait(50),
+            //     new IntakeCommand(intake)
+            // ),
+            new PathPlannerAuto("Blue_Bottom_Bumper_3_0"),
+            new ParallelRaceGroup(
+                new Auton_Wait(125),
+                aSub.auton_Shoot(transfer)
+            ),
+            new InstantCommand(() -> swerve.setYawWrapped(-60.67)),
+            aSub.auton_Stop_Shooter(shooter)
         );
     }
 }

@@ -207,11 +207,11 @@ public final class Constants {
     }
     public static final class Turret{
 
-        public static final double TURRET_GEAR_RATIO = 320; //TODO
-        public static final double TURRET_CANCODER_GEAR_RATIO = 16; //182.0/360; //TODO
-        public static final double TURRET_CANCODER_OFFSET = 1.873125; //182.0/360; //TODO
+        public static final double TURRET_GEAR_RATIO = 320.0;//320; //TODO
+        public static final double TURRET_CANCODER_GEAR_RATIO = 18.0/30.0; //182.0/360; //TODO
+        public static final double TURRET_CANCODER_OFFSET = 97.45; //182.0/360; //TODO
         public static final double TURRET_DEFAULT_POSITION = 0; //182.0/360; //TODO
-        public static final double TURRET_PROTECTED_POSITION = TURRET_DEFAULT_POSITION + 26.598999 + 6.5 ; //182.0/360; //TODO
+        public static final double TURRET_PROTECTED_POSITION = 20;//TURRET_DEFAULT_POSITION + 26.598999 + 6.5 ; //182.0/360; //TODO
 
         /**Difference between Turret angle and the angle the note is shot */
         public static final double TURRET_SHOT_ANGLE_OFFSET = 0; //182.0/360; //TODO

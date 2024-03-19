@@ -12,12 +12,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
 import frc.robot.Global_Variables;
-import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.Transfer_IntakeShoot;
 import frc.robot.commands.TurretAim;
 import frc.robot.commands.Turret_Goto_Angle;
 import frc.robot.commands_Auton.Auton_Wait;
+import frc.robot.commands_Auton.ShootCommand_Start;
+import frc.robot.commands_Auton.Transfer_IntakeShoot_Auton;
 
 public class Auton_Subsystem extends SubsystemBase {
   /** Creates a new Auton_Subsystem. */
@@ -61,9 +62,26 @@ public class Auton_Subsystem extends SubsystemBase {
     );
   }
 
+  public Command auton_Shooter_Start(Shooter m_Shooter){
+    return new ShootCommand_Start(m_Shooter,()-> Constants.ShooterSpeeds.SHOOTER_AUTON_SPEED1).until(()-> shotReady(m_Shooter));
+  }
+  /**Shoot until sensor detects  */
+  public Command auton_Shoot(Transfer_Intake transfer){
+    return new Transfer_IntakeShoot_Auton(transfer)
+      .until(()-> {
+        if(Global_Variables.getSensorVal() == 1){
+          return false;
+        }
+        else{
+          return true;
+        }
+      }
+      );
+  }
+
   public boolean shotReady( Shooter mShooter){
     boolean bool = false;
-    if(Math.abs(mShooter.getVelocity1()) < Math.abs(mShooter.getTargetVelocity())+500 && Math.abs(mShooter.getVelocity1()) > Math.abs(mShooter.getTargetVelocity())-500 ){
+    if(mShooter.getVelocity1() > 3500){//Math.abs(mShooter.getVelocity1()) < Math.abs(mShooter.getTargetVelocity())+500 && Math.abs(mShooter.getVelocity1()) > Math.abs(mShooter.getTargetVelocity())-500 ){
       bool = true;
     }
     else{
@@ -72,6 +90,7 @@ public class Auton_Subsystem extends SubsystemBase {
 
     return bool;
   }
+
 
   public boolean aimReady(Turret mTurret){
     boolean bool = false;
@@ -96,7 +115,10 @@ public class Auton_Subsystem extends SubsystemBase {
       return new RunCommand(()-> intake.intakeOn()).until(new Auton_Wait(100).getAsBoolean());
   }
 
-  
+
+  public Command auton_Stop_Shooter(Shooter shooter){
+    return new RunCommand(()-> shooter.shooterOff()).until(new Auton_Wait(5).getAsBoolean());
+  }
 
   public boolean isShooting(Shooter shooter){
     if(shooter.getCurrent() > Constants.AutoConstants.shooterCurrentSpike){
@@ -108,6 +130,8 @@ public class Auton_Subsystem extends SubsystemBase {
 
     return isShooting;
   }
+
+  
 
   // public Command ledRed(CANdle_Subsystem m_candle){
   //           return new SequentialCommandGroup( 

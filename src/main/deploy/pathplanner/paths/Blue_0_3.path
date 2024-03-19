@@ -66,6 +66,9 @@
   },
   "reversed": false,
   "folder": "Blue Paths",
-  "previewStartingState": null,
+  "previewStartingState": {
+    "rotation": -90.0,
+    "velocity": 0.0
+  },
   "useDefaultConstraints": false
 }

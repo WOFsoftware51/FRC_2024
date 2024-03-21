@@ -63,8 +63,8 @@ public class Turret extends SubsystemBase {
     mm.MotionMagicAcceleration = 300; //160 // Take approximately 0.5 seconds %to reach max vel
     mm.MotionMagicJerk = 2400;//1600// Take approximately 0.2 seconds to reach max accel 
 
-    cfg.HardwareLimitSwitch.ReverseLimitSource = ReverseLimitSourceValue.RemoteCANcoder;
-    cfg.HardwareLimitSwitch.ReverseLimitRemoteSensorID = Constants.turret_CANCoder;
+    // cfg.HardwareLimitSwitch.ReverseLimitSource = ReverseLimitSourceValue.RemoteCANcoder;
+    // cfg.HardwareLimitSwitch.ReverseLimitRemoteSensorID = Constants.turret_CANCoder;
     // cfg.HardwareLimitSwitch.ReverseLimitType = ReverseLimitTypeValue.NormallyClosed;
     // cfg.HardwareLimitSwitch.withReverseLimitAutosetPositionValue(0.411865);
     // // cfg.HardwareLimitSwitch.ReverseLimitAutosetPositionValue = 0.411;
@@ -129,8 +129,13 @@ public class Turret extends SubsystemBase {
    */
   public double getTurretAimTarget(){
 
+    /*Limelight 3g */
+    // return (((-5311800000000000.0)*(Math.pow(((0.0220706*Global_Variables.distanceY) + 30.4041), -9.308))) + 62.9833);
+    /*Limelight 2 */
     return (((-5338700000000000.0)*(Math.pow(((0.001158444*Global_Variables.distanceY) + 3.45686), -25.823))) + 44.1208);
-    /*Linear Equation */
+
+
+    /*Linear Equation using Limelight 2*/
       // return (0.211991*Global_Variables.distanceY) - 6.77857;
 
   } 

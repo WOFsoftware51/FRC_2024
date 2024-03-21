@@ -11,9 +11,9 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ForwardLimitValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.signals.ReverseLimitSourceValue;
-import com.ctre.phoenix6.signals.ReverseLimitTypeValue;
-import com.ctre.phoenix6.signals.ReverseLimitValue;
+import com.ctre.phoenix6.signals.ForwardLimitSourceValue;
+import com.ctre.phoenix6.signals.ForwardLimitTypeValue;
+import com.ctre.phoenix6.signals.ForwardLimitValue;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,7 +27,7 @@ public class Elevator extends SubsystemBase {
 
   private TalonFX _elevator = new TalonFX(Constants.elevator2, Constants.CANIVORE_NAME);
   private TalonFX _elevator2 = new TalonFX(Constants.elevator, Constants.CANIVORE_NAME);
-  private DigitalInput limitSwitch = new DigitalInput(9);
+  private DigitalInput limitSwitch = new DigitalInput(8);
 
   private MotionMagicDutyCycle mMDutyCycle = new MotionMagicDutyCycle(0);
 
@@ -70,14 +70,17 @@ public class Elevator extends SubsystemBase {
     // fConfigs.SensorToMechanismRatio = 70;
 
 
-    // cfg.HardwareLimitSwitch.ReverseLimitSource = ReverseLimitSourceValue.LimitSwitchPin;
-    // cfg.HardwareLimitSwitch.ReverseLimitRemoteSensorID = Constants.turret_CANCoder;
-    // cfg.HardwareLimitSwitch.ReverseLimitType = ReverseLimitTypeValue.NormallyClosed;
-    // cfg.HardwareLimitSwitch.withReverseLimitAutosetPositionValue(0.411865);
-    // // cfg.HardwareLimitSwitch.ReverseLimitAutosetPositionValue = 0.411;
-    // cfg.HardwareLimitSwitch.withReverseLimitAutosetPositionEnable(true);
-    // // cfg.HardwareLimitSwitch.ReverseLimitAutosetPositionEnable = true;
-    // cfg.HardwareLimitSwitch.withReverseLimitEnable(true);
+    // cfg.HardwareLimitSwitch.ForwardLimitSource = ForwardLimitSourceValue.LimitSwitchPin;
+    // cfg.HardwareLimitSwitch.ForwardLimitRemoteSensorID = 8;
+    // cfg.HardwareLimitSwitch.ForwardLimitType = ForwardLimitTypeValue.NormallyClosed;
+    // cfg.HardwareLimitSwitch.withForwardLimitAutosetPositionValue(1);
+    // // cfg.HardwareLimitSwitch.ForwardLimitAutosetPositionValue = 0.411;
+    // cfg.HardwareLimitSwitch.withForwardLimitAutosetPositionEnable(true);
+    // // cfg.HardwareLimitSwitch.ForwardLimitAutosetPositionEnable = true;
+    // cfg.HardwareLimitSwitch.withForwardLimitEnable(true);
+
+    // cfg.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+    // cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = -80;
 
     _elevator.getConfigurator().apply(cfg, 0.050);
 
@@ -103,7 +106,7 @@ public class Elevator extends SubsystemBase {
   // }
 
 
-    
+
   public void elevatorOn(){
     _elevator.set((-0.5));
   }
@@ -134,9 +137,14 @@ public class Elevator extends SubsystemBase {
     return elevator_encoder;
   }
 
-  public boolean limitSwitchVal(){
-    return limitSwitch.get();
-  }
+  public int limitSwitchVal(){
+    if(limitSwitch.get()){
+      return 1;
+    }
+    else{
+      return -1;
+    }
+}
 
   public void stopMotor(){;
     _elevator.stopMotor();
@@ -156,12 +164,12 @@ public class Elevator extends SubsystemBase {
   {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Elevator Encoder", elevator_encoder());
-    SmartDashboard.putBoolean("Elevator LimitSwitch", limitSwitchVal());
+    SmartDashboard.putNumber("Elevator LimitSwitch", limitSwitchVal());
     // SmartDashboard.putNumber("Elevator Closed Loop Output", _elevator.getClosedLoopOutput().getValue());
 
-    // if(limitSwitchVal()){
-    //   elevator_resetEncoder();
-    // }
+    if(limitSwitchVal() == -1){
+      elevator_resetEncoder();
+    }
 
   }
 }

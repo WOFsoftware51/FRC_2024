@@ -323,18 +323,19 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putNumber("tv", Global_Variables.tv);
         SmartDashboard.putNumber("ty", Global_Variables.ty);
 
+        SmartDashboard.putNumber("Drive Speed Chassis Speeds", Math.sqrt(Math.pow(getChassisSpeeds().vxMetersPerSecond, 2) + Math.pow(getChassisSpeeds().vyMetersPerSecond, 2)));
 
-        if (ally.isPresent()) {
-            if (ally.get() == Alliance.Red) {
-                table.getEntry("pipeline").setNumber(0);
-            }
-            else if (ally.get() == Alliance.Blue) {
-                table.getEntry("pipeline").setNumber(1);
-            }
-            // else if(Global_Variables.pipeline_chooser){
-            //     table.getEntry("pipeline").setNumber(3);
-            // }
-        }
+        // if (ally.isPresent()) {
+        //     if (ally.get() == Alliance.Red) {
+        //         table.getEntry("pipeline").setNumber(0);
+        //     }
+        //     else if (ally.get() == Alliance.Blue) {
+        //         table.getEntry("pipeline").setNumber(1);
+        //     }
+        //     // else if(Global_Variables.pipeline_chooser){
+        //     //     table.getEntry("pipeline").setNumber(3);
+        //     // }
+        // }
 
 
         Global_Variables.tx = tx;

@@ -42,11 +42,15 @@ public class ElevatorCommand extends Command
     joystickFixed = MathUtil.applyDeadband(joystick.getAsDouble(), Constants.stickDeadband);
 
 
-      // if(m_elevator.elevator_encoder() >= 0 && joystickFixed < 0){
-      //   m_elevator.elevatorOff();
-      // }
-      // else{
+      if(m_elevator.limitSwitchVal() == -1 && joystickFixed < 0){
+        m_elevator.elevatorOff();
+      }
+      else if(m_elevator.elevator_encoder() <= Constants.Elevator_Highest_Point && joystickFixed > 0){
+        m_elevator.elevatorOff();
+      }
+      else{
         m_elevator.elevatorOn(joystickFixed);
+      }
   }
 
   // Called once the command ends or is interrupted.

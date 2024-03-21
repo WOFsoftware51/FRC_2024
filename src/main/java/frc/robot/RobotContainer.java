@@ -173,10 +173,10 @@ public class RobotContainer {
 
         /*Aiming to Score and Rev up Shooter: Driver[RightBumper] */
         new Trigger(operator::getXButton).whileTrue(new TelopSwerveAim(s_Swerve, () -> -driver.getRawAxis(translationAxis), () -> -driver.getRawAxis(strafeAxis)));
-        // new Trigger(driver::getRightBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
         new Trigger(operator::getXButton).whileTrue(new TurretAim(m_Turret));
-        // new Trigger(driver::getRightBumper).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_DEFAULT_POSITION));
         new Trigger(operator::getXButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+        new Trigger(driver::getRightBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+        new Trigger(driver::getRightBumper).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_DEFAULT_POSITION));
 
         /**Half Court Shot */
         new Trigger(driver::getBackButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));

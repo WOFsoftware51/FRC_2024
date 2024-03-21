@@ -30,11 +30,12 @@ public final class Constants {
 
 
     public static final double ELEVATOR_DEFAULT = 0.0; //TODO
-    public static final double ELEVATOR_AMP = -79.149902; //TODO
+    public static final double ELEVATOR_AMP = -79.322266; //TODO
     public static final double ELEVATOR_FLOOR = 0.0; //TODO
     public static final double ELEVATOR_TRAP = 0.0; //TODO
     public static final double Elevator_Spool = 1.25; //TODO
     public static final double Elevator_Gear_Ratio = 48/50; //TODO
+    public static final double Elevator_Highest_Point = -83.975098; //TODO
 
     public static final double Mod0_ROTATION_OFFSET = (-134.56);//+180)%360;
     public static final double Mod1_ROTATION_OFFSET = (-2.63);//+180)%360;
@@ -108,7 +109,7 @@ public final class Constants {
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static final double maxSpeed = 4.5; //TODO: This must be tuned to specific robot
+        public static final double maxSpeed = 10.0; //TODO: This must be tuned to specific robot
         /** Radians per Second */
         public static final double maxAngularVelocity = 10.0; //TODO: This must be tuned to specific robot
 

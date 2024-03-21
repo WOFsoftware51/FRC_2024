@@ -26,7 +26,8 @@ public class Intake extends SubsystemBase {
     }
     
     public void intakeOn(){
-       _intake.set(-1.0);
+       _intake.set(-1.0);//-1.0);
+
     }
 
     public void intakeReverse(){

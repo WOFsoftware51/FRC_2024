@@ -20,7 +20,7 @@ public class Red_Auto_Bumper_0_1_2 extends SequentialCommandGroup {
 
     public Red_Auto_Bumper_0_1_2(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
         
-        addRequirements(swerve, turret, shooter, aSub, transfer, intake);
+        addRequirements(swerve, turret, shooter, aSub, transfer, intake); //TODO
 
         
         addCommands(
@@ -42,12 +42,21 @@ public class Red_Auto_Bumper_0_1_2 extends SequentialCommandGroup {
             //     new Auton_Wait(50),
             //     new IntakeCommand(intake)
             // ),
-            new PathPlannerAuto("Red_Top_Bumper_1_0"),
+            new PathPlannerAuto("Red_Top_Bumper_1_0"), 
             new ParallelRaceGroup(
                 new Auton_Wait(125),
                 aSub.auton_Shoot(transfer)
             ),
-            new PathPlannerAuto("Red_Top_Bumper_0_2"),
+            new ParallelRaceGroup(
+                new Transfer_IntakeShoot(transfer),
+                new IntakeCommand(intake),
+                new PathPlannerAuto("Red_Top_Bumper_0_2")
+            ),
+            new PathPlannerAuto("Red_Top_Bumper_2_0"), 
+            new ParallelRaceGroup(
+                new Auton_Wait(125),
+                aSub.auton_Shoot(transfer)
+            ),
             new InstantCommand(() -> swerve.setYawWrapped(119.74)),
             aSub.auton_Stop_Shooter(shooter)
         );

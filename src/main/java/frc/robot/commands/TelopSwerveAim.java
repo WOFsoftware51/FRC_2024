@@ -60,7 +60,7 @@ public class TelopSwerveAim extends Command {
     /* Drive */
     s_Swerve.drive(
       new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed).times(speedModifier), 
-      rotationVal * Constants.Swerve.maxAngularVelocity, 
+        rotationVal * Constants.Swerve.maxAngularVelocity, 
         false, 
         true
     );

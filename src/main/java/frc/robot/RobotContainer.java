@@ -152,9 +152,11 @@ public class RobotContainer {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /* Driver Buttons */
-        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+       // zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new Right_Trigger_Boost_True());
+        new Trigger(driver::getAButton).whileTrue(new InstantCommand(() -> s_Swerve.setGyro60()));
+        new Trigger(driver::getBButton).whileTrue(new InstantCommand(() -> s_Swerve.setGyroN60()));
 
         
         /*CANDle Commands*/

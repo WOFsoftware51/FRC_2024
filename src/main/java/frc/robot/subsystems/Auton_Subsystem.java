@@ -120,6 +120,11 @@ public class Auton_Subsystem extends SubsystemBase {
     return new RunCommand(()-> shooter.shooterOff()).until(new Auton_Wait(5).getAsBoolean());
   }
 
+  public Command auton_Stop_Transfer_Shooter(Transfer_Intake transfer){
+    return new RunCommand(()-> transfer.shooter_transferOff()).until(new Auton_Wait(5).getAsBoolean());
+  }
+
+
   public boolean isShooting(Shooter shooter){
     if(shooter.getCurrent() > Constants.AutoConstants.shooterCurrentSpike){
       isShooting = true;

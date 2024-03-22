@@ -181,6 +181,13 @@ public class Swerve extends SubsystemBase {
         gyro.setYaw(newValue);
     }
 
+        public void setGyro60(){
+        gyro.setYaw(60);
+    }
+        public void setGyroN60(){
+        gyro.setYaw(-60);
+    }
+
     public void boostOn(){
         speedMod = 1.0;
     }
@@ -300,7 +307,7 @@ public class Swerve extends SubsystemBase {
         yawFixed = Math.abs((360-gyro.getAngle())% 360);
 
         SmartDashboard.putNumber("yawFixeds", yawFixed); 
-        SmartDashboard.putNumber("yaw", gyro.getAngle()); 
+        SmartDashboard.putNumber("yaw", getGyroYaw().getDegrees()); 
 
 
         for(SwerveModule mod : mSwerveMods){

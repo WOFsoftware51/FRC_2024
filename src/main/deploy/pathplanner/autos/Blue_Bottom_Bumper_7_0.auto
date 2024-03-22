@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue_Bumper_7_0"
+            "pathName": "Blue_Bottom_Bumper_7_0"
           }
         }
       ]
     }
   },
-  "folder": "Blue Paths",
+  "folder": null,
   "choreoAuto": false
 }

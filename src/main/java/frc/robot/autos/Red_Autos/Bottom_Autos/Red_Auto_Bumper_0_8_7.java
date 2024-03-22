@@ -1,6 +1,7 @@
 package frc.robot.autos.Red_Autos.Bottom_Autos;
 
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.Transfer_IntakeCommand;
 import frc.robot.commands.Transfer_IntakeShoot;
 import frc.robot.commands_Auton.Auton_Wait;
 import frc.robot.subsystems.Auton_Subsystem;
@@ -34,7 +35,7 @@ public class Red_Auto_Bumper_0_8_7 extends SequentialCommandGroup {
                 aSub.auton_Shoot(transfer)
             ),
             new ParallelRaceGroup(
-                    new Transfer_IntakeShoot(transfer),
+                    new Transfer_IntakeCommand(transfer),
                     new IntakeCommand(intake),
                     new PathPlannerAuto("Red_Bottom_Bumper_0_8")
             ),
@@ -44,7 +45,7 @@ public class Red_Auto_Bumper_0_8_7 extends SequentialCommandGroup {
                 aSub.auton_Shoot(transfer)
             ),
             new ParallelRaceGroup(
-                new Transfer_IntakeShoot(transfer),
+                new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
                 new PathPlannerAuto("Red_Bottom_Bumper_0_7")
             ),

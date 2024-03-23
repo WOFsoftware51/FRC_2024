@@ -48,7 +48,7 @@ public class Red_Auto_Bumper_0_3 extends SequentialCommandGroup {
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)
             ),
-            new InstantCommand(() -> swerve.setYawWrapped(-119.74)),
+            // new InstantCommand(() -> swerve.setYawWrapped(-119.74)),
             aSub.auton_Stop_Shooter(shooter)
         );
     }

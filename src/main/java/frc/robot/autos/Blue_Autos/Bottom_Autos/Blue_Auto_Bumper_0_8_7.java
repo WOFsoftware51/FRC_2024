@@ -54,7 +54,7 @@ public class Blue_Auto_Bumper_0_8_7 extends SequentialCommandGroup {
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)
             ),
-            new InstantCommand(() -> swerve.setYawWrapped(-59.60)),
+            // new InstantCommand(() -> swerve.setYawWrapped(-59.60)),
             aSub.auton_Stop_Shooter(shooter)
     
         );    }

@@ -20,7 +20,7 @@ public final class Constants {
 
     
     public static final double APRIL_TAG_HEIGHT = 57;// 57.25; //54
-    public static final double LIMELIGHT_HEIGHT = 6.5;// 57.25; //54
+    public static final double LIMELIGHT_HEIGHT = 7.0;// 57.25; //54
     public static final double LIMELIGHT_ANGLE = 29;// 57.25; //54
 
 
@@ -111,7 +111,7 @@ public final class Constants {
         /** Meters per Second */
         public static final double maxSpeed = 5.0; //TODO: This must be tuned to specific robot
         /** Radians per Second */
-        public static final double maxAngularVelocity = 17.5; //TODO: This must be tuned to specific robot
+        public static final double maxAngularVelocity = 10;//17.5; //TODO: This must be tuned to specific robot
 
         /* Neutral Modes */
         public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;

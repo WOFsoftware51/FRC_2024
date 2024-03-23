@@ -2,6 +2,7 @@ package frc.robot.autos.Red_Autos.Middle_Autos;
 
 import frc.robot.commands_Auton.Auton_Wait;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.Transfer_IntakeCommand;
 import frc.robot.commands.Transfer_IntakeShoot;
 import frc.robot.subsystems.Auton_Subsystem;
 import frc.robot.subsystems.Intake;
@@ -32,7 +33,7 @@ public class Red_Auto_Middle_0_2 extends SequentialCommandGroup {
                 aSub.auton_Shoot(transfer)
             ),
             new ParallelRaceGroup(
-                new Transfer_IntakeShoot(transfer),
+                new Transfer_IntakeCommand(transfer),
                 new PathPlannerAuto("Red_0_2"),
                 new IntakeCommand(intake)
             ),

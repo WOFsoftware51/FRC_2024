@@ -23,7 +23,7 @@ public class Red_Auto_Bumper_0_1_2 extends SequentialCommandGroup {
         
         addRequirements(swerve, turret, shooter, aSub, transfer, intake); //TODO
 
-        
+
         addCommands(
             new InstantCommand(() -> swerve.zeroGyro()),
             new ParallelRaceGroup(
@@ -58,7 +58,7 @@ public class Red_Auto_Bumper_0_1_2 extends SequentialCommandGroup {
                 new Auton_Wait(125),
                 aSub.auton_Shoot(transfer)
             ),
-            new InstantCommand(() -> swerve.setYawWrapped(119.33)),
+            // new InstantCommand(() -> swerve.setYawWrapped(119.33)),
             aSub.auton_Stop_Shooter(shooter)
         );
     }

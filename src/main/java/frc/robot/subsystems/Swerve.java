@@ -7,6 +7,7 @@ import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathHolonomic;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -44,6 +45,7 @@ public class Swerve extends SubsystemBase {
     public double tv = 0.0;
     public double distanceY = 0.0;
     public double distanceX = 0.0;
+    public double distanceXY = 0.0;
     public double txCenterRobot = 0.0;  
     public double yawFixed = 0.0;
 
@@ -175,17 +177,17 @@ public class Swerve extends SubsystemBase {
     }
 
     public void zeroGyro(){
-        gyro.setYaw(0);
+        gyro.setYaw(0, 0.1);
     }
     public void setGyro(double newValue){
-        gyro.setYaw(newValue);
+        gyro.setYaw(newValue, 0.1);
     }
 
-        public void setGyro60(){
-        gyro.setYaw(60);
+    public void setGyro60(){
+        gyro.setYaw(60, 0.1);
     }
-        public void setGyroN60(){
-        gyro.setYaw(-60);
+    public void setGyroN60(){
+        gyro.setYaw(-60, 0.1);
     }
 
     public void boostOn(){
@@ -292,13 +294,17 @@ public class Swerve extends SubsystemBase {
      *<p>Values range from [-180, 180]
      */
     public void setYawWrapped(double newAngle){
-        gyro.setYaw(180-newAngle); 
+        gyro.setYaw(newAngle); //180-newAngle
     }
 
     public double getDistanceYFixed(){
         return ((0.0)*Math.pow(distanceY, 0) + 0.0);
     }
 
+    public PathPlannerAuto pathPlannerAuto(String path){
+
+        return new PathPlannerAuto(path);
+    }
     @Override
     public void periodic(){
         // swerveOdometry.update(getGyroYaw(), getModulePositions());
@@ -315,14 +321,14 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
-        
-
         tv = table.getEntry("tv").getDouble(0);
         ty = table.getEntry("ty").getDouble(0);
         tx = table.getEntry("tx").getDouble(0);
         // botpose = table.getEntry("botpose").getDoubleArray(new double[6]); 
         distanceY = (Constants.APRIL_TAG_HEIGHT-Constants.LIMELIGHT_HEIGHT)/(Math.tan(Math.toRadians(Constants.LIMELIGHT_ANGLE+ty)));
         distanceX = distanceY/(Math.tan(Math.toRadians(tx)));
+
+
         // txCenterRobot = Math.atan(distanceY/(distanceX+Math.tan(Global_Variables.tx)));
         // // // // double bLat = botpose[6];
 

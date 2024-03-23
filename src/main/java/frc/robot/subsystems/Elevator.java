@@ -25,8 +25,8 @@ import frc.robot.Constants;
 public class Elevator extends SubsystemBase {
 
 
-  private TalonFX _elevator = new TalonFX(Constants.elevator2, Constants.CANIVORE_NAME);
-  private TalonFX _elevator2 = new TalonFX(Constants.elevator, Constants.CANIVORE_NAME);
+  private TalonFX _elevator = new TalonFX(Constants.elevator, Constants.CANIVORE_NAME); //Constants.elevator2
+  private TalonFX _elevator2 = new TalonFX(Constants.elevator2, Constants.CANIVORE_NAME);
   private DigitalInput limitSwitch = new DigitalInput(8);
 
   private MotionMagicDutyCycle mMDutyCycle = new MotionMagicDutyCycle(0);
@@ -45,10 +45,10 @@ public class Elevator extends SubsystemBase {
 
     // _elevator.setNeutralMode(NeutralModeValue.Coast);
     // _elevator.setNeutralMode(NeutralModeValue.Coast);
-    // _elevator.setInverted(false);
-  
+    _elevator.setInverted(true);
 
-    TalonFXConfiguration cfg = new TalonFXConfiguration();
+
+    // TalonFXConfiguration cfg = new TalonFXConfiguration();
     // MotionMagicConfigs mm = cfg.MotionMagic;
     // mm.MotionMagicCruiseVelocity = 80; // 5 rotations per second cruise
     // mm.MotionMagicAcceleration = 160; //80 // Take approximately 0.5 seconds to reach max vel
@@ -82,11 +82,11 @@ public class Elevator extends SubsystemBase {
     // cfg.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
     // cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = -80;
 
-    _elevator.getConfigurator().apply(cfg, 0.050);
+    // _elevator.getConfigurator().apply(cfg, 0.050);
 
 
     _elevator.setNeutralMode(NeutralModeValue.Brake);
-    _elevator.setInverted(false);
+    // _elevator.setInverted(false);
 
     
 

@@ -61,7 +61,6 @@ public class TeleopSwerve extends Command {
             true
         );
 
-        SmartDashboard.putNumber("Drive Speed", Constants.Swerve.maxSpeed*speedModifier*translationVal);
 
     }
 }

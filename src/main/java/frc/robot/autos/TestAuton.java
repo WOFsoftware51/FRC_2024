@@ -22,7 +22,7 @@ public class TestAuton extends SequentialCommandGroup {
 
         
         addCommands(
-            new InstantCommand(() -> swerve.setYawWrapped(60.67))
+            new InstantCommand(() -> swerve.setYawWrapped(180))
         );
     }
 }

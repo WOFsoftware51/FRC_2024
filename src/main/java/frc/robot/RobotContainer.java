@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.autos.TestAuton;
 import frc.robot.autos.Blue_Autos.Blue_Leave_Zone;
 import frc.robot.autos.Blue_Autos.Blue_Leave_Zone_0;
 import frc.robot.autos.Blue_Autos.Bottom_Autos.Blue_Auto_0_3;
@@ -99,10 +100,11 @@ public class RobotContainer {
         SmartDashboard.putData("Shot Speed", s_chooser);
 
         s_chooser.addOption("1000 rpm", 1000.0);
+        s_chooser.addOption("2000 rpm",  2000.0);
+        s_chooser.addOption("3000 rpm",  3000.0);
+        s_chooser.addOption("3500 rpm",  3500.0);
         s_chooser.setDefaultOption("4000 rpm",  4000.0);
-        for(int i = 1; i < 20; i++){
-            s_chooser.addOption(4000 + i*500 + " rpm",  4000.0 + i*500);
-        }
+
 
         // SmartDashboard.putData("Limelight Pipeline Chooser", Global_Variables.pipeline_chooser);
 
@@ -125,7 +127,7 @@ public class RobotContainer {
         
 
         m_Elevator.setDefaultCommand(new ElevatorCommand(m_Elevator, ()-> -operator.getLeftY())); //-operator.getLeftY()));
-        m_Turret.setDefaultCommand(new TurretCommand(m_Turret, ()-> testController.getRightY()));
+        // m_Turret.setDefaultCommand(new TurretCommand(m_Turret, ()-> testController.getRightY()));
         m_Hanger.setDefaultCommand(new HangerManualCommand(m_Hanger, ()-> -operator.getRightY()));
 
         // m_Hanger.setDefaultCommand(new HangerManualCommand_SeperateControl(m_Hanger, ()-> testController.getRightY(), ()-> testController.getLeftY()));
@@ -150,11 +152,9 @@ public class RobotContainer {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /* Driver Buttons */
-       // zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+    //    zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new Right_Trigger_Boost_True());
-        new Trigger(driver::getAButton).whileTrue(new InstantCommand(() -> s_Swerve.setGyro60()));
-        new Trigger(driver::getBButton).whileTrue(new InstantCommand(() -> s_Swerve.setGyroN60()));
 
         
         /*CANDle Commands*/
@@ -206,7 +206,7 @@ public class RobotContainer {
 
         /*Elevator Setpositions: Operator[A, B, X, Y]*/
         new Trigger(operator::getAButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.A_Button));//////
-        // new Trigger(operator::getBButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.B_Button));//////
+        // new Trigger(operator::getBButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.B_Button);
         // new Trigger(operator::getXButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.X_Button));
         new Trigger(operator::getYButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.Y_Button));//////
 
@@ -239,6 +239,7 @@ public class RobotContainer {
         a_chooser.addOption("0, 8 Bumper Auto", 12);
         a_chooser.addOption("0, 8, 7 Bumper Auto", 13);
         a_chooser.addOption("0, 1, 4 Bumper Auto", 14);
+        a_chooser.addOption("Test Auto", 15);
         
     }
 
@@ -285,6 +286,7 @@ public class RobotContainer {
             case 12: return new Blue_Auto_Bumper_0_8(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 13: return new Blue_Auto_Bumper_0_8_7(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 14: return new Blue_Auto_Bumper_0_1_4(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 15: return new TestAuton(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
 
             default: return new Blue_Leave_Zone(s_Swerve);
         }
@@ -307,6 +309,7 @@ public class RobotContainer {
             case 12: return new Red_Auto_Bumper_0_8(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 13: return new Red_Auto_Bumper_0_8_7(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 14: return new Red_Auto_Bumper_0_1_4(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 15: return new TestAuton(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
 
             default: return new Red_Leave_Zone(s_Swerve);
         }

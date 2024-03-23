@@ -24,6 +24,36 @@ public class Shooter extends SubsystemBase {
     private VelocityVoltage velocityController= new VelocityVoltage(0,0,true,0,0,false,false,false);
     private double m_velocity = 0; 
 
+    public Shooter(){
+      // _shooter.setNeutralMode(NeutralModeValue.Coast);
+      // _shooter2.setNeutralMode(NeutralModeValue.Coast);
+      // _shooter.setInverted(false);
+      // _shooter2.setInverted(true);
+
+      // TalonFXConfiguration configs = new TalonFXConfiguration();
+
+      // configs.Slot0.kP = Constants.shootP;
+      // configs.Slot0.kI = Constants.shootI;
+      // configs.Slot0.kD = Constants.shootD;
+      // configs.Slot0.kV = Constants.shootV;
+      // configs.Slot0.kS = Constants.shootS;
+
+      // configs.TorqueCurrent.PeakForwardTorqueCurrent = 40;
+      // configs.TorqueCurrent.PeakReverseTorqueCurrent = -40;
+      // configs.withDifferentialSensors(new DifferentialSensorsConfigs());
+
+
+      // _shooter.getConfigurator().apply(configs, 30);
+      // _shooter2.getConfigurator().apply(configs, 30);
+
+      // // _shooter.setStatusFramePeriod(1, 20);
+  
+  
+      // // _shooter.selectProfileSlot(0, 0);
+    
+      // // _shooter2.setControl(new Follower(Constants.shooter, true));
+    }
+
     public void shooter_init() 
     {
       _shooter.setNeutralMode(NeutralModeValue.Coast);
@@ -42,7 +72,7 @@ public class Shooter extends SubsystemBase {
       configs.TorqueCurrent.PeakForwardTorqueCurrent = 40;
       configs.TorqueCurrent.PeakReverseTorqueCurrent = -40;
       configs.withDifferentialSensors(new DifferentialSensorsConfigs());
-  
+
 
       _shooter.getConfigurator().apply(configs, 30);
       _shooter2.getConfigurator().apply(configs, 30);

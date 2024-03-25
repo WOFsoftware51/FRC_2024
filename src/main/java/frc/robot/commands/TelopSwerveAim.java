@@ -19,8 +19,7 @@ public class TelopSwerveAim extends Command {
     private DoubleSupplier strafeSup;
 
     private double rotationVal = 0;
-    public double speedModifier = Constants.DRIVE_SPEED;
-    private int isNegative = -1;
+    private double speedModifier = Constants.DRIVE_SPEED;
 
 
     public TelopSwerveAim(Swerve Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup) {
@@ -34,44 +33,14 @@ public class TelopSwerveAim extends Command {
 
     @Override
     public void execute() {
-      if(s_Swerve.tv == 1){
-
-        rotationVal = s_Swerve.limelight_aim_proportional();
+    if(Global_Variables.tv == 1){
+      rotationVal = s_Swerve.limelight_aim_proportional();
     }
     else{
-        double yawFixed = s_Swerve.getGyroYaw().getDegrees()%360;
-        SmartDashboard.putNumber("yawFixeds", yawFixed); 
-        if(yawFixed<-30)
-        {
-        rotationVal = 0.3;
-        }
-        else if(yawFixed<-10)
-        {
-          rotationVal = 0.15;
-        }
-        else if(yawFixed<-1)
-        {
-          rotationVal = 0.05;
-        }
-        else if(yawFixed>30)  
-        {
-          rotationVal = -0.3;
-        }
-        else if(yawFixed>10)
-        {
-          rotationVal = -0.15;
-        }
-        else if(yawFixed>1)
-        {
-          rotationVal = -0.05;
-        }
-        else
-        {
-          rotationVal = 0.0;
-        }
+      rotationVal = s_Swerve.gotoDefaultGyroVal();
     }
     
-            
+
     if(Global_Variables.left_trigger_boost)
     {
         speedModifier = 0.1;   
@@ -91,7 +60,7 @@ public class TelopSwerveAim extends Command {
     /* Drive */
     s_Swerve.drive(
       new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed).times(speedModifier), 
-      rotationVal * Constants.Swerve.maxAngularVelocity, 
+        rotationVal * Constants.Swerve.maxAngularVelocity, 
         false, 
         true
     );

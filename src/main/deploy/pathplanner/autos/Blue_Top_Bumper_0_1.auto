@@ -1,0 +1,25 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.65,
+      "y": 6.722020177278586
+    },
+    "rotation": 60.67
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue_Top_Bumper_0_1"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Blue Paths",
+  "choreoAuto": false
+}

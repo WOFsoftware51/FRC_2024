@@ -1,0 +1,25 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 14.641,
+      "y": 6.49
+    },
+    "rotation": 153.98
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Red_1"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Red Paths",
+  "choreoAuto": false
+}

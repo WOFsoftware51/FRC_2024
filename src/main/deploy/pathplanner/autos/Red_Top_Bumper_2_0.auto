@@ -1,0 +1,25 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 13.71,
+      "y": 5.545626021062116
+    },
+    "rotation": -146.66
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Red_Top_Bumper_2_0"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Red Paths",
+  "choreoAuto": false
+}

@@ -19,7 +19,7 @@ public class Right_Trigger_Boost_True extends Command {
   @Override
   public void initialize() 
   {
- 
+     Global_Variables.right_trigger_boost = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

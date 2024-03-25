@@ -1,5 +1,6 @@
 package frc.robot.commands_Auton;
 
+import frc.robot.Global_Variables;
 import frc.robot.subsystems.Turret;
 
 
@@ -10,14 +11,11 @@ public class Turret_Goto_Angle_Auton extends Command {
     public Turret m_turret;   
     public double angle;
     private boolean endCommand = false;
-    private int time = 0;
-    private int timeElapsed = 0;
 
-    public Turret_Goto_Angle_Auton(Turret turret, double _angle, int duration) {
+    public Turret_Goto_Angle_Auton(Turret turret, double _angle) {
         this.m_turret = turret;
         addRequirements(m_turret);
         this.angle = _angle;
-        this.time = duration;
     }
 
     @Override
@@ -30,15 +28,11 @@ public class Turret_Goto_Angle_Auton extends Command {
     @Override
     public void execute() {
         /* Get Values, Deadband*/
+        m_turret.turret_Goto_angle(angle);
 
-        if(timeElapsed<time){
-            timeElapsed++;
-        }
-        else{
+        if(Global_Variables.turretPos < Global_Variables.turretTarget + 1 && Global_Variables.turretPos > Global_Variables.turretTarget - 1){
             endCommand = true;
         }
-  
-        m_turret.turret_Goto_angle(angle);
     }
 
     @Override

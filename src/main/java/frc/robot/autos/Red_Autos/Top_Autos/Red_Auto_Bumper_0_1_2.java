@@ -51,7 +51,7 @@ public class Red_Auto_Bumper_0_1_2 extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Red_Top_Bumper_0_2")
+                new PathPlannerAuto ("Red_Top_Bumper_0_2")
             ),
             new PathPlannerAuto("Red_Top_Bumper_2_0"), 
             new ParallelRaceGroup(

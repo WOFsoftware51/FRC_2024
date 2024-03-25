@@ -1,20 +1,14 @@
 package frc.robot.subsystems;
 
-import frc.lib.math.Conversions;
 import frc.robot.Constants;
 import frc.robot.Global_Variables;
 
-import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
-import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.ForwardLimitSourceValue;
-import com.ctre.phoenix6.signals.ForwardLimitTypeValue;
 import com.ctre.phoenix6.signals.ForwardLimitValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -29,11 +23,7 @@ public class Turret extends SubsystemBase {
 
   private final TalonFX _turret = new TalonFX(Constants.turret, Constants.CANIVORE_NAME); //turret);
   private final CANcoder turretCANCoder = new CANcoder(Constants.turret_CANCoder, Constants.CANIVORE_NAME);
-
   private MotionMagicDutyCycle mMDutyCycle = new MotionMagicDutyCycle(0);
-  private VoltageOut vOut = new VoltageOut(0, false, false, false, false);
-  private double turretAngleToScore = 0.0;
-  private int count = 0;
   private double m_target = 0;
 
 
@@ -108,10 +98,10 @@ public class Turret extends SubsystemBase {
 
 
     Slot0Configs slot0 = cfg.Slot0;
-    slot0.kP = 1.92; //0.12
+    slot0.kP = 1.92;
     slot0.kI = 0;
-    slot0.kD = 0.0; //0.1
-    slot0.kV = 0.0; //0.12
+    slot0.kD = 0.0;
+    slot0.kV = 0.0;
     slot0.kS = 0.375; // Approximately 0.25V to get the mechanism moving
 
     _turret.getConfigurator().apply(cfg, 0.050);
@@ -119,11 +109,23 @@ public class Turret extends SubsystemBase {
     _turret.setNeutralMode(NeutralModeValue.Brake);
     _turret.setInverted(false);
   }
-  
+
+  /**Turns the turret on at a some percent speed. turret moves at x*0.5 speed 
+   * @param x
+   * <ul> 
+   *  <li> Units: Percantage Range from [-1, 1]. 
+   *  <li> x is multiplied by 0.5 in order slow its speed down
+  */
   public void turretOn(double x){
     _turret.set(x*0.5); //0.3
   }
-
+  /**
+   * Rotates the turret to some angle in degrees.
+   * <li> This angle is based on the turret motor times the turret's gear ratio. This gives us the turret's angle 
+   * @param target
+   * <ul> 
+   *  <li> Units: Degrees.
+  */
   public void turret_Goto_angle(double target){
     m_target = target;
     mMDutyCycle.Slot = 0;
@@ -160,11 +162,14 @@ public class Turret extends SubsystemBase {
    */
   public double getTurretAimTarget(){
 
-    /*Limelight 3g */
-    return (((-5311800000000000.0)*(Math.pow(((0.0220706*Global_Variables.distanceY) + 30.4041), -9.308))) + 62.9833);
+    /*Limelight 3g Pre-Day 1 Livonia*/
+    // return (((-5311800000000000.0)*(Math.pow(((0.0220706*Global_Variables.distanceY) + 30.4041), -9.308))) + 62.9833);
+    
+    /*Limelight 3g Post-Day 1 Livonia*/
+    return (((-2773100000000000.0)*(Math.pow(((0.000511024*Global_Variables.distanceY) + 1.88409), -49.4666))) + 37.7033);
+
     /*Limelight 2 */
     // return (((-5338700000000000.0)*(Math.pow(((0.001158444*Global_Variables.distanceY) + 3.45686), -25.823))) + 44.1208);
-
 
     /*Linear Equation using Limelight 2*/
       // return (0.211991*Global_Variables.distanceY) - 6.77857;

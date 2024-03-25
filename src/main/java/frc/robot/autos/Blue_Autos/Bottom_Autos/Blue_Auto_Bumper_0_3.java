@@ -29,6 +29,10 @@ public class Blue_Auto_Bumper_0_3 extends SequentialCommandGroup {
                 new Auton_Wait(75),
                 aSub.auton_Shooter_Start(shooter)
             ),
+            // new ParallelCommandGroup(
+            //     aSub.auton_Shooter_Start(shooter).until(()-> new Auton_Wait(75).isFinished()),
+            //     aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION).until(()-> new Auton_Wait(75).isFinished())
+            // ),
             new ParallelRaceGroup(
                 new Auton_Wait(125),
                 aSub.auton_Shoot(transfer)

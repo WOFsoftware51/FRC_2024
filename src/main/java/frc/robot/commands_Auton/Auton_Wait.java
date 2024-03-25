@@ -16,6 +16,7 @@ public class Auton_Wait extends Command {
   private double time = 0.0;
   private double counter = 0.0;
   private Boolean end = false;
+  /**50 units of time = 1 second */
   public Auton_Wait(double time) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.time = time;

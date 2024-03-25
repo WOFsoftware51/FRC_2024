@@ -44,7 +44,7 @@ public class CANdle_LockOn_Command extends Command {
     }
 
     if(Global_Variables.tv==1){
-      if(Global_Variables.swerveLimelightTarget < 1.5 && Global_Variables.swerveLimelightTarget > -1.5){
+      if(Global_Variables.tx < 1.5 && Global_Variables.tx > -1.5){
         swerveLockOn = true;
       }
       else{

@@ -85,7 +85,11 @@ public class Shooter extends SubsystemBase {
       // _shooter2.setControl(new Follower(Constants.shooter, true));
     }
 
-
+    /**
+     * 
+     * @param velocity Velocity in Rotations per Minute
+  *   <li> Units: Rotations per Minute
+     */
     public void shooterOn(double velocity){
       m_velocity = velocity;
       _shooter.setControl(velocityController.withVelocity(-m_velocity/60).withFeedForward(0.5)); // Divide by 60 to go from RPM -> RPS 
@@ -100,10 +104,14 @@ public class Shooter extends SubsystemBase {
       _shooter.set(-0.16);
       _shooter.set(-0.16);
     }
-
+    /**Velocity of the device in mechanism rotations per second. 
+     * This can be the velocity of a remote sensor and is affected by the RotorToSensorRatio and SensorToMechanismRatio configs 
+     * @return Velocity of Shooter Motor with ID 34
+     * <li> Units: Rotations per Second
+     */
     public double getVelocity1(){
         return _shooter.getVelocity().getValueAsDouble()*(1);
-      }
+    }
   
     public double getVelocity2(){
         return _shooter2.getVelocity().getValueAsDouble()*(1);

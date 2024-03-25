@@ -3,9 +3,12 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.Global_Variables;
 
+import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.CANBus.CANBusStatus;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -16,6 +19,8 @@ public class Transfer_Intake extends SubsystemBase {
 
     private TalonFX transfer_intake = new TalonFX(Constants.transfer_intake, Constants.CANIVORE_NAME);
     private TalonFX transfer_shooter = new TalonFX(Constants.transfer_shooter, Constants.CANIVORE_NAME);
+    private final CANBusStatus canivoreStatus = CANBus.getStatus(Constants.CANIVORE_NAME);
+    private final double canivoreUtil = canivoreStatus.BusUtilization;
 
     public void intake_init() 
     {
@@ -54,7 +59,11 @@ public class Transfer_Intake extends SubsystemBase {
     
     @Override
     public void periodic(){
-            SmartDashboard.putNumber("Prox sensor", Global_Variables.getSensorVal());
+      SmartDashboard.putNumber("Prox sensor", Global_Variables.getSensorVal());
+      if(canivoreUtil > 0.8){
+        DriverStation.reportError("CANivore Bus utilization is greater than 80%!", false);
+      }
+    
     }
   
   }

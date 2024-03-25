@@ -46,7 +46,7 @@ public class Elevator extends SubsystemBase {
     // _elevator.setNeutralMode(NeutralModeValue.Coast);
     // _elevator.setNeutralMode(NeutralModeValue.Coast);
     _elevator.setInverted(true);
-
+    _elevator2.setInverted(false);
 
     // TalonFXConfiguration cfg = new TalonFXConfiguration();
     // MotionMagicConfigs mm = cfg.MotionMagic;
@@ -86,11 +86,12 @@ public class Elevator extends SubsystemBase {
 
 
     _elevator.setNeutralMode(NeutralModeValue.Brake);
+    _elevator2.setNeutralMode(NeutralModeValue.Brake);
     // _elevator.setInverted(false);
 
     
 
-    // _elevator2.setControl(new Follower(Constants.elevator, true));
+    _elevator2.setControl(new Follower(Constants.elevator, true));
 
   }
 

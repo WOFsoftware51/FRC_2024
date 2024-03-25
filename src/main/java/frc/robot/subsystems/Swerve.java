@@ -56,9 +56,12 @@ public class Swerve extends SubsystemBase {
 
     public Swerve() {
         gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.CANIVORE_NAME);
+        // Pigeon2Configuration gyroConfigs = new Pigeon2Configuration();
+        // gyroConfigs.Pigeon2Features.withEnableCompass(false);
+        // gyro.getConfigurator().apply(gyroConfigs);
+
         gyro.getConfigurator().apply(new Pigeon2Configuration());
         gyro.setYaw(0);
-
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
             new SwerveModule(1, Constants.Swerve.Mod1.constants),
@@ -188,6 +191,11 @@ public class Swerve extends SubsystemBase {
     }
     public void setGyroN60(){
         gyro.setYaw(-60, 0.1);
+    }
+    /**Zeroes both the Gyro and the Heading */
+    public void zeroDrive(){
+        zeroGyro();
+        zeroHeading();
     }
 
     public void boostOn(){
@@ -337,7 +345,7 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putNumber("ty", Global_Variables.ty);
 
         SmartDashboard.putNumber("Drive Speed Chassis Speeds", Math.sqrt(Math.pow(getChassisSpeeds().vxMetersPerSecond, 2) + Math.pow(getChassisSpeeds().vyMetersPerSecond, 2)));
-
+        SmartDashboard.putNumber("Pose2d Rotation", swerveOdometry.getPoseMeters().getRotation().getDegrees());
         // if (ally.isPresent()) {
         //     if (ally.get() == Alliance.Red) {
         //         table.getEntry("pipeline").setNumber(0);

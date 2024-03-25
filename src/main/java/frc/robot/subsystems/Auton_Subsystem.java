@@ -51,20 +51,25 @@ public class Auton_Subsystem extends SubsystemBase {
   public Command auton_Aim(Turret m_Turret, double turretAngle){
     return new ParallelRaceGroup(
       new Turret_Goto_Angle(m_Turret, turretAngle).until(new Auton_Wait(100).getAsBoolean()),
-      new WaitUntilCommand((()-> aimReady(m_Turret)))
+      new WaitUntilCommand((()-> turretAimReady(m_Turret)))
     );
   }
 
   public Command auton_Limelight_Aim(Turret m_Turret){
     return new ParallelRaceGroup(
       new TurretAim(m_Turret).until(new Auton_Wait(100).getAsBoolean()),
-      new WaitUntilCommand((()-> aimReady(m_Turret)))
+      new WaitUntilCommand((()-> turretAimReady(m_Turret)))
     );
   }
 
   public Command auton_Shooter_Start(Shooter m_Shooter){
     return new ShootCommand_Start(m_Shooter,()-> Constants.ShooterSpeeds.SHOOTER_AUTON_SPEED1).until(()-> shotReady(m_Shooter));
   }
+
+  public Command auton_Turret_Start(Turret m_Turret, double angleTarget){
+    return new Turret_Goto_Angle(m_Turret, angleTarget).until(()-> turretAimReady(m_Turret));
+  }
+
   /**Shoot until sensor detects  */
   public Command auton_Shoot(Transfer_Intake transfer){
     return new Transfer_IntakeShoot_Auton(transfer)
@@ -81,20 +86,31 @@ public class Auton_Subsystem extends SubsystemBase {
 
   public boolean shotReady( Shooter mShooter){
     boolean bool = false;
-    if(mShooter.getVelocity1() > 3500){//Math.abs(mShooter.getVelocity1()) < Math.abs(mShooter.getTargetVelocity())+500 && Math.abs(mShooter.getVelocity1()) > Math.abs(mShooter.getTargetVelocity())-500 ){
+
+    //TODO getVelocity1() is in RPS. Change to RPM
+
+    if(Global_Variables.shooterSpeed > 3700){
       bool = true;
     }
     else{
       bool = false;
     }
 
+
+    // if(mShooter.getVelocity1() > 3500){
+    //   bool = true;
+    // }
+    // else{
+    //   bool = false;
+    // }
+
     return bool;
   }
 
 
-  public boolean aimReady(Turret mTurret){
+  public boolean turretAimReady(Turret mTurret){
     boolean bool = false;
-    if(Math.abs(mTurret.getTurretEncoder()) > Math.abs(mTurret.getTurretAimTarget())-2 && mTurret.getTurretEncoder() < Math.abs(mTurret.getTurretAimTarget())+2 ){
+    if(Global_Variables.turretPos < Global_Variables.turretTarget + 1 && Global_Variables.turretPos > Global_Variables.turretTarget - 1){
       bool = true;
     }
     else{
@@ -135,31 +151,6 @@ public class Auton_Subsystem extends SubsystemBase {
 
     return isShooting;
   }
-
-  
-
-  // public Command ledRed(CANdle_Subsystem m_candle){
-  //           return new SequentialCommandGroup( 
-  //             new InstantCommand(
-  //             ()-> m_candle.CANdle_init()
-  //           ),
-  //           new RunCommand(
-  //             ()-> m_candle.CANdle_Red()
-  //           )
-  //           );
-  // }
-
-
-  // public Command ledBlue(CANdle_Subsystem m_candle){
-  //           return new SequentialCommandGroup( 
-  //             new InstantCommand(
-  //             ()-> m_candle.CANdle_init()
-  //           ), 
-  //           new RunCommand(
-  //             ()-> m_candle.CANdle_Blue()
-  //           ));
-  // }
-
 
 
   @Override

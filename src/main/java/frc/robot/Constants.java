@@ -29,18 +29,18 @@ public final class Constants {
     public static final double SPEAKER_HEIGHT = 92.193;
 
 
-    public static final double ELEVATOR_DEFAULT = 0.0; //TODO
-    public static final double ELEVATOR_AMP = -79.322266; //TODO
-    public static final double ELEVATOR_FLOOR = 0.0; //TODO
-    public static final double ELEVATOR_TRAP = 0.0; //TODO
-    public static final double Elevator_Spool = 1.25; //TODO
-    public static final double Elevator_Gear_Ratio = 48/50; //TODO
-    public static final double Elevator_Highest_Point = -83.975098; //TODO
+    public static final double ELEVATOR_DEFAULT = 0.0; 
+    public static final double ELEVATOR_AMP = -79.322266; 
+    public static final double ELEVATOR_FLOOR = 0.0; 
+    public static final double ELEVATOR_TRAP = 0.0; 
+    public static final double Elevator_Spool = 1.25; 
+    public static final double Elevator_Gear_Ratio = 48/50; 
+    public static final double Elevator_Highest_Point = -83.975098; 
 
-    public static final double Mod0_ROTATION_OFFSET = (-134.56);//+180)%360;
-    public static final double Mod1_ROTATION_OFFSET = (-2.63);//+180)%360;
-    public static final double Mod2_ROTATION_OFFSET = (-59.68);//+180)%360;
-    public static final double Mod3_ROTATION_OFFSET = (-27.77);//+180)%360;
+    public static final double Mod0_ROTATION_OFFSET = (-134.56);
+    public static final double Mod1_ROTATION_OFFSET = (-2.63);
+    public static final double Mod2_ROTATION_OFFSET = (-59.68);
+    public static final double Mod3_ROTATION_OFFSET = (-27.77);
 
 
     public static final class Swerve {
@@ -208,22 +208,22 @@ public final class Constants {
     }
     public static final class Turret{
 
-        public static final double TURRET_GEAR_RATIO = 320.0;//320; //TODO
-        public static final double TURRET_CANCODER_GEAR_RATIO = 18.0/30.0; //182.0/360; //TODO
-        public static final double TURRET_CANCODER_OFFSET = 97.45; //182.0/360; //TODO
-        public static final double TURRET_DEFAULT_POSITION = 0; //182.0/360; //TODO
-        public static final double TURRET_PROTECTED_POSITION = 20;//TURRET_DEFAULT_POSITION + 26.598999 + 6.5 ; //182.0/360; //TODO
+        public static final double TURRET_GEAR_RATIO = 320.0;//320; 
+        public static final double TURRET_CANCODER_GEAR_RATIO = 18.0/30.0; //182.0/360; 
+        public static final double TURRET_CANCODER_OFFSET = 97.45; //182.0/360; 
+        public static final double TURRET_DEFAULT_POSITION = 0; //182.0/360; 
+        public static final double TURRET_PROTECTED_POSITION = 23;//TURRET_DEFAULT_POSITION + 26.598999 + 6.5 ; //182.0/360; 
 
         /**Difference between Turret angle and the angle the note is shot */
-        public static final double TURRET_SHOT_ANGLE_OFFSET = 0; //182.0/360; //TODO
-        public static final double TURRET_HEIGHT = 6.65; //182.0/360; //TODO
+        public static final double TURRET_SHOT_ANGLE_OFFSET = 0; //182.0/360; 
+        public static final double TURRET_HEIGHT = 6.65; //182.0/360; 
         /** The height offset in comparison to the Limelight */
-        public static final double TURRET_OFFSET_Y = TURRET_HEIGHT-LIMELIGHT_HEIGHT; // Distance from Limelight TODO
+        public static final double TURRET_OFFSET_Y = TURRET_HEIGHT-LIMELIGHT_HEIGHT; // Distance from Limelight 
         /** The distance offset in comparison to the Limelight */ 
-        public static final double TURRET_OFFSET_X = 12; // Distance from Limelight TODO
+        public static final double TURRET_OFFSET_X = 12; // Distance from Limelight 
         /** The offset for the plane parallel to the limegight face and perpindicular to the floor*/ 
-        public static final double TURRET_OFFSET_Z = 5.25; // Distance from Limelight TODO
-        public static final double TURRET_DEFAULT_ANGLE = 65; // Distance from Limelight TODO
+        public static final double TURRET_OFFSET_Z = 5.25; // Distance from Limelight 
+        public static final double TURRET_DEFAULT_ANGLE = 65; // Distance from Limelight 
 
 
 

@@ -296,6 +296,8 @@ public class Swerve extends SubsystemBase {
         Global_Variables.ty = ty;
         Global_Variables.distance = distance;
 
-        SmartDashboard.putNumber("Distance", distance);    
+        SmartDashboard.putNumber("Distance", distance); 
+        SmartDashboard.putNumber("Drive Speed Chassis Speeds", Math.sqrt(Math.pow(getChassisSpeeds().vxMetersPerSecond, 2) + Math.pow(getChassisSpeeds().vyMetersPerSecond, 2)));
+   
     }  
 }

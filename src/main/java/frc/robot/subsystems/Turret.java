@@ -121,7 +121,7 @@ public class Turret extends SubsystemBase {
   }
   /**
    * Rotates the turret to some angle in degrees.
-   * <li> This angle is based on the turret motor times the turret's gear ratio. This gives us the turret's angle 
+   * <li> This angle is based on the turret motor times the turret's gear ratio. This gives us the turret's actual physical angle 
    * @param target
    * <ul> 
    *  <li> Units: Degrees.

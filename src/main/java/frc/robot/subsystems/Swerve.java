@@ -61,7 +61,7 @@ public class Swerve extends SubsystemBase {
         // gyro.getConfigurator().apply(gyroConfigs);
 
         gyro.getConfigurator().apply(new Pigeon2Configuration());
-        gyro.setYaw(0);
+        gyro.setYaw(0, 0.1);
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
             new SwerveModule(1, Constants.Swerve.Mod1.constants),
@@ -152,10 +152,11 @@ public class Swerve extends SubsystemBase {
 
     public void setHeading(Rotation2d heading){
         swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), heading));
-    }
+}
 
     public void zeroHeading(){
-        swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
+        // swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
+        swerveOdometry.resetPosition(new Rotation2d(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
     }
 
     public void zeroHeadingConsumer(Pose2d heading){
@@ -196,6 +197,15 @@ public class Swerve extends SubsystemBase {
     public void zeroDrive(){
         zeroGyro();
         zeroHeading();
+    }
+    /**Sets the gyro and the heading */
+    public void setDrive(double newGyro, double newHeading){
+        setGyro(newGyro);
+        setHeading(new Rotation2d(Math.toRadians(newHeading)));
+    }
+
+    public void flipHeading(){
+        setHeading(new Rotation2d(getHeading().getRadians()).unaryMinus());
     }
 
     public void boostOn(){
@@ -294,7 +304,8 @@ public class Swerve extends SubsystemBase {
                 Constants.Swerve.maxSpeed, // Max module speed, in m/s
                 Constants.Swerve.driveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                 new ReplanningConfig()), // Default path replanning config. See the API for the options here
-            () -> false,
+            // () -> false,
+            ()-> false,
             this // Reference to this subsystem to set requirements
         );
     }

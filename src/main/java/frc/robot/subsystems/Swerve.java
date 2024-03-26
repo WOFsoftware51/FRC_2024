@@ -372,10 +372,10 @@ public class Swerve extends SubsystemBase {
 
         Global_Variables.tx = tx;
         Global_Variables.ty = ty;
-        Global_Variables.tv = tv;
-        Global_Variables.distanceY = distanceY;
-        Global_Variables.distanceYFixed = getDistanceYFixed();
-        Global_Variables.yawFixed = yawFixed;
-        Global_Variables.swerveLimelightTarget = limelight_aim_proportional();
+        Global_Variables.distance = distance;
+
+        SmartDashboard.putNumber("Distance", distance); 
+        SmartDashboard.putNumber("Drive Speed Chassis Speeds", Math.sqrt(Math.pow(getChassisSpeeds().vxMetersPerSecond, 2) + Math.pow(getChassisSpeeds().vyMetersPerSecond, 2)));
+   
     }  
 }

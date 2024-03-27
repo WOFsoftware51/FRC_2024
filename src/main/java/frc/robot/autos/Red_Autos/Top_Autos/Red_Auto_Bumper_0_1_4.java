@@ -1,9 +1,12 @@
 package frc.robot.autos.Red_Autos.Top_Autos;
 
+import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Transfer_IntakeCommand;
 import frc.robot.commands.Transfer_IntakeShoot;
+import frc.robot.commands_Auton.AutonSwerveAim;
 import frc.robot.commands_Auton.Auton_Wait;
+import frc.robot.commands_Auton.TurretAim_Auton;
 import frc.robot.subsystems.Auton_Subsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -26,9 +29,9 @@ public class Red_Auto_Bumper_0_1_4 extends SequentialCommandGroup {
         
         addCommands(
             new InstantCommand(() -> swerve.zeroGyro()),
-            new ParallelRaceGroup(
-                new Auton_Wait(100),
-                aSub.auton_Shooter_Start(shooter)
+            new ParallelRaceGroup( //TODO Make a ParallelCommandGroup
+                aSub.auton_Shooter_Start(shooter),
+                aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)
             ),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
@@ -39,7 +42,10 @@ public class Red_Auto_Bumper_0_1_4 extends SequentialCommandGroup {
                 new IntakeCommand(intake),
                 new PathPlannerAuto("Red_Top_Bumper_0_1")
             ),
-            new PathPlannerAuto("Red_Top_Bumper_1_0"),
+            new ParallelRaceGroup(
+                new TurretAim_Auton(turret),
+                new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
+            ),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)
@@ -47,9 +53,9 @@ public class Red_Auto_Bumper_0_1_4 extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Red_Top_Bumper_0_4")
-            ), //
-            new PathPlannerAuto("Red_Top_Bumper_4_0"),
+                new PathPlannerAuto("Red_1_4")
+            ), 
+            new PathPlannerAuto("Red_Top_Bumper_4_Shoot"),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)

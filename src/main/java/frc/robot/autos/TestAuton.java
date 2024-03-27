@@ -26,8 +26,7 @@ public class TestAuton extends SequentialCommandGroup {
         
         addCommands(
             new InstantCommand(() -> swerve.setGyro(-60)),
-            new PathPlannerAuto("Red_Top_Bumper_0_1"),
-            new PathPlannerAuto("Red_Top_Bumper_1_0"),
+            new PathPlannerAuto("Red_Top_Bumper_0_5"),
             new InstantCommand(() -> swerve.setHeading(swerve.getGyroYaw()))
             // new RunCommand(() -> swerve.setDrive(-60,-60)).until(new Auton_Wait(10).getAsBoolean())
         );

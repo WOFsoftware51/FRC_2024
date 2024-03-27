@@ -97,15 +97,15 @@ public final class Constants {
         public static final double angleKD = chosenModule.angleKD;
 
         /* Drive Motor PID Values */
-        public static final double driveKP = 0.05;//0.12 //TODO: This must be tuned to specific robot
+        public static final double driveKP = 0.12;//0.05;//0.12 //TODO: This must be tuned to specific robot
         public static final double driveKI = 0.0;
         public static final double driveKD = 0.0;
         public static final double driveKF = 0.0;
 
         /* Drive Motor Characterization Values From SYSID */
-        public static final double driveKS = (0.667 / 12);//0.32; //TODO: This must be tuned to specific robot
-        public static final double driveKV = (1.51 / 12);//1.51;
-        public static final double driveKA = (0.27 / 12);//0.27;
+        public static final double driveKS = 0.32;//(0.667 / 12);//0.32; //TODO: This must be tuned to specific robot
+        public static final double driveKV = 1.51;//(1.51 / 12);//1.51;
+        public static final double driveKA = 0.27;//(0.27 / 12);//0.27;
 
         /* Swerve Profiling Values */
         /** Meters per Second */
@@ -166,9 +166,9 @@ public final class Constants {
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
     
-        public static final double kPXController = 1.6; //20;  //1.3
-        public static final double kPYController = 1.3;  //5; //1.3
-        public static final double kPThetaController = 10;//-20  //-10;;
+        public static final double kPXController = 3.2;//1.6; //20;  //1.3
+        // public static final double kPYController = 12.8;  //5; //1.3
+        public static final double kPThetaController = 7.5;//10;//-20  //-10;;
     
         public static final double shooterCurrentSpike = 32;//-20  //-10;;
 

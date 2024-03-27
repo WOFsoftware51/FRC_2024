@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -12,7 +14,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
 import frc.robot.Global_Variables;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.Transfer_IntakeCommand;
 import frc.robot.commands.Transfer_IntakeShoot;
 import frc.robot.commands.TurretAim;
 import frc.robot.commands.Turret_Goto_Angle;
@@ -72,16 +76,19 @@ public class Auton_Subsystem extends SubsystemBase {
 
   /**Shoot until sensor detects  */
   public Command auton_Shoot(Transfer_Intake transfer){
-    return new Transfer_IntakeShoot_Auton(transfer)
-      .until(()-> {
-        if(Global_Variables.getSensorVal() == 1){
-          return false;
-        }
-        else{
-          return true;
-        }
+    return new Transfer_IntakeShoot_Auton(transfer).until(intakeReady());
+  }
+
+  public BooleanSupplier intakeReady(){
+    return ()-> {
+      if(Global_Variables.getSensorVal() == 1){
+        return false;
+      } 
+      else{
+        return true;
       }
-      );
+
+    };
   }
 
   public boolean shotReady( Shooter mShooter){

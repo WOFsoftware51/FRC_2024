@@ -12,6 +12,8 @@ public class TurretAim_Auton extends Command {
     public Turret m_turret;   
     public boolean endCommand = false;
     public int count = 0;
+
+    
     public TurretAim_Auton(Turret turret) {
         this.m_turret = turret;
         addRequirements(m_turret);

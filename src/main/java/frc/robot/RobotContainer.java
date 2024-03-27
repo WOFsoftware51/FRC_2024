@@ -44,6 +44,7 @@ import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1_2;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1_2_3;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_4;
+import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_5_Far;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -251,8 +252,6 @@ public class RobotContainer {
         a_chooser.addOption("0, 2 Bumper Far Auto", 16);
         a_chooser.addOption("Shoot Only Auto", 17);
         a_chooser.addOption("0, 7 Bumper Far Auto", 18);
-
-        
     }
 
     /**
@@ -298,7 +297,7 @@ public class RobotContainer {
             case 12: return new Blue_Auto_Bumper_0_8(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 13: return new Blue_Auto_Bumper_0_8_7(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 14: return new Blue_Auto_Bumper_0_1_4(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
-            case 15: return new TestAuton(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 15: return new Red_Auto_Bumper_0_1_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake); //TestAuton
             case 16: return new Red_Auto_Middle_0_2_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 17: return new Shoot_Only_Auto(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 18: return new Blue_Auto_Bumper_0_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
@@ -323,7 +322,7 @@ public class RobotContainer {
             case 12: return new Red_Auto_Bumper_0_8(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 13: return new Red_Auto_Bumper_0_8_7(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 14: return new Red_Auto_Bumper_0_1_4(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
-            case 15: return new TestAuton(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 15: return new Red_Auto_Bumper_0_1_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);  ///////////////// TestAuton
             case 16: return new Red_Auto_Middle_0_2_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 17: return new Shoot_Only_Auto(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 18: return new Red_Auto_Bumper_0_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);

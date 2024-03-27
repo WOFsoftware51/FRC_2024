@@ -218,10 +218,10 @@ public class Swerve extends SubsystemBase {
     private double rotationVal = 0;
     public double gotoDefaultGyroVal(){
         if(yawFixed>180){
-            rotationVal = 0.3;
+            rotationVal = 0.6;
         }
         else if(yawFixed<180){
-            rotationVal = -0.3;
+            rotationVal = -0.6;
         }
         if(yawFixed>345){
             rotationVal = 0.1;
@@ -240,15 +240,15 @@ public class Swerve extends SubsystemBase {
     public double limelight_aim_proportional()
     {    
         double targetingAngularVelocity = 0;
-        final double kP = 0.001666;
-        final double kI = 0.000002; // 0.016;
-        final double kD = 0.00000125; // 0.00000125;
+        final double kP = 0.001666/2;
+        final double kI = 0.000002*8*2*16*16*2 ; // 0.016;
+        final double kD = 0.0; // 0.00000125;
         PIDController AimPID = new PIDController(kP, kI, kD);
 
 
         targetingAngularVelocity = AimPID.calculate(limelightTarget(), 0);// -(tx * kP + kD*txRateOfChange() + kI*txIntegral());
         
-        targetingAngularVelocity *= 4;
+        targetingAngularVelocity *= 6;
   
         targetingAngularVelocity *= 1;
 
@@ -278,15 +278,13 @@ public class Swerve extends SubsystemBase {
                     Constants.Swerve.driveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                     new ReplanningConfig() // Default path replanning config. See the API for the options here
             ),
-            () -> {
-                return false; //Probably doesn't need to flip because field lacks symetry
+            () ->  false, //Probably doesn't need to flip because field lacks symetry
                       // var alliance = DriverStation.getAlliance();
                 // if (alliance.isPresent()) {
                 //     return alliance.get() == DriverStation.Alliance.Red;
                 // }
                 //     return false;
                 // 
-            },
             this // Reference to this subsystem to set requirements
         );
     }

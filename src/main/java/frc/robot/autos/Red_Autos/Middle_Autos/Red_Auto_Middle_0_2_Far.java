@@ -29,10 +29,6 @@ public class Red_Auto_Middle_0_2_Far extends SequentialCommandGroup {
         
         addCommands(
             new InstantCommand(() -> swerve.zeroGyro()),
-            // new ParallelRaceGroup(
-            //     new Auton_Wait(100),
-            //     aSub.auton_Shooter_Start(shooter)// aSub.auton_Shooter(shooter)
-            // ),
             new ParallelCommandGroup(
                 aSub.auton_Shooter_Start(shooter),
                 aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)
@@ -54,11 +50,8 @@ public class Red_Auto_Middle_0_2_Far extends SequentialCommandGroup {
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)
             ),
-            aSub.auton_Stop_Shooter(shooter),
-            new ParallelRaceGroup(
-                new Auton_Wait(5),
-                new RunCommand(()-> swerve.zeroDrive())
-            )
+            new InstantCommand(() -> swerve.setHeading(swerve.getGyroYaw())),
+            aSub.auton_Stop_Shooter(shooter)
         );    
     }
 }

@@ -1,6 +1,7 @@
 package frc.robot.autos.Red_Autos.Middle_Autos;
 
 import frc.robot.commands_Auton.Auton_Wait;
+import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Transfer_IntakeCommand;
 import frc.robot.commands.Transfer_IntakeShoot;
@@ -14,6 +15,7 @@ import frc.robot.subsystems.Turret;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -24,9 +26,9 @@ public class Red_Auto_Middle_0_2 extends SequentialCommandGroup {
         
         addCommands(
             new InstantCommand(() -> swerve.zeroGyro()),
-            new ParallelRaceGroup(
-                new Auton_Wait(100),
-                aSub.auton_Shooter_Start(shooter)// aSub.auton_Shooter(shooter)
+            new ParallelCommandGroup(
+                aSub.auton_Shooter_Start(shooter),
+                aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)
             ),
             new ParallelRaceGroup(
                 new Auton_Wait(125),
@@ -46,6 +48,7 @@ public class Red_Auto_Middle_0_2 extends SequentialCommandGroup {
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)
             ),
+            new InstantCommand(() -> swerve.setHeading(swerve.getGyroYaw())),
             aSub.auton_Stop_Shooter(shooter)        
         );    
     }

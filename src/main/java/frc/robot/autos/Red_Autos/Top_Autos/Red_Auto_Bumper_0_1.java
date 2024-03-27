@@ -16,6 +16,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -28,9 +29,9 @@ public class Red_Auto_Bumper_0_1 extends SequentialCommandGroup {
         
         addCommands(
             new InstantCommand(() -> swerve.setGyro(-60)),
-            new ParallelRaceGroup(
-                new Auton_Wait(75),
-                aSub.auton_Shooter_Start(shooter)
+            new ParallelCommandGroup(
+                aSub.auton_Shooter_Start(shooter),
+                aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)
             ),
             new ParallelRaceGroup(
                 new Auton_Wait(125),

@@ -1,5 +1,6 @@
 package frc.robot.autos.Red_Autos.Bottom_Autos;
 
+import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Transfer_IntakeCommand;
 import frc.robot.commands.Transfer_IntakeShoot;
@@ -14,6 +15,7 @@ import frc.robot.subsystems.Turret;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -26,9 +28,9 @@ public class Red_Auto_Bumper_0_3 extends SequentialCommandGroup {
         
         addCommands(
             new InstantCommand(() -> swerve.setGyro(-60)),
-            new ParallelRaceGroup(
-                new Auton_Wait(100),
-                aSub.auton_Shooter_Start(shooter)
+            new ParallelCommandGroup(
+                aSub.auton_Shooter_Start(shooter),
+                aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)
             ),
             new ParallelRaceGroup(
                 new Auton_Wait(125),

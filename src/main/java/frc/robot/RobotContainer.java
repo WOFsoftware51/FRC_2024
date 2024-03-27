@@ -326,7 +326,7 @@ public class RobotContainer {
             case 16: return new Red_Auto_Middle_0_2_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 17: return new Shoot_Only_Auto(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 18: return new Red_Auto_Bumper_0_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
-
+            
             default: return new Red_Leave_Zone(s_Swerve);
         }
     }

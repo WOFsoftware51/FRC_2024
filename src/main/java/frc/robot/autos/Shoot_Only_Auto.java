@@ -34,6 +34,7 @@ public class Shoot_Only_Auto extends SequentialCommandGroup {
                 new Auton_Wait(125),
                 aSub.auton_Shoot(transfer)
             ),
+            new InstantCommand(() -> swerve.setHeading(swerve.getGyroYaw())),
             aSub.auton_Stop_Shooter(shooter)
         );
     }

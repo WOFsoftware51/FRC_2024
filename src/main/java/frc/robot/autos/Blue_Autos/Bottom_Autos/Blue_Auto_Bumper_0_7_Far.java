@@ -15,20 +15,21 @@ import frc.robot.subsystems.Turret;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class Blue_Auto_Bumper_0_7 extends SequentialCommandGroup {
+public class Blue_Auto_Bumper_0_7_Far extends SequentialCommandGroup {
 
-    public Blue_Auto_Bumper_0_7(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
+    public Blue_Auto_Bumper_0_7_Far(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
         
         addRequirements(swerve, turret, shooter, aSub, transfer, intake);
 
         
         addCommands(
-            // new InstantCommand(() -> swerve.zeroGyro()),
-            new ParallelCommandGroup( //TODO Make a ParallelCommandGroup
+            new InstantCommand(() -> swerve.setGyro(60)),
+            new ParallelCommandGroup(
                 aSub.auton_Shooter_Start(shooter),
                 aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)
             ),
@@ -50,6 +51,7 @@ public class Blue_Auto_Bumper_0_7 extends SequentialCommandGroup {
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)
             ),
+            new InstantCommand(() -> swerve.setHeading(swerve.getGyroYaw())),
             aSub.auton_Stop_Shooter(shooter)
     
         );

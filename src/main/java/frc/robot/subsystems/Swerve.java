@@ -240,7 +240,7 @@ public class Swerve extends SubsystemBase {
     public double limelight_aim_proportional()
     {    
         double targetingAngularVelocity = 0;
-        final double kP = 0.001666/2;
+        final double kP = 0.001666;
         final double kI = 0.000002*8*2*16*16*2 ; // 0.016;
         final double kD = 0.0; // 0.00000125;
         PIDController AimPID = new PIDController(kP, kI, kD);

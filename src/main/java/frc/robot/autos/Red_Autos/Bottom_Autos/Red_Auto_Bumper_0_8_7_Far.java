@@ -1,4 +1,4 @@
-package frc.robot.autos.Blue_Autos.Bottom_Autos;
+package frc.robot.autos.Red_Autos.Bottom_Autos;
 
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
@@ -21,9 +21,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class Blue_Auto_Bumper_0_8_7 extends SequentialCommandGroup {
+public class Red_Auto_Bumper_0_8_7_Far extends SequentialCommandGroup {
 
-    public Blue_Auto_Bumper_0_8_7(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
+    public Red_Auto_Bumper_0_8_7_Far(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
         
         addRequirements(swerve, turret, shooter, aSub, transfer, intake);
 
@@ -41,9 +41,9 @@ public class Blue_Auto_Bumper_0_8_7 extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Blue_Bottom_Bumper_0_8")
+                new PathPlannerAuto("Red_Bottom_Bumper_0_8")
             ),
-            new PathPlannerAuto("Blue_Bottom_Bumper_8_Shoot"),
+            swerve.followTrajectoryCommand("Red_Bottom_Bumper_8_Shoot", false),
             new ParallelRaceGroup(
                 new TurretAim_Auton(turret),
                 new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
@@ -55,9 +55,9 @@ public class Blue_Auto_Bumper_0_8_7 extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Blue_8_Far_7")
+                swerve.followTrajectoryCommand("Red_8_Far_7", false)
             ),
-            new PathPlannerAuto("Blue_Bottom_Bumper_7_Shoot"),
+            swerve.followTrajectoryCommand("Red_Bottom_Bumper_7_Shoot", false),
             new ParallelRaceGroup(
                 new TurretAim_Auton(turret),
                 new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)

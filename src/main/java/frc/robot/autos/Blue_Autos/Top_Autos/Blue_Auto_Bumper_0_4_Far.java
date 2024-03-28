@@ -21,9 +21,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class Blue_Auto_Bumper_0_1_4_5 extends SequentialCommandGroup {
+public class Blue_Auto_Bumper_0_4_Far extends SequentialCommandGroup {
 
-    public Blue_Auto_Bumper_0_1_4_5(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
+    public Blue_Auto_Bumper_0_4_Far(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
         
         addRequirements(swerve, turret, shooter, aSub, transfer, intake);
 
@@ -41,38 +41,9 @@ public class Blue_Auto_Bumper_0_1_4_5 extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Blue_Top_Bumper_0_1")
+                new PathPlannerAuto("Blue_Top_Bumper_0_4")
             ),
-            new ParallelRaceGroup(
-                new TurretAim_Auton(turret),
-                new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
-            ),
-            new ParallelRaceGroup(
-                new Auton_Wait(100),
-                aSub.auton_Shoot(transfer)
-            ),
-            new ParallelRaceGroup(
-                new Transfer_IntakeCommand(transfer),
-                new IntakeCommand(intake),
-                new PathPlannerAuto("Blue_1_4")
-            ),
-            new PathPlannerAuto("Blue_Top_Bumper_4_Shoot"), //TODO
-            new ParallelRaceGroup(
-                new TurretAim_Auton(turret),
-                new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
-            ),
-            new ParallelRaceGroup(
-                new Auton_Wait(100),
-                aSub.auton_Shoot(transfer)
-            ),
-            new ParallelRaceGroup(
-                new Transfer_IntakeCommand(transfer),
-                new IntakeCommand(intake),
-                new PathPlannerAuto("Blue_4_Far_5")
-            ), //
-            new ParallelCommandGroup(
-                new PathPlannerAuto("Blue_Top_Bumper_5_Shoot")
-            ),
+            swerve.followTrajectoryCommand("Blue_Top_Bumper_4_Far", false),
             new ParallelRaceGroup(
                 new TurretAim_Auton(turret),
                 new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
@@ -84,6 +55,6 @@ public class Blue_Auto_Bumper_0_1_4_5 extends SequentialCommandGroup {
             // new InstantCommand(() -> swerve.setYawWrapped(119.74)),
             aSub.auton_Stop_Shooter(shooter)
     
-        );    
+        );   
     }
 }

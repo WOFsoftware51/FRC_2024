@@ -1,4 +1,4 @@
-package frc.robot.autos.Red_Autos.Top_Autos;
+package frc.robot.autos.Blue_Autos.Top_Autos;
 
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
@@ -21,9 +21,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class Red_Auto_Bumper_0_1_4_5 extends SequentialCommandGroup {
+public class Blue_Auto_Bumper_0_1_4_5_Far extends SequentialCommandGroup {
 
-    public Red_Auto_Bumper_0_1_4_5(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
+    public Blue_Auto_Bumper_0_1_4_5_Far(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
         
         addRequirements(swerve, turret, shooter, aSub, transfer, intake);
 
@@ -41,7 +41,7 @@ public class Red_Auto_Bumper_0_1_4_5 extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Red_Top_Bumper_0_1")
+                new PathPlannerAuto("Blue_Top_Bumper_0_1")
             ),
             new ParallelRaceGroup(
                 new TurretAim_Auton(turret),
@@ -54,9 +54,9 @@ public class Red_Auto_Bumper_0_1_4_5 extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Red_1_4")
+                swerve.followTrajectoryCommand("Blue_Top_Bumper_1_4", false)
             ),
-            new PathPlannerAuto("Red_Top_Bumper_4_Shoot"), //TODO
+            swerve.followTrajectoryCommand("Blue_Top_Bumper_4_Shoot", false),
             new ParallelRaceGroup(
                 new TurretAim_Auton(turret),
                 new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
@@ -68,10 +68,10 @@ public class Red_Auto_Bumper_0_1_4_5 extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Red_4_Far_5")
+                swerve.followTrajectoryCommand("Blue_4_Far_5", false)
             ), //
             new ParallelCommandGroup(
-                new PathPlannerAuto("Red_Top_Bumper_5_Shoot")
+                swerve.followTrajectoryCommand("Blue_Top_Bumper_5_Shoot", false)
             ),
             new ParallelRaceGroup(
                 new TurretAim_Auton(turret),

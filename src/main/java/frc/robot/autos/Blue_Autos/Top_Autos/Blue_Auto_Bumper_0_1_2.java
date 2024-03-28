@@ -53,7 +53,7 @@ public class Blue_Auto_Bumper_0_1_2 extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Blue_1_2")
+                swerve.followTrajectoryCommand("Blue_Top_Bumper_1_2", false)
             ),
             new ParallelRaceGroup(
                 new TurretAim_Auton(turret),

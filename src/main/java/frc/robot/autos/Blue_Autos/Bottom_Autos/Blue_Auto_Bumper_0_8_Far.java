@@ -21,9 +21,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class Blue_Auto_Bumper_0_8 extends SequentialCommandGroup {
+public class Blue_Auto_Bumper_0_8_Far extends SequentialCommandGroup {
 
-    public Blue_Auto_Bumper_0_8(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
+    public Blue_Auto_Bumper_0_8_Far(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
         
         addRequirements(swerve, turret, shooter, aSub, transfer, intake);
 
@@ -43,7 +43,7 @@ public class Blue_Auto_Bumper_0_8 extends SequentialCommandGroup {
                 new IntakeCommand(intake),
                 new PathPlannerAuto("Blue_Bottom_Bumper_0_8")
             ),
-            new PathPlannerAuto("Blue_Bottom_Bumper_8_Shoot"),
+            swerve.followTrajectoryCommand("Blue_Bottom_Bumper_8_Shoot", false),
             new ParallelRaceGroup(
                 new TurretAim_Auton(turret),
                 new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)

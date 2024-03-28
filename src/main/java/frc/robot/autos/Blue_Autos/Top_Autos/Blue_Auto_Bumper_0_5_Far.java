@@ -3,7 +3,9 @@ package frc.robot.autos.Blue_Autos.Top_Autos;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Transfer_IntakeCommand;
 import frc.robot.commands.Transfer_IntakeShoot;
+import frc.robot.commands_Auton.AutonSwerveAim;
 import frc.robot.commands_Auton.Auton_Wait;
+import frc.robot.commands_Auton.TurretAim_Auton;
 import frc.robot.subsystems.Auton_Subsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -18,9 +20,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class Blue_Auto_Bumper_0_5 extends SequentialCommandGroup {
+public class Blue_Auto_Bumper_0_5_Far extends SequentialCommandGroup {
 
-    public Blue_Auto_Bumper_0_5(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
+    public Blue_Auto_Bumper_0_5_Far(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
         
         addRequirements(swerve, turret, shooter, aSub, transfer, intake);
 
@@ -40,7 +42,11 @@ public class Blue_Auto_Bumper_0_5 extends SequentialCommandGroup {
                 new IntakeCommand(intake),
                 new PathPlannerAuto("Blue_Top_Bumper_0_5")
             ),
-            new PathPlannerAuto("Blue_Top_Bumper_5_0"),
+            swerve.followTrajectoryCommand("Blue_Top_Bumper_5_Score", false),
+            new ParallelRaceGroup(
+                new TurretAim_Auton(turret),
+                new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
+            ),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)

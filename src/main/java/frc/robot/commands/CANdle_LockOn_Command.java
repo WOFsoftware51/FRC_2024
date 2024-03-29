@@ -81,10 +81,10 @@ public class CANdle_LockOn_Command extends Command {
   {
      m_candle.CANdle_Default();
   }
-
+  
   @Override
   public InterruptionBehavior getInterruptionBehavior() {
-    return InterruptionBehavior.kCancelIncoming;
+    return InterruptionBehavior.kCancelSelf;
   }
 
 

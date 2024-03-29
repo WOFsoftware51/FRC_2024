@@ -128,7 +128,7 @@ public class RobotContainer {
                 () -> -driver.getRawAxis(strafeAxis), 
                 () -> -driver.getRawAxis(rotationAxis), 
                 () -> false, //() -> robotCentric.getAsBoolean(),
-                ()-> operator.getXButton()
+                ()-> driver.getAButton()//operator.getXButton() //TODO bnjh
             )
         );
         
@@ -168,6 +168,8 @@ public class RobotContainer {
         new Trigger(testController::getXButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
 
         
+
+
         /*CANDle Commands*/
         new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new CANdle_Solid_White_Animation(m_Candle));
         // new Trigger(driver::getLeftBumper).whileTrue(new CANdle_Purple_Command(m_Candle)); 
@@ -256,7 +258,7 @@ public class RobotContainer {
         a_chooser.addOption("0, 7 Bumper Far Auto", 18);
         a_chooser.addOption("0, 1, 5 Bumper Far Auto", 19);
         a_chooser.addOption("0, 7, 8 Bumper Far Auto", 20);
-        
+
     }        
 
 

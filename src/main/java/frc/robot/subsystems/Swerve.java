@@ -236,13 +236,14 @@ public class Swerve extends SubsystemBase {
         }
         return rotationVal;
     }
+
+    private double targetingAngularVelocity = 0;
     /**Aiming Swerve with Limelight Towards AprilTag */
     public double limelight_aim_proportional()
     {    
-        double targetingAngularVelocity = 0;
-        final double kP = 0.001666;
-        final double kI = 0.000002*8*2*16*16*2 ; // 0.016;
-        final double kD = 0.0; // 0.00000125;
+        final double kP = 0.0005;//0.0005
+        final double kI = 0.05;//0.09
+        final double kD = 0;//0.00000002
         PIDController AimPID = new PIDController(kP, kI, kD);
 
 

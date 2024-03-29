@@ -84,7 +84,7 @@ public class CANdle_LockOn_Command extends Command {
   
   @Override
   public InterruptionBehavior getInterruptionBehavior() {
-    return InterruptionBehavior.kCancelSelf;
+    return InterruptionBehavior.kCancelIncoming;
   }
 
 

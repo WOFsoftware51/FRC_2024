@@ -25,7 +25,7 @@ public class CANdle_Subsystem extends SubsystemBase
 
    /** Creates a new CANdle. */
   private final CANdle m_candle = new CANdle(0, Constants.CANIVORE_NAME);
-  private final int LedCount = 50;
+  private final int LedCount = 60;
   private Animation m_toAnimate;
 
   public void CANdle_init() 

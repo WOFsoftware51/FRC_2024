@@ -3,19 +3,16 @@ package frc.robot.autos.Red_Autos.Top_Autos;
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Transfer_IntakeCommand;
-import frc.robot.commands.Transfer_IntakeShoot;
 import frc.robot.commands_Auton.AutonSwerveAim;
 import frc.robot.commands_Auton.Auton_Wait;
 import frc.robot.commands_Auton.TurretAim_Auton;
 import frc.robot.subsystems.Auton_Subsystem;
-import frc.robot.subsystems.CANdle_Subsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Transfer_Intake;
 import frc.robot.subsystems.Turret;
 
-import com.ctre.phoenix.led.CANdle;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;

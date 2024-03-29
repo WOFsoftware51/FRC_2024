@@ -28,6 +28,7 @@ import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1_2;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1_2_3;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_4;
+import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_5_Far;
 import frc.robot.autos.Red_Autos.Red_Leave_Zone;
 import frc.robot.autos.Red_Autos.Red_Leave_Zone_0;
 import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_0_3;
@@ -121,12 +122,13 @@ public class RobotContainer {
 
 
         s_Swerve.setDefaultCommand(
-            new TeleopSwerve(
+            new TeleopSwerve2(// new TeleopSwerve(
                 s_Swerve, 
                 () -> -driver.getRawAxis(translationAxis), 
                 () -> -driver.getRawAxis(strafeAxis), 
                 () -> -driver.getRawAxis(rotationAxis), 
-                () -> false //() -> robotCentric.getAsBoolean()
+                () -> false, //() -> robotCentric.getAsBoolean(),
+                ()-> operator.getXButton()
             )
         );
         
@@ -162,7 +164,7 @@ public class RobotContainer {
         // zeroGyro.onTrue(new RunCommand(() -> s_Swerve.zeroDrive()));
         // new Trigger(driver::getAButton).onTrue(new InstantCommand(()-> s_Swerve.zeroDrive()));
         new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new Right_Trigger_Boost_True());
-        new Trigger(driver::getBButton).whileTrue(new Transfer_IntakeCommand_No_Sensor(m_Transfer));
+        new Trigger(driver::getBButton).whileTrue(new Transfer_IntakeCommand_No_Sensor(m_Transfer)); //What this???
         new Trigger(testController::getXButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
 
         
@@ -181,7 +183,7 @@ public class RobotContainer {
 
 
         /*Aiming to Score and Rev up Shooter: Driver[RightBumper] */
-        new Trigger(operator::getXButton).whileTrue(new TelopSwerveAim(s_Swerve, () -> -driver.getRawAxis(translationAxis), () -> -driver.getRawAxis(strafeAxis)));
+        // new Trigger(operator::getXButton).whileTrue(new TelopSwerveAim(s_Swerve, () -> -driver.getRawAxis(translationAxis), () -> -driver.getRawAxis(strafeAxis)));
         new Trigger(operator::getXButton).whileTrue(new TurretAim(m_Turret));
         new Trigger(operator::getXButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
         new Trigger(driver::getLeftBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
@@ -252,7 +254,11 @@ public class RobotContainer {
         a_chooser.addOption("0, 2 Bumper Far Auto", 16);
         a_chooser.addOption("Shoot Only Auto", 17);
         a_chooser.addOption("0, 7 Bumper Far Auto", 18);
-    }
+        a_chooser.addOption("0, 1, 5 Bumper Far Auto", 19);
+        a_chooser.addOption("0, 7, 8 Bumper Far Auto", 20);
+        
+    }        
+
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -297,10 +303,13 @@ public class RobotContainer {
             case 12: return new Blue_Auto_Bumper_0_8_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 13: return new Blue_Auto_Bumper_0_8_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 14: return new Blue_Auto_Bumper_0_1_4(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
-            case 15: return new Red_Auto_Bumper_0_1_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake); //TestAuton
+            case 15: return new TestAuton(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake); //TestAuton
             case 16: return new Red_Auto_Middle_0_2_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 17: return new Shoot_Only_Auto(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 18: return new Blue_Auto_Bumper_0_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 19: return new Blue_Auto_Bumper_0_1_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 20: return new Red_Auto_Bumper_0_8_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+
             default: return new Blue_Leave_Zone(s_Swerve);
         }
     }
@@ -322,11 +331,13 @@ public class RobotContainer {
             case 12: return new Red_Auto_Bumper_0_8_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 13: return new Red_Auto_Bumper_0_8_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 14: return new Red_Auto_Bumper_0_1_4(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
-            case 15: return new Red_Auto_Bumper_0_1_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);  ///////////////// TestAuton
+            case 15: return new TestAuton(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);  ///////////////// TestAuton
             case 16: return new Red_Auto_Middle_0_2_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 17: return new Shoot_Only_Auto(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 18: return new Red_Auto_Bumper_0_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
-            
+            case 19: return new Red_Auto_Bumper_0_1_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 20: return new Red_Auto_Bumper_0_8_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+
             default: return new Red_Leave_Zone(s_Swerve);
         }
     }

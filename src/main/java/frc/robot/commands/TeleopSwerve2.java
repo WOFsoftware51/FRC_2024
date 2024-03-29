@@ -13,18 +13,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
-public class TeleopSwerve extends Command {    
+public class TeleopSwerve2 extends Command {    
     private Swerve s_Swerve;    
     private DoubleSupplier translationSup;
     private DoubleSupplier strafeSup;
     private DoubleSupplier rotationSup;
     private BooleanSupplier robotCentricSup;
     public double speedModifier = Constants.DRIVE_SPEED;
-    double translationVal = 0;//MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
-    double strafeVal = 0;//MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
-    double rotationVal = 0;//MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
+    private double translationVal = 0;//MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
+    private double strafeVal = 0;//MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
+    private double rotationVal = 0;//MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
+    private BooleanSupplier isAiming;
 
-    public TeleopSwerve(Swerve Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup) {
+    public TeleopSwerve2(Swerve Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup, BooleanSupplier aiming) {
         this.s_Swerve = Swerve;
         addRequirements(s_Swerve);
 
@@ -32,13 +33,21 @@ public class TeleopSwerve extends Command {
         this.strafeSup = strafeSup;
         this.rotationSup = rotationSup;
         this.robotCentricSup = robotCentricSup;
+        this.isAiming = aiming;
     }
     
 
     @Override
     public void execute() {
 
-        
+        if(isAiming.getAsBoolean() && Global_Variables.tv == 1){
+            if(Global_Variables.tv == 1){
+                rotationVal = s_Swerve.limelight_aim_proportional();
+              }
+        }
+        else{
+            rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
+        }
         
         if(Global_Variables.left_trigger_boost)
         {
@@ -56,7 +65,6 @@ public class TeleopSwerve extends Command {
         /* Get Values, Deadband*/
         translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
         strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
-        rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
 
         /* Drive */
         s_Swerve.drive(

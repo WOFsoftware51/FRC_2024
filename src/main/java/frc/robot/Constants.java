@@ -37,10 +37,10 @@ public final class Constants {
     public static final double Elevator_Gear_Ratio = 48/50; 
     public static final double Elevator_Highest_Point = -83.975098; 
 
-    public static final double Mod0_ROTATION_OFFSET = (-134.56);
-    public static final double Mod1_ROTATION_OFFSET = (-2.63);
-    public static final double Mod2_ROTATION_OFFSET = (-59.68);
-    public static final double Mod3_ROTATION_OFFSET = (-27.77);
+    public static final double Mod0_ROTATION_OFFSET = -135.175781;//(-134.56);
+    public static final double Mod1_ROTATION_OFFSET = -2.373047;//(-2.63);
+    public static final double Mod2_ROTATION_OFFSET = -60.996094;//(-59.68);
+    public static final double Mod3_ROTATION_OFFSET = -28.388672;//(-27.77);
 
 
     public static final class Swerve {

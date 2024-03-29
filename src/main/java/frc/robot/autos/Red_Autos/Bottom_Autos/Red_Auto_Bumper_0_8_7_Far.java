@@ -41,9 +41,13 @@ public class Red_Auto_Bumper_0_8_7_Far extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Red_Bottom_Bumper_0_8")
+                new PathPlannerAuto("Red_Bottom_Bumper_0_7")
             ),
-            swerve.followTrajectoryCommand("Red_Bottom_Bumper_8_Shoot", false),
+            new ParallelRaceGroup(
+                new Transfer_IntakeCommand(transfer),
+                new IntakeCommand(intake),
+                swerve.followTrajectoryCommand("Red_Bottom_Bumper_7_Shoot", false)
+            ),
             new ParallelRaceGroup(
                 new TurretAim_Auton(turret),
                 new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
@@ -57,8 +61,12 @@ public class Red_Auto_Bumper_0_8_7_Far extends SequentialCommandGroup {
                 new IntakeCommand(intake),
                 swerve.followTrajectoryCommand("Red_8_Far_7", false)
             ),
-            swerve.followTrajectoryCommand("Red_Bottom_Bumper_7_Shoot", false),
             new ParallelRaceGroup(
+                new Transfer_IntakeCommand(transfer),
+                new IntakeCommand(intake),
+                swerve.followTrajectoryCommand("Red_Bottom_Bumper_8_Shoot", false)
+            ),
+            new ParallelRaceGroup( 
                 new TurretAim_Auton(turret),
                 new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
             ),

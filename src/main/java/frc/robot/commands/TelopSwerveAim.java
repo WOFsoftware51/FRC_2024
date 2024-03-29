@@ -37,7 +37,7 @@ public class TelopSwerveAim extends Command {
       rotationVal = s_Swerve.limelight_aim_proportional();
     }
     else{
-      rotationVal = s_Swerve.gotoDefaultGyroVal();
+      // rotationVal = s_Swerve.gotoDefaultGyroVal();
     }
     
 

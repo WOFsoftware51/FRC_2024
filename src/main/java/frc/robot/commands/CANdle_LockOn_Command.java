@@ -82,6 +82,12 @@ public class CANdle_LockOn_Command extends Command {
      m_candle.CANdle_Default();
   }
 
+  @Override
+  public InterruptionBehavior getInterruptionBehavior() {
+    return InterruptionBehavior.kCancelIncoming;
+  }
+
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

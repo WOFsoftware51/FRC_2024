@@ -1,5 +1,6 @@
 package frc.robot.autos.Red_Autos.Top_Autos;
 
+import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Transfer_IntakeCommand;
 import frc.robot.commands.Transfer_IntakeShoot;
@@ -28,10 +29,10 @@ public class Red_Auto_Bumper_0_5_Far extends SequentialCommandGroup {
 
         
         addCommands(
-            new InstantCommand(() -> swerve.zeroGyro()),
-            new ParallelRaceGroup(
-                new Auton_Wait(100),
-                aSub.auton_Shooter_Start(shooter)
+            new InstantCommand(() -> swerve.setGyro(-60)),
+            new ParallelCommandGroup(
+                aSub.auton_Shooter_Start(shooter),
+                aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)
             ),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
@@ -42,7 +43,7 @@ public class Red_Auto_Bumper_0_5_Far extends SequentialCommandGroup {
                 new IntakeCommand(intake),
                 new PathPlannerAuto("Red_Top_Bumper_0_5")
             ),
-            swerve.followTrajectoryCommand("Red_Top_Bumper_5_Score", false),
+            swerve.followTrajectoryCommand("Red_Top_Bumper_5_Shoot"),
             new ParallelRaceGroup(
                 new TurretAim_Auton(turret),
                 new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
@@ -51,7 +52,7 @@ public class Red_Auto_Bumper_0_5_Far extends SequentialCommandGroup {
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)
             ),
-            // new InstantCommand(() -> swerve.setYawWrapped(119.74)),
+            new InstantCommand(() -> swerve.setHeading(swerve.getGyroYaw())),
             aSub.auton_Stop_Shooter(shooter)
     
         );   

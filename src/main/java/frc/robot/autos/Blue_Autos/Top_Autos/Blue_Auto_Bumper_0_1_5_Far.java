@@ -25,7 +25,7 @@ public class Blue_Auto_Bumper_0_1_5_Far extends SequentialCommandGroup {
 
     public Blue_Auto_Bumper_0_1_5_Far(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
         
-        addRequirements(swerve, turret, shooter, aSub, transfer, intake); //TODO
+        addRequirements(swerve, turret, shooter, aSub, transfer, intake); 
 
 
         addCommands(
@@ -54,9 +54,9 @@ public class Blue_Auto_Bumper_0_1_5_Far extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                swerve.followTrajectoryCommand("Blue_Top_Bumper_1_5", false)
+                swerve.followTrajectoryCommand("Blue_Top_Bumper_1_5")
             ),
-            swerve.followTrajectoryCommand("Blue_Top_Bumper_5_Shoot", false), 
+            swerve.followTrajectoryCommand("Blue_Top_Bumper_5_Shoot"), 
             new ParallelCommandGroup(
                 new TurretAim_Auton(turret),
                 new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)

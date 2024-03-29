@@ -59,7 +59,7 @@ public class Red_Auto_Bumper_0_8_7_Far extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                swerve.followTrajectoryCommand("Red_8_Far_7", false)
+                swerve.followTrajectoryCommand("Red_7_Far_8", false)
             ),
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),

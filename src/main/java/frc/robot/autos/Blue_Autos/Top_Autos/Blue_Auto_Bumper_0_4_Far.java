@@ -29,8 +29,8 @@ public class Blue_Auto_Bumper_0_4_Far extends SequentialCommandGroup {
 
         
         addCommands(
-            new InstantCommand(() -> swerve.zeroGyro()),
-            new ParallelRaceGroup( //TODO Make a ParallelCommandGroup
+            new InstantCommand(() -> swerve.setGyro(60)),
+            new ParallelCommandGroup(
                 aSub.auton_Shooter_Start(shooter),
                 aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)
             ),
@@ -43,7 +43,7 @@ public class Blue_Auto_Bumper_0_4_Far extends SequentialCommandGroup {
                 new IntakeCommand(intake),
                 new PathPlannerAuto("Blue_Top_Bumper_0_4")
             ),
-            swerve.followTrajectoryCommand("Blue_Top_Bumper_4_Far", false),
+            swerve.followTrajectoryCommand("Blue_Top_Bumper_4_Shoot"),
             new ParallelRaceGroup(
                 new TurretAim_Auton(turret),
                 new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
@@ -52,7 +52,7 @@ public class Blue_Auto_Bumper_0_4_Far extends SequentialCommandGroup {
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)
             ),
-            // new InstantCommand(() -> swerve.setYawWrapped(119.74)),
+            new InstantCommand(() -> swerve.setHeading(swerve.getGyroYaw())),
             aSub.auton_Stop_Shooter(shooter)
     
         );   

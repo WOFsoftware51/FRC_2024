@@ -39,22 +39,34 @@ public class Global_Variables
 
 
     public static int getSensorVal(){
-        if(noteSensor.get()){
-          return 1;
-        }
-        else{
-          return -1;
-        }
+      if(noteSensor.get()){
+        return 1;
       }
+      else{
+        return -1;
+      }
+    }
+
+    /**@returns true: if limelight tx is lined up with apriltag
+     * <li> false: if limelight tx is not lined up with apriltag
+     */
+    public static boolean isSwerveAimed(){
+      if(Global_Variables.tx < 3.0 && Global_Variables.tx > -3.0){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
     
     public static boolean auton_Timer(int timeElapsed, int time){
-        if(timeElapsed<time){
-            timeElapsed++;
-            return false;
-          }
-          else{
-            return true;
-          }
-      }
+      if(timeElapsed<time){
+          timeElapsed++;
+          return false;
+        }
+        else{
+          return true;
+        }
+    }
     
 }

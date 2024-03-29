@@ -17,6 +17,7 @@ import frc.robot.subsystems.Turret;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -24,12 +25,12 @@ public class Red_Auto_Bumper_0_1_2 extends SequentialCommandGroup {
 
     public Red_Auto_Bumper_0_1_2(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
         
-        addRequirements(swerve, turret, shooter, aSub, transfer, intake); //TODO
+        addRequirements(swerve, turret, shooter, aSub, transfer, intake); 
 
 
         addCommands(
-            // new InstantCommand(() -> swerve.zeroGyro()),
-            new ParallelRaceGroup( //TODO Make a ParallelCommandGroup
+            new InstantCommand(() -> swerve.setGyro(60)),
+            new ParallelCommandGroup(
                 aSub.auton_Shooter_Start(shooter),
                 aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)
             ),

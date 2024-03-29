@@ -22,7 +22,7 @@ import com.ctre.phoenix.led.StrobeAnimation;
 
 public class CANdle_Subsystem extends SubsystemBase 
 {
- 
+
    /** Creates a new CANdle. */
   private final CANdle m_candle = new CANdle(0, Constants.CANIVORE_NAME);
   private final int LedCount = 50;
@@ -58,7 +58,6 @@ public class CANdle_Subsystem extends SubsystemBase
   {  
     m_toAnimate = new StrobeAnimation(100, 10, 100, 0, 0.1, LedCount, 9);
   }
-
 
   public void CANdle_Orange() 
   {  
@@ -108,9 +107,8 @@ public class CANdle_Subsystem extends SubsystemBase
   @Override
   public void periodic() 
   {  
-    m_candle.animate(m_toAnimate);
-
     
+    m_candle.animate(m_toAnimate);
   }
 }
 

@@ -1,5 +1,6 @@
 package frc.robot.autos.Blue_Autos.Top_Autos;
 
+import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Transfer_IntakeCommand;
 import frc.robot.commands.Transfer_IntakeShoot;
@@ -26,10 +27,10 @@ public class Blue_Auto_Bumper_0_1_2_4 extends SequentialCommandGroup {
 
         
         addCommands(
-            new InstantCommand(() -> swerve.zeroGyro()),
-            new ParallelRaceGroup(
-                new Auton_Wait(100),
-                aSub.auton_Shooter_Start(shooter)
+            new InstantCommand(() -> swerve.setGyro(60)),
+            new ParallelCommandGroup(
+                aSub.auton_Shooter_Start(shooter),
+                aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)
             ),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
@@ -40,7 +41,7 @@ public class Blue_Auto_Bumper_0_1_2_4 extends SequentialCommandGroup {
                     new IntakeCommand(intake),
                     new PathPlannerAuto("Blue_Top_Bumper_0_1")
             ),
-            new PathPlannerAuto("Blue_Top_Bumper_1_0"),
+            swerve.followTrajectoryCommand("Blue_Top_Bumper_1_0"),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)
@@ -48,9 +49,9 @@ public class Blue_Auto_Bumper_0_1_2_4 extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Blue_Top_Bumper_0_2")
+                swerve.followTrajectoryCommand("Blue_Top_Bumper_0_2")
             ),
-            new PathPlannerAuto("Blue_Top_Bumper_2_0"), //TODO
+            swerve.followTrajectoryCommand("Blue_Top_Bumper_2_0"), //TODO
             new ParallelRaceGroup(
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)
@@ -58,16 +59,16 @@ public class Blue_Auto_Bumper_0_1_2_4 extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Blue_Top_Bumper_0_4")
+                swerve.followTrajectoryCommand("Blue_Top_Bumper_0_4")
             ), //
             new ParallelCommandGroup(
-                new PathPlannerAuto("Blue_Top_4_Shoot")
+                swerve.followTrajectoryCommand("Blue_Top_4_Shoot")
             ),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)
             ),
-            // new InstantCommand(() -> swerve.setYawWrapped(119.74)),
+            new InstantCommand(() -> swerve.setHeading(swerve.getGyroYaw())),
             aSub.auton_Stop_Shooter(shooter)
     
         );    }

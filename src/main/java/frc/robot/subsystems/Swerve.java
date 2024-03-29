@@ -262,7 +262,7 @@ public class Swerve extends SubsystemBase {
     /**Directly follows a Pathplanner path
      * <p> NOTE: May not work because pose get weird. Sidestepped the issue by following a Pathplanner Auton and overriding the Pose in there instead.
      */
-    public Command followTrajectoryCommand(String pathString, boolean isFirstPath) {
+    public Command followTrajectoryCommand(String pathString) {
     
         PathPlannerPath path = PathPlannerPath.fromPathFile(pathString);
     

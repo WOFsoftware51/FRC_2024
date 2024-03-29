@@ -54,9 +54,9 @@ public class Red_Auto_Bumper_0_1_4 extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Red_1_4")
+                swerve.followTrajectoryCommand("Red_Top_Bumper_1_4")
             ), 
-            new PathPlannerAuto("Red_Top_Bumper_4_Shoot"),
+            swerve.followTrajectoryCommand("Red_Top_Bumper_4_Shoot"),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)

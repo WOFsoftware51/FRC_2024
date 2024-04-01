@@ -29,7 +29,7 @@ public class Blue_Auto_Bumper_0_1_4 extends SequentialCommandGroup {
 
         
         addCommands(
-            new InstantCommand(() -> swerve.setGyro(-60)),
+            new InstantCommand(() -> swerve.setGyro(60)),
             new ParallelCommandGroup(
                 aSub.auton_Shooter_Start(shooter),
                 aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)
@@ -54,9 +54,9 @@ public class Blue_Auto_Bumper_0_1_4 extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Blue_Top_Bumper_1_4")
+                swerve.followTrajectoryCommand("Blue_Top_Bumper_1_4")
             ), 
-            new PathPlannerAuto("Blue_Top_Bumper_4_Shoot"),
+            swerve.followTrajectoryCommand("Blue_Top_Bumper_4_Shoot"),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)

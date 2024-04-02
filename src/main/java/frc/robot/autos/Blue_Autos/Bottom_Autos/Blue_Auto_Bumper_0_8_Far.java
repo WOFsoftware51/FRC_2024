@@ -29,7 +29,7 @@ public class Blue_Auto_Bumper_0_8_Far extends SequentialCommandGroup {
 
         
         addCommands(
-            new InstantCommand(() -> swerve.setGyro(60)),
+            new InstantCommand(() -> swerve.setGyro(-60)),
             new ParallelCommandGroup(
                 aSub.auton_Shooter_Start(shooter),
                 aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)

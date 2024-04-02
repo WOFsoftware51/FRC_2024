@@ -61,12 +61,12 @@ public class Global_Variables
     
     public static boolean auton_Timer(int timeElapsed, int time){
       if(timeElapsed<time){
-          timeElapsed++;
-          return false;
-        }
-        else{
-          return true;
-        }
+        timeElapsed++;
+        return false;
+      }
+      else{
+        return true;
+      }
     }
     
 }

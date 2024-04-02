@@ -28,6 +28,7 @@ import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1_2;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1_2_3;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_4;
+import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_4_5_Far;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_5_Far;
 import frc.robot.autos.Red_Autos.Red_Leave_Zone;
 import frc.robot.autos.Red_Autos.Red_Leave_Zone_0;
@@ -45,6 +46,7 @@ import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1_2;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1_2_3;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_4;
+import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_4_5_Far;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_5_Far;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -258,7 +260,7 @@ public class RobotContainer {
         a_chooser.addOption("0, 7 Bumper Far Auto", 18);
         a_chooser.addOption("0, 1, 5 Bumper Far Auto", 19);
         a_chooser.addOption("0, 7, 8 Bumper Far Auto", 20);
-
+        a_chooser.addOption("0, 1, 4, 5 Bumper Far Auto", 21);
     }        
 
 
@@ -311,6 +313,7 @@ public class RobotContainer {
             case 18: return new Blue_Auto_Bumper_0_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 19: return new Blue_Auto_Bumper_0_1_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 20: return new Red_Auto_Bumper_0_8_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 21: return new Blue_Auto_Bumper_0_1_4_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
 
             default: return new Blue_Leave_Zone(s_Swerve);
         }
@@ -339,6 +342,7 @@ public class RobotContainer {
             case 18: return new Red_Auto_Bumper_0_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 19: return new Red_Auto_Bumper_0_1_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 20: return new Red_Auto_Bumper_0_8_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 21: return new Red_Auto_Bumper_0_1_4_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
 
             default: return new Red_Leave_Zone(s_Swerve);
         }

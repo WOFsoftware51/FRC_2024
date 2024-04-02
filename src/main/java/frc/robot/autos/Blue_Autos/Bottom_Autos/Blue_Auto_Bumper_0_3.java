@@ -2,6 +2,7 @@ package frc.robot.autos.Blue_Autos.Bottom_Autos;
 
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.Transfer_IntakeCommand;
 import frc.robot.commands.Transfer_IntakeShoot;
 import frc.robot.commands_Auton.Auton_Wait;
 import frc.robot.subsystems.Auton_Subsystem;
@@ -26,7 +27,7 @@ public class Blue_Auto_Bumper_0_3 extends SequentialCommandGroup {
 
         
         addCommands(
-            new InstantCommand(() -> swerve.setGyro(60)),
+            new InstantCommand(() -> swerve.setGyro(-60)),
             new ParallelCommandGroup(
                 aSub.auton_Shooter_Start(shooter),
                 aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)
@@ -36,7 +37,7 @@ public class Blue_Auto_Bumper_0_3 extends SequentialCommandGroup {
                 aSub.auton_Shoot(transfer)
             ),
             new ParallelRaceGroup(
-                new Transfer_IntakeShoot(transfer),
+                new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
                 new PathPlannerAuto("Blue_Bottom_Bumper_0_3")
             ),
@@ -44,7 +45,7 @@ public class Blue_Auto_Bumper_0_3 extends SequentialCommandGroup {
             //     new Auton_Wait(50),
             //     new IntakeCommand(intake)
             // ),
-            new PathPlannerAuto("Blue_Bottom_Bumper_3_0"),
+            swerve.followTrajectoryCommand("Blue_Bottom_Bumper_3_0"),
             new ParallelRaceGroup(
                 new Auton_Wait(125),
                 aSub.auton_Shoot(transfer)

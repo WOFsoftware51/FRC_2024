@@ -72,6 +72,11 @@ public class Swerve extends SubsystemBase {
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());//, new Pose2d()); //TODO Test This
 
         configureAuton();
+        SmartDashboard.putNumber("Rotation kP", kP);
+        SmartDashboard.putNumber("Rotation kI", kI);
+        SmartDashboard.putNumber("Rotation kD", kD);
+
+
     }
     /**Drive command used in auton */
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) 
@@ -238,14 +243,34 @@ public class Swerve extends SubsystemBase {
     }
 
     private double targetingAngularVelocity = 0;
+    double kP = 0.0;//SmartDashboard.getNumber("Rotation kP", 0.001666); //0.001666;
+    double kI = 0.0;//SmartDashboard.getNumber("Rotation kI", 0.000002);  //0.000002;
+    double kD = 0.0;//SmartDashboard.getNumber("Rotation kP", 0.00000125); //0.00000125;
+
     /**Aiming Swerve with Limelight Towards AprilTag */
     public double limelight_aim_proportional()
     {    
-        final double kP = 0.0005;//0.0005
-        final double kI = 0.05;//0.09
-        final double kD = 0;//0.00000002
-        PIDController AimPID = new PIDController(kP, kI, kD);
+        kP = 0.002;
+        kI = 0.03; // 0.016;
+        kD = 0.0000001; // 0.00000125;
 
+
+        // kP = SmartDashboard.getNumber("Rotation kP", 0.001666);//0.002; //0.001666;//0.002;//0.0008
+        // kI = SmartDashboard.getNumber("Rotation kI", 0.000002);//0.006;  //0.000002; //0.03;//0.05
+        // kD = SmartDashboard.getNumber("Rotation kD", 0.00000125);//0.00000000035; //0.00000125;//0.00000000001;//0.00000000005
+
+
+        // if(tx > 20 || tx < -20){
+        //     kP = 0.0002; //0.001666;//0.002;//0.0008
+        //     kI = 0.08;  //0.000002; //0.03;//0.05
+        //     kD = 0.0000015; //0.00000125;//0.00000000001;//0.00000000005
+        // }
+        // else{
+        //     kP = 0.0004; //0.001666;//0.002;//0.0008
+        //     kI = 0.095;  //0.000002; //0.03;//0.05
+        //     kD = 0.0000015; //0.00000125;//0.00000000001;//0.00000000005
+        // }
+        PIDController AimPID = new PIDController(kP, kI, kD);
 
         targetingAngularVelocity = AimPID.calculate(limelightTarget(), 0);// -(tx * kP + kD*txRateOfChange() + kI*txIntegral());
         

@@ -87,7 +87,6 @@ public class Red_Auto_Bumper_0_1_4_5_Far extends SequentialCommandGroup {
             ),
             new InstantCommand(() -> swerve.setHeading(swerve.getGyroYaw())),
             aSub.auton_Stop_Shooter(shooter)
-    
         );    
     }
 }

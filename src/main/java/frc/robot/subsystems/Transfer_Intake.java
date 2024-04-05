@@ -22,13 +22,19 @@ public class Transfer_Intake extends SubsystemBase {
     private final CANBusStatus canivoreStatus = CANBus.getStatus(Constants.CANIVORE_NAME);
     private final double canivoreUtil = canivoreStatus.BusUtilization;
 
-    public void intake_init() 
-    {
+
+    public Transfer_Intake() {
       transfer_intake.setNeutralMode(NeutralModeValue.Brake);
       transfer_intake.setInverted(false);
       transfer_shooter.setNeutralMode(NeutralModeValue.Brake);
       transfer_shooter.setInverted(false);
+    }
 
+    public void intake_init() {
+      // transfer_intake.setNeutralMode(NeutralModeValue.Brake);
+      // transfer_intake.setInverted(false);
+      // transfer_shooter.setNeutralMode(NeutralModeValue.Brake);
+      // transfer_shooter.setInverted(false);
     }
 
     public void transferOn(){

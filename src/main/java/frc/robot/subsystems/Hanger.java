@@ -18,14 +18,18 @@ public class Hanger extends SubsystemBase {
     private TalonFX _hanger = new TalonFX(Constants.hanger,  Constants.CANIVORE_NAME);
     private TalonFX _hanger2 = new TalonFX(Constants.hanger2, Constants.CANIVORE_NAME);
 
-
-  
-    public void hanger_init() {
+    public Hanger() {
       _hanger.setNeutralMode(NeutralModeValue.Brake);
       _hanger2.setNeutralMode(NeutralModeValue.Brake);
       _hanger.setInverted(true);
       _hanger2.setInverted(false);
+    }
 
+    public void hanger_init() {
+      // _hanger.setNeutralMode(NeutralModeValue.Brake);
+      // _hanger2.setNeutralMode(NeutralModeValue.Brake);
+      // _hanger.setInverted(true);
+      // _hanger2.setInverted(false);
     }
     
     public void hangerOn(){

@@ -28,24 +28,35 @@ public class CANdle_Subsystem extends SubsystemBase
   private final int LedCount = 60;
   private Animation m_toAnimate;
 
+  public CANdle_Subsystem() 
+  {  
+    CANdleConfiguration configAll = new CANdleConfiguration();
+    configAll.statusLedOffWhenActive = true;
+    configAll.disableWhenLOS = false;
+    configAll.stripType = LEDStripType.RGB;
+    configAll.vBatOutputMode = VBatOutputMode.Modulated;
+    m_candle.configAllSettings(configAll, 100);
+  }
+
+
   public void CANdle_init() 
   {  
-        CANdleConfiguration configAll = new CANdleConfiguration();
-        configAll.statusLedOffWhenActive = true;
-        configAll.disableWhenLOS = false;
-        configAll.stripType = LEDStripType.RGB;
-     //   configAll.brightnessScalar = 0.1;
-        configAll.vBatOutputMode = VBatOutputMode.Modulated;
-        m_candle.configAllSettings(configAll, 100);
+  //   CANdleConfiguration configAll = new CANdleConfiguration();
+  //   configAll.statusLedOffWhenActive = true;
+  //   configAll.disableWhenLOS = false;
+  //   configAll.stripType = LEDStripType.RGB;
+  // //   configAll.brightnessScalar = 0.1;
+  //   configAll.vBatOutputMode = VBatOutputMode.Modulated;
+  //   m_candle.configAllSettings(configAll, 100);
   }
  
   public void CANdle_off() 
-  {  
+  {
     m_toAnimate = new StrobeAnimation(0, 0, 0, 0, 0, LedCount, 9);
   }
   
   public void CANdle_Animate() 
-  {  
+  {
     m_candle.animate(m_toAnimate);
   }
   /** Flashing Purple*/

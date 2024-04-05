@@ -43,7 +43,7 @@ public class Red_Auto_Bumper_0_3_Far extends SequentialCommandGroup {
                 new IntakeCommand(intake),
                 new PathPlannerAuto("Red_Bottom_Bumper_0_3")
             ),
-            new ParallelRaceGroup(
+            new ParallelCommandGroup(
                 new TurretAim_Auton(turret),
                 new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
             ),

@@ -23,66 +23,36 @@ public class Elevator extends SubsystemBase {
 
   private int count = 0;
 
-  /** Creates a new extend. */
-  public void elevator_init()
+  public Elevator()
   {
-
     if(count< 1)
     {
       elevator_resetEncoder();
       count++;
     }
 
-    // _elevator.setNeutralMode(NeutralModeValue.Coast);
-    // _elevator.setNeutralMode(NeutralModeValue.Coast);
     _elevator.setInverted(true);
     _elevator2.setInverted(false);
-
-    // TalonFXConfiguration cfg = new TalonFXConfiguration();
-    // MotionMagicConfigs mm = cfg.MotionMagic;
-    // mm.MotionMagicCruiseVelocity = 80; // 5 rotations per second cruise
-    // mm.MotionMagicAcceleration = 160; //80 // Take approximately 0.5 seconds to reach max vel
-    // mm.MotionMagicJerk = 800;// Take approximately 0.2 seconds to reach max accel 
-
-    // Slot0Configs slot0 = cfg.Slot0;
-    // slot0.kP = 0.060058651; //5
-    // slot0.kI = 0;
-    // slot0.kD = 0.0; //0.1
-    // slot0.kV = 0.0; //0.12
-    // slot0.kS = 0.0; //0.25 // Approximately 0.25V to get the mechanism moving
-    // mMDutyCycle.withFeedForward(0.07);
-
-
-    // _elevator.getConfigurator().apply(cfg, 0.050);
-
-
-    // FeedbackConfigs fConfigs = cfg.Feedback;
-    // fConfigs.SensorToMechanismRatio = 70;
-
-
-    // cfg.HardwareLimitSwitch.ForwardLimitSource = ForwardLimitSourceValue.LimitSwitchPin;
-    // cfg.HardwareLimitSwitch.ForwardLimitRemoteSensorID = 8;
-    // cfg.HardwareLimitSwitch.ForwardLimitType = ForwardLimitTypeValue.NormallyClosed;
-    // cfg.HardwareLimitSwitch.withForwardLimitAutosetPositionValue(1);
-    // // cfg.HardwareLimitSwitch.ForwardLimitAutosetPositionValue = 0.411;
-    // cfg.HardwareLimitSwitch.withForwardLimitAutosetPositionEnable(true);
-    // // cfg.HardwareLimitSwitch.ForwardLimitAutosetPositionEnable = true;
-    // cfg.HardwareLimitSwitch.withForwardLimitEnable(true);
-
-    // cfg.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-    // cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = -80;
-
-    // _elevator.getConfigurator().apply(cfg, 0.050);
-
-
     _elevator.setNeutralMode(NeutralModeValue.Brake);
     _elevator2.setNeutralMode(NeutralModeValue.Brake);
-    // _elevator.setInverted(false);
-
     
-
     _elevator2.setControl(new Follower(Constants.elevator, true));
+  }
 
+  public void elevator_init()
+  {
+    // if(count< 1)
+    // {
+    //   elevator_resetEncoder();
+    //   count++;
+    // }
+    // _elevator.setInverted(true);
+    // _elevator2.setInverted(false);
+
+    // _elevator.setNeutralMode(NeutralModeValue.Brake);
+    // _elevator2.setNeutralMode(NeutralModeValue.Brake);
+    
+    // _elevator2.setControl(new Follower(Constants.elevator, true));
   }
 
   public void elevator_resetEncoder()

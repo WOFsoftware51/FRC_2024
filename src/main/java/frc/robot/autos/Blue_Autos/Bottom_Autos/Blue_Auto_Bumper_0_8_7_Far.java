@@ -44,21 +44,21 @@ public class Blue_Auto_Bumper_0_8_7_Far extends SequentialCommandGroup {
                 new PathPlannerAuto("Blue_Bottom_Bumper_0_7")
             ),
             swerve.followTrajectoryCommand("Blue_Bottom_Bumper_7_Shoot"),
-            new ParallelRaceGroup(
+            new ParallelCommandGroup(
                 new TurretAim_Auton(turret),
                 new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
             ),
             new ParallelRaceGroup(
-                new Auton_Wait(100),
+                new Auton_Wait(100), 
                 aSub.auton_Shoot(transfer)
-            ),
+            ),  
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
                 swerve.followTrajectoryCommand("Blue_7_Far_8")
             ),
             swerve.followTrajectoryCommand("Blue_Bottom_Bumper_8_Shoot"),
-            new ParallelRaceGroup(
+            new ParallelCommandGroup(
                 new TurretAim_Auton(turret),
                 new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
             ),

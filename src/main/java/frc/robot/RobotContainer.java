@@ -27,6 +27,7 @@ import frc.robot.autos.Blue_Autos.Bottom_Autos.Blue_Auto_Bumper_0_8_7_Far;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1_2;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1_2_3;
+import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_2;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_4;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_4_5_Far;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_5_Far;
@@ -45,6 +46,7 @@ import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1_2;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1_2_3;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1;
+import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_2;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_4;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_4_5_Far;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_5_Far;
@@ -130,7 +132,7 @@ public class RobotContainer {
                 () -> -driver.getRawAxis(strafeAxis), 
                 () -> -driver.getRawAxis(rotationAxis), 
                 () -> false, //() -> robotCentric.getAsBoolean(),
-                ()-> driver.getAButton()//operator.getXButton() //TODO bnjh
+                ()-> operator.getXButton()//driver.getAButton() //TODO bnjh
             )
         );
         
@@ -252,7 +254,7 @@ public class RobotContainer {
         a_chooser.addOption("0, 3 Bumper Auto", 10);
         a_chooser.addOption("0, 1 Bumper Auto", 11);
         a_chooser.addOption("0, 8 Bumper Auto", 12);
-        a_chooser.addOption("0, 8, 7 Bumper Auto", 13);
+        // a_chooser.addOption("0, 8, 7 Bumper Auto", 13);
         a_chooser.addOption("0, 1, 4 Bumper Auto", 14);
         a_chooser.addOption("Test Auto", 15);
         a_chooser.addOption("0, 2 Bumper Far Auto", 16);
@@ -261,6 +263,7 @@ public class RobotContainer {
         a_chooser.addOption("0, 1, 5 Bumper Far Auto", 19);
         a_chooser.addOption("0, 7, 8 Bumper Far Auto", 20);
         a_chooser.addOption("0, 1, 4, 5 Bumper Far Auto", 21);
+        a_chooser.addOption("0, 1, 2 Bumper Far Auto", 22);
     }        
 
 
@@ -312,8 +315,9 @@ public class RobotContainer {
             case 17: return new Shoot_Only_Auto(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 18: return new Blue_Auto_Bumper_0_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 19: return new Blue_Auto_Bumper_0_1_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
-            case 20: return new Red_Auto_Bumper_0_8_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 20: return new Blue_Auto_Bumper_0_8_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 21: return new Blue_Auto_Bumper_0_1_4_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 22: return new Blue_Auto_Bumper_0_1_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
 
             default: return new Blue_Leave_Zone(s_Swerve);
         }
@@ -343,6 +347,7 @@ public class RobotContainer {
             case 19: return new Red_Auto_Bumper_0_1_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 20: return new Red_Auto_Bumper_0_8_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 21: return new Red_Auto_Bumper_0_1_4_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 22: return new Red_Auto_Bumper_0_1_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
 
             default: return new Red_Leave_Zone(s_Swerve);
         }

@@ -39,11 +39,11 @@ public class Red_Auto_Middle_0_2 extends SequentialCommandGroup {
                 new PathPlannerAuto("Red_0_2"),
                 new IntakeCommand(intake)
             ),
-            // new ParallelRaceGroup(
-            //     new Auton_Wait(25), // From 50 -> 25 
-            //     new IntakeCommand(intake)
-            // ),
-            new PathPlannerAuto("Red_2_0"),
+            new ParallelRaceGroup(
+                new Transfer_IntakeCommand(transfer),
+                new IntakeCommand(intake),
+                new PathPlannerAuto("Red_2_0")
+            ),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)

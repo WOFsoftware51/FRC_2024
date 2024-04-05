@@ -49,7 +49,7 @@ public class AutonSwerveAim extends Command {
 
     if(Global_Variables.tv == 1){
 
-      if(Global_Variables.tx < 3.0 && Global_Variables.tx > -3.0 && count > 15){
+      if(Global_Variables.tx < 4.0 && Global_Variables.tx > -4.0 && count > 10){
         endCommand = true;
         rotationVal = 0.0;
       }
@@ -69,6 +69,18 @@ public class AutonSwerveAim extends Command {
         false, 
         true
     );
+    }
+
+    
+    @Override
+    public void end(boolean interrupted) {
+      s_Swerve.drive(
+        new Translation2d(0, 0), 
+          0, 
+          false, 
+          true
+      );
+
     }
 
     @Override

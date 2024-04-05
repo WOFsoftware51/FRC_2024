@@ -14,15 +14,16 @@ public class Intake extends SubsystemBase {
 
     private TalonFX _intake = new TalonFX(Constants.intake, Constants.CANIVORE_NAME);
   
-
-    public void intake_init() 
+    public Intake() 
     {
       _intake.setNeutralMode(NeutralModeValue.Coast);
       _intake.setInverted(true);
+    }
 
-      // transfer_intake.setNeutralMode(NeutralModeValue.Brake);
-      // transfer_intake.setInverted(false);
-
+    public void intake_init() 
+    {
+      // _intake.setNeutralMode(NeutralModeValue.Coast);
+      // _intake.setInverted(true);
     }
     
     public void intakeOn(){

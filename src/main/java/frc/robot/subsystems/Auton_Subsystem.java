@@ -26,7 +26,9 @@ import frc.robot.commands_Auton.Transfer_IntakeShoot_Auton;
 
 public class Auton_Subsystem extends SubsystemBase {
   /** Creates a new Auton_Subsystem. */
-  public Auton_Subsystem() {}
+  public Auton_Subsystem(){
+    
+  }
 
   private boolean isShooting = false;
 

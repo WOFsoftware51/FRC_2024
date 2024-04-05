@@ -44,7 +44,7 @@ public class Red_Auto_Bumper_0_4_Far extends SequentialCommandGroup {
                 new PathPlannerAuto("Red_Top_Bumper_0_4")
             ),
             swerve.followTrajectoryCommand("Red_Top_Bumper_4_Shoot"),
-            new ParallelRaceGroup(
+            new ParallelCommandGroup(
                 new TurretAim_Auton(turret),
                 new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
             ),

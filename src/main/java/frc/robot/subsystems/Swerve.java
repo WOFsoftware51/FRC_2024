@@ -250,25 +250,16 @@ public class Swerve extends SubsystemBase {
     /**Aiming Swerve with Limelight Towards AprilTag */
     public double limelight_aim_proportional()
     {    
-        kP = 0.002;
-        kI = 0.03; // 0.016;
-        kD = 0.0000001; // 0.00000125;
-
-
-        // kP = SmartDashboard.getNumber("Rotation kP", 0.001666);//0.002; //0.001666;//0.002;//0.0008
-        // kI = SmartDashboard.getNumber("Rotation kI", 0.000002);//0.006;  //0.000002; //0.03;//0.05
-        // kD = SmartDashboard.getNumber("Rotation kD", 0.00000125);//0.00000000035; //0.00000125;//0.00000000001;//0.00000000005
-
-
         // if(tx > 20 || tx < -20){
-        //     kP = 0.0002; //0.001666;//0.002;//0.0008
-        //     kI = 0.08;  //0.000002; //0.03;//0.05
-        //     kD = 0.0000015; //0.00000125;//0.00000000001;//0.00000000005
+        //     kP = //0.00001;//SmartDashboard.getNumber("Rotation kP", 0.001666);//0.002; //0.001666;//0.002;//0.0008
+        //     kI = //0.055000;//SmartDashboard.getNumber("Rotation kI", 0.000002);//0.006;  //0.000002; //0.03;//0.05
+        //     kD = //0.00000;//SmartDashboard.getNumber("Rotation kD", 0.00000125);//0.00000000035; //0.00000125;//0.00000000001;//0.00000000005
         // }
         // else{
-        //     kP = 0.0004; //0.001666;//0.002;//0.0008
-        //     kI = 0.095;  //0.000002; //0.03;//0.05
-        //     kD = 0.0000015; //0.00000125;//0.00000000001;//0.00000000005
+        kP = 0.001666;//0.00005;//SmartDashboard.getNumber("Rotation kP", 0.001666);//0.002; //0.001666;//0.002;//0.0008
+        kI = 0.000002;//0.1 //SmartDashboard.getNumber("Rotation kI", 0.000002);//0.006;  //0.000002; //0.03;//0.05
+        kD = 0.00000125;//0.00000;//SmartDashboard.getNumber("Rotation kD", 0.00000125);//0.00000000035; //0.00000125;//0.00000000001;//0.00000000005
+            
         // }
         PIDController AimPID = new PIDController(kP, kI, kD);
 

@@ -270,6 +270,13 @@ public class Swerve extends SubsystemBase {
         targetingAngularVelocity *= 1;
 
         return targetingAngularVelocity;
+
+
+        // double kP1 = 0.035;
+        // targetingAngularVelocity = limelightTarget()*kP1;
+        // targetingAngularVelocity *= 1;
+        // return targetingAngularVelocity;
+
     }
 
     public double limelightTarget(){

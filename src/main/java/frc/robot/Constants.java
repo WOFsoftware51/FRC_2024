@@ -183,8 +183,10 @@ public final class Constants {
     public static final class AutonTurretPositions{
         public static final class Top{
             public static final double Position_Start = 0;
-            public static final double Position_1 = 0;
-            public static final double Position_2 = 0;
+            /**Spot where Top_Bumper_0_1_Far ends */
+            public static final double Position_1 = 25.936;
+            /**Spot where Top_Bumper_4_Shoot ends */
+            public static final double Position_2 = 29.072;
             public static final double Position_3 = 0;
 
         }

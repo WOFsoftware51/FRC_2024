@@ -93,10 +93,14 @@ public class Shooter extends SubsystemBase {
       _shooter.set(0);
       _shooter2.set(0); // Divide by 60 to go from RPM -> RPS 
     }
-    public void shooterOnTop(){
-      _shooter.set(-0.16);
-      _shooter.set(-0.16);
+
+    /**Only turns on the top set of shooter wheels. Does not turn on bottom set. */
+    public void shooterOnTop(double percentPower){
+      // _shooter.setControl(velocityController.withVelocity(-m_velocity/60).withFeedForward(0.5)); // Divide by 60 to go from RPM -> RPS 
+      _shooter.set(percentPower);
+      _shooter2.set(0); // Divide by 60 to go from RPM -> RPS 
     }
+
     /**Velocity of the device in mechanism rotations per second. 
      * This can be the velocity of a remote sensor and is affected by the RotorToSensorRatio and SensorToMechanismRatio configs 
      * @return Velocity of Shooter Motor with ID 34

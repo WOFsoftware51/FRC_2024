@@ -66,44 +66,6 @@ public class Turret extends SubsystemBase {
     else{
       _turret.getConfigurator().setPosition(0);
     }
-
-    // if(count< 1)
-    // {
-    //   updateEncoder();
-    //   count++;
-    // }
-    
-
-    // TalonFXConfiguration cfg = new TalonFXConfiguration(); 
-    // MotionMagicConfigs mm = cfg.MotionMagic;
-    // mm.MotionMagicCruiseVelocity = 600; //400// 5 rotations per second cruise
-    // mm.MotionMagicAcceleration = 300; //160 // Take approximately 0.5 seconds %to reach max vel
-    // mm.MotionMagicJerk = 2400;//1600// Take approximately 0.2 seconds to reach max accel 
-
-    // // cfg.HardwareLimitSwitch.ReverseLimitSource = ReverseLimitSourceValue.RemoteCANcoder;
-    // // cfg.HardwareLimitSwitch.ReverseLimitRemoteSensorID = Constants.turret_CANCoder;
-    // // cfg.HardwareLimitSwitch.ReverseLimitType = ReverseLimitTypeValue.NormallyClosed;
-    // // cfg.HardwareLimitSwitch.withReverseLimitAutosetPositionValue(0.411865);
-    // // // cfg.HardwareLimitSwitch.ReverseLimitAutosetPositionValue = 0.411;
-    // // cfg.HardwareLimitSwitch.withReverseLimitAutosetPositionEnable(true);
-    // // // cfg.HardwareLimitSwitch.ReverseLimitAutosetPositionEnable = true;
-    // // cfg.HardwareLimitSwitch.withReverseLimitEnable(true);
-
-    // cfg.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
-    // cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold =  -8.6;
-
-
-    // Slot0Configs slot0 = cfg.Slot0;
-    // slot0.kP = 1.92;
-    // slot0.kI = 0;
-    // slot0.kD = 0.0;
-    // slot0.kV = 0.0;
-    // slot0.kS = 0.375; // Approximately 0.25V to get the mechanism moving
-
-    // _turret.getConfigurator().apply(cfg, 0.050);
-
-    // _turret.setNeutralMode(NeutralModeValue.Brake);
-    // _turret.setInverted(false);
   }
 
   /**Turns the turret on at a some percent speed. turret moves at x*0.5 speed 

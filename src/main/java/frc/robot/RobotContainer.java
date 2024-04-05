@@ -175,7 +175,7 @@ public class RobotContainer {
 
 
         /*CANDle Commands*/
-        new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new CANdle_Solid_White_Animation(m_Candle));
+        // new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new CANdle_Solid_White_Animation(m_Candle));
         // new Trigger(driver::getLeftBumper).whileTrue(new CANdle_Purple_Command(m_Candle)); 
         new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new CANdle_Intake_Command(m_Candle));
 
@@ -198,8 +198,9 @@ public class RobotContainer {
         /**Half Court Shot */
         new Trigger(driver::getRightBumper).whileTrue(new ShootCommand(m_Shooter, ()-> 2500));
         new Trigger(driver::getRightBumper).whileTrue(new Turret_Goto_Angle(m_Turret, 12.5));
-        // new Trigger(driver::getBackButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
 
+        new Trigger(driver::getBackButton).whileTrue(new ShootCommand_Top(m_Shooter, ()-> 0.3));
+        new Trigger(driver::getBackButton).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_DEFAULT_POSITION+5));
 
 
         /*GOTO Default Position and Rev up Shooter: Driver[LeftBumper]*/

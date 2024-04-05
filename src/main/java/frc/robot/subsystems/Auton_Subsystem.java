@@ -71,7 +71,7 @@ public class Auton_Subsystem extends SubsystemBase {
   public Command auton_Shooter_Start(Shooter m_Shooter){
     return new ShootCommand_Start(m_Shooter,()-> Constants.ShooterSpeeds.SHOOTER_AUTON_SPEED1).until(()-> shotReady(m_Shooter));
   }
-
+/**Command is interrupted when turret is within 1 degree of the angleTarget */
   public Command auton_Turret_Start(Turret m_Turret, double angleTarget){
     return new Turret_Goto_Angle(m_Turret, angleTarget).until(()-> turretAimReady(m_Turret));
   }

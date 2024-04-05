@@ -4,6 +4,7 @@ import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Transfer_IntakeCommand;
 import frc.robot.commands.Transfer_IntakeShoot;
+import frc.robot.commands.Turret_Goto_Angle;
 import frc.robot.commands_Auton.AutonSwerveAim;
 import frc.robot.commands_Auton.Auton_Wait;
 import frc.robot.commands_Auton.TurretAim_Auton;
@@ -39,9 +40,11 @@ public class Red_Auto_Bumper_0_1_4_5_Far extends SequentialCommandGroup {
                 aSub.auton_Shoot(transfer)
             ),
             new ParallelRaceGroup(
+                new Turret_Goto_Angle(turret, Constants.AutonTurretPositions.Top.Position_1),
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
                 new PathPlannerAuto("Red_Top_Bumper_0_1")
+                // aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)
             ),
             new ParallelCommandGroup(
                 new TurretAim_Auton(turret),
@@ -52,11 +55,13 @@ public class Red_Auto_Bumper_0_1_4_5_Far extends SequentialCommandGroup {
                 aSub.auton_Shoot(transfer)
             ),
             new ParallelRaceGroup(
+                new Turret_Goto_Angle(turret, Constants.AutonTurretPositions.Top.Position_2),
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
                 swerve.followTrajectoryCommand("Red_Top_Bumper_1_4")
             ),
             new ParallelRaceGroup(
+                new Turret_Goto_Angle(turret, Constants.AutonTurretPositions.Top.Position_2),
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
                 swerve.followTrajectoryCommand("Red_Top_Bumper_4_Shoot")
@@ -70,11 +75,15 @@ public class Red_Auto_Bumper_0_1_4_5_Far extends SequentialCommandGroup {
                 aSub.auton_Shoot(transfer)
             ),
             new ParallelRaceGroup(
+                new Turret_Goto_Angle(turret, Constants.AutonTurretPositions.Top.Position_2),
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
                 swerve.followTrajectoryCommand("Red_4_Far_5")
             ), //
-            new ParallelCommandGroup(
+            new ParallelRaceGroup(
+                new Turret_Goto_Angle(turret, Constants.AutonTurretPositions.Top.Position_2),
+                new Transfer_IntakeCommand(transfer),
+                new IntakeCommand(intake),
                 swerve.followTrajectoryCommand("Red_Top_Bumper_5_Shoot")
             ),
             new ParallelCommandGroup(

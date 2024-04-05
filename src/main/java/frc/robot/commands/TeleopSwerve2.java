@@ -46,7 +46,7 @@ public class TeleopSwerve2 extends Command {
               }
         }
         else{
-            rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
+            rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband)*speedModifier;
         }
         
         if(Global_Variables.left_trigger_boost)

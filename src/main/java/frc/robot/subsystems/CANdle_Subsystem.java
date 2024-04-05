@@ -25,7 +25,7 @@ public class CANdle_Subsystem extends SubsystemBase
 
    /** Creates a new CANdle. */
   private final CANdle m_candle = new CANdle(0, Constants.CANIVORE_NAME);
-  private final int LedCount = 60;
+  private final int LedCount = 90;
   private Animation m_toAnimate;
 
   public CANdle_Subsystem() 
@@ -52,7 +52,7 @@ public class CANdle_Subsystem extends SubsystemBase
  
   public void CANdle_off() 
   {
-    m_toAnimate = new StrobeAnimation(0, 0, 0, 0, 0, LedCount, 9);
+    m_toAnimate = new StrobeAnimation(0, 0, 0, 0, 0, LedCount, 8);
   }
   
   public void CANdle_Animate() 
@@ -62,34 +62,34 @@ public class CANdle_Subsystem extends SubsystemBase
   /** Flashing Purple*/
   public void CANdle_Purple() 
   {  
-    m_toAnimate = new StrobeAnimation(100, 10, 100, 0, 0.3, LedCount, 9);
+    m_toAnimate = new StrobeAnimation(100, 10, 100, 0, 0.3, LedCount, 8);
   }
 
   public void CANdle_Fast_Purple() 
   {  
-    m_toAnimate = new StrobeAnimation(100, 10, 100, 0, 0.1, LedCount, 9);
+    m_toAnimate = new StrobeAnimation(100, 10, 100, 0, 0.1, LedCount, 8);
   }
 
   public void CANdle_Orange() 
   {  
-    m_toAnimate = new StrobeAnimation(255, 40 , 0, 0, 1, LedCount, 9);
+    m_toAnimate = new StrobeAnimation(255, 40 , 0, 0, 1, LedCount, 8);
   }
 
   /** Not Flashing Purple*/
   public void CANdle_Default() 
   {  
-    m_toAnimate = new StrobeAnimation(100, 10, 100, 0, 1.0, LedCount, 9);
+    m_toAnimate = new StrobeAnimation(100, 10, 100, 0, 1.0, LedCount, 8);
     // m_toAnimate = new RainbowAnimation(1.0, 0.1, LedCount, false, 0);
   }
 
   public void CANdle_Rainbow() 
   {  
-    m_toAnimate = new RainbowAnimation(1.0, 1.0, LedCount, false, 9);
+    m_toAnimate = new RainbowAnimation(1.0, 1.0, LedCount, false, 8);
   }
 
   public void CANdle_Solid_Green() 
   {  
-    m_toAnimate = new StrobeAnimation(10, 255, 10, 0, 1.0, LedCount, 9);
+    m_toAnimate = new StrobeAnimation(10, 255, 10, 0, 1.0, LedCount, 8);
   }
   public void CANdle_Red() 
   {  
@@ -103,22 +103,27 @@ public class CANdle_Subsystem extends SubsystemBase
 
   public void CANdle_Purple_Larson() 
   {  
-    m_toAnimate = new LarsonAnimation(100, 10, 100, 0, 1.0, LedCount, BounceMode.Front, 7, 9);
+    m_toAnimate = new LarsonAnimation(100, 10, 100, 0, 1.0, LedCount, BounceMode.Front, 7, 8);
   }
 
   public void CANdle_Fire_Animation() 
   {  
-    m_toAnimate = new FireAnimation(1, 0.5, LedCount, 0.75, 0.1, true, 9);
+    m_toAnimate = new FireAnimation(1, 0.5, LedCount, 0.75, 0.1, true, 8);
   }
   public void CANdle_Solid_White() 
   {  
-    m_toAnimate = new StrobeAnimation(200, 200, 200, 100, 0.5, LedCount, 9);
+    m_toAnimate = new StrobeAnimation(200, 200, 200, 100, 0.5, LedCount, 8);
   }
 
+  
+  // int count = 0;
   @Override
   public void periodic() 
   {  
-    
+    // if(count > 0){
+    //   m_candle.clearAnimation(0);
+    //   count++;
+    // }
     m_candle.animate(m_toAnimate);
   }
 }

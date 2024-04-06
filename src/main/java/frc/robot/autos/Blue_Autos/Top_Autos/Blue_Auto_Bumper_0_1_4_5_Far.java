@@ -43,7 +43,7 @@ public class Blue_Auto_Bumper_0_1_4_5_Far extends SequentialCommandGroup {
                 new Turret_Goto_Angle(turret, Constants.AutonTurretPositions.Top.Position_1),
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Blue_Top_Bumper_0_1_Far")
+                new PathPlannerAuto("Blue_Top_Bumper_0_1")
             ),
             new ParallelCommandGroup(
                 new TurretAim_Auton(turret),

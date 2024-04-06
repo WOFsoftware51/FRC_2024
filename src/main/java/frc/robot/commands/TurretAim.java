@@ -28,7 +28,7 @@ public class TurretAim extends Command {
     public void execute() {
         /* Get Values, Deadband*/
         if(Global_Variables.tv == 1){
-           m_turret.turret_Goto_angle(m_turret.getTurretAimTarget()-2.0);
+           m_turret.turret_Goto_angle(m_turret.getTurretAimTarget()-2.75);
         }
         else if(Global_Variables.tv == 0){
            m_turret.turret_Goto_angle(Constants.Turret.TURRET_DEFAULT_POSITION);

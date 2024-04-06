@@ -1,4 +1,4 @@
-package frc.robot.autos.Red_Autos.Top_Autos;
+package frc.robot.autos.Red_Autos.Middle_Autos;
 
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
@@ -21,15 +21,15 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class Red_Auto_Bumper_0_1_4 extends SequentialCommandGroup {
+public class Red_Auto_Middle_Bumper_0_3 extends SequentialCommandGroup {
 
-    public Red_Auto_Bumper_0_1_4(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
+    public Red_Auto_Middle_Bumper_0_3(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
         
         addRequirements(swerve, turret, shooter, aSub, transfer, intake);
 
-        
+        ////////TODO
         addCommands(
-            new InstantCommand(() -> swerve.setGyro(-60)),
+            new InstantCommand(() -> swerve.zeroGyro()),
             new ParallelCommandGroup(
                 aSub.auton_Shooter_Start(shooter),
                 aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)
@@ -41,33 +41,25 @@ public class Red_Auto_Bumper_0_1_4 extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Red_Top_Bumper_0_1")
+                new PathPlannerAuto("Red_Middle_Bumper_0_3")
             ),
-            new ParallelCommandGroup(
-                new TurretAim_Auton(turret),
-                new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
-            ),
-            new ParallelRaceGroup(
-                new Auton_Wait(100),
-                aSub.auton_Shoot(transfer)
+            new ParallelRaceGroup( 
+                new Auton_Wait(50), //Wait at piece 3 for 1 second to ensure we collect the piece
+                new Transfer_IntakeCommand(transfer),
+                new IntakeCommand(intake)
             ),
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                swerve.followTrajectoryCommand("Red_Top_Bumper_1_4")
+                swerve.followTrajectoryCommand("Red_Middle_Bumper_3_0")
             ),
-            swerve.followTrajectoryCommand("Red_Top_Bumper_4_Shoot"), 
-            new ParallelCommandGroup(
-                new TurretAim_Auton(turret),
-                new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
-            ),
+            aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)
             ),
             new InstantCommand(() -> swerve.setHeading(swerve.getGyroYaw())),
             aSub.auton_Stop_Shooter(shooter)
-    
-        );    
-;    }
+        );
+    }
 }

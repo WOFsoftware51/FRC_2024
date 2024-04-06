@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.79,
+      "x": 15.75,
       "y": 4.41
     },
     "rotation": -119.74000000000001
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Red_Bottom_Bumper_0_7"
           }
         }
       ]

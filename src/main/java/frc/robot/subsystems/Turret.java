@@ -87,7 +87,7 @@ public class Turret extends SubsystemBase {
   public void turret_Goto_angle(double target){
     m_target = target;
     mMDutyCycle.Slot = 0;
-    _turret.setControl(mMDutyCycle.withPosition((target/360)*Constants.Turret.TURRET_GEAR_RATIO)); //Divide by 360 to convert Degrees to Rotations
+    _turret.setControl(mMDutyCycle.withPosition(((target)/360)*Constants.Turret.TURRET_GEAR_RATIO)); //Divide by 360 to convert Degrees to Rotations
   }
   
   public void turretOff(){

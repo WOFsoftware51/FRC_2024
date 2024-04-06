@@ -49,7 +49,7 @@ public class AutonSwerveAim extends Command {
 
     if(Global_Variables.tv == 1){
 
-      if(Global_Variables.tx < 4.0 && Global_Variables.tx > -4.0 && count > 10){
+      if(Global_Variables.tx < 4.0 && Global_Variables.tx > -4.0 && count > 15){
         endCommand = true;
         rotationVal = 0.0;
       }

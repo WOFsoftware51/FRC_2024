@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.751,
+        "x": 0.75,
         "y": 4.41
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3211515752560734,
-        "y": 1.1242403083950245
+        "x": 2.6672364483631625,
+        "y": 0.7144338376323662
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.6541610971952325,
-        "y": 1.1710836545781504
+        "x": 6.1899999999999995,
+        "y": 0.9134452505709579
       },
       "prevControl": {
-        "x": 5.4947802839188755,
-        "y": 0.7846233834860321
+        "x": 5.935492454304212,
+        "y": 0.8464865024649865
       },
       "nextControl": {
-        "x": 6.94630687721633,
-        "y": 1.2684655812518493
+        "x": 6.635019070055403,
+        "y": 1.030525943533244
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.48,
+        "y": 1.3818787124022183
+      },
+      "prevControl": {
+        "x": 7.23406897860081,
+        "y": 1.1827987578286376
+      },
+      "nextControl": {
+        "x": 7.695784398406994,
+        "y": 1.5565551236501614
       },
       "isLocked": false,
       "linkedName": null
@@ -33,11 +49,11 @@
     {
       "anchor": {
         "x": 8.6,
-        "y": 2.67
+        "y": 2.07
       },
       "prevControl": {
-        "x": 7.9441931534362356,
-        "y": 2.0610364996193615
+        "x": 7.84325887425707,
+        "y": 1.5927165435627797
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,13 +62,18 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.45,
+      "waypointRelativePos": 2.75,
+      "rotationDegrees": 35.0,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 1.5,
       "rotationDegrees": 35.0,
       "rotateFast": true
     },
     {
       "waypointRelativePos": 0.5,
-      "rotationDegrees": 0,
+      "rotationDegrees": 35.0,
       "rotateFast": false
     }
   ],

@@ -250,22 +250,16 @@ public class Swerve extends SubsystemBase {
     /**Aiming Swerve with Limelight Towards AprilTag */
     public double limelight_aim_proportional()
     {    
-        // if(tx > 20 || tx < -20){
-        //     kP = //0.00001;//SmartDashboard.getNumber("Rotation kP", 0.001666);//0.002; //0.001666;//0.002;//0.0008
-        //     kI = //0.055000;//SmartDashboard.getNumber("Rotation kI", 0.000002);//0.006;  //0.000002; //0.03;//0.05
-        //     kD = //0.00000;//SmartDashboard.getNumber("Rotation kD", 0.00000125);//0.00000000035; //0.00000125;//0.00000000001;//0.00000000005
-        // }
-        // else{
+ 
         kP = 0.001666;//0.00005;//SmartDashboard.getNumber("Rotation kP", 0.001666);//0.002; //0.001666;//0.002;//0.0008
         kI = 0.000002;//0.1 //SmartDashboard.getNumber("Rotation kI", 0.000002);//0.006;  //0.000002; //0.03;//0.05
         kD = 0.00000125;//0.00000;//SmartDashboard.getNumber("Rotation kD", 0.00000125);//0.00000000035; //0.00000125;//0.00000000001;//0.00000000005
             
-        // }
         PIDController AimPID = new PIDController(kP, kI, kD);
 
         targetingAngularVelocity = AimPID.calculate(limelightTarget(), 0);// -(tx * kP + kD*txRateOfChange() + kI*txIntegral());
         
-        targetingAngularVelocity *= 6;
+            targetingAngularVelocity *= 6;
   
         targetingAngularVelocity *= 1;
 
@@ -285,6 +279,8 @@ public class Swerve extends SubsystemBase {
 
     /**Directly follows a Pathplanner path
      * <p> NOTE: May not work because pose get weird. Sidestepped the issue by following a Pathplanner Auton and overriding the Pose in there instead.
+     * <p> ISSUE SIDESTEPPED: If you reset the post by following a Pathplanner Auton for the first path, the rest of the paths can use this function. 
+     * This ensures that pose is only reset when you run an auton, not everytime you run a path
      */
     public Command followTrajectoryCommand(String pathString) {
     
@@ -330,6 +326,7 @@ public class Swerve extends SubsystemBase {
             ()-> false,
             this // Reference to this subsystem to set requirements
         );
+
     }
     /**Resets Yaw
      *<p>Values range from [-180, 180]

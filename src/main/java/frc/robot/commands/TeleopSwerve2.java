@@ -46,7 +46,7 @@ public class TeleopSwerve2 extends Command {
               }
         }
         else{
-            rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband)*speedModifier;
+            rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband)*speedModifier*Constants.Swerve.maxAngularVelocity;
         }
         
         if(Global_Variables.left_trigger_boost)
@@ -69,7 +69,7 @@ public class TeleopSwerve2 extends Command {
         /* Drive */
         s_Swerve.drive(
             new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed).times(speedModifier), 
-            rotationVal * Constants.Swerve.maxAngularVelocity, //TODO
+            rotationVal,// * Constants.Swerve.maxAngularVelocity, //TODO
             !robotCentricSup.getAsBoolean(), 
             true
         );

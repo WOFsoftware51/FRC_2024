@@ -26,9 +26,9 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class Red_Auto_Middle_0_3_2_1 extends SequentialCommandGroup {
+public class Red_Auto_Middle_0_3_2 extends SequentialCommandGroup {
 
-    public Red_Auto_Middle_0_3_2_1(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
+    public Red_Auto_Middle_0_3_2(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
         
         addRequirements(swerve, turret, shooter, aSub, transfer, intake);
 
@@ -66,19 +66,6 @@ public class Red_Auto_Middle_0_3_2_1 extends SequentialCommandGroup {
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
                 swerve.followTrajectoryCommand("Red_Middle_Bumper_3_Shoot_2")
-            ),
-            new ParallelCommandGroup(
-                new TurretAim_Auton(turret),
-                new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
-            ),
-            new ParallelRaceGroup(
-                new Auton_Wait(100),
-                aSub.auton_Shoot(transfer)
-            ),
-            new ParallelRaceGroup(
-                new Transfer_IntakeCommand(transfer),
-                new IntakeCommand(intake),
-                swerve.followTrajectoryCommand("Red_Middle_Bumper_2_1")
             ),
             new ParallelCommandGroup(
                 new TurretAim_Auton(turret),

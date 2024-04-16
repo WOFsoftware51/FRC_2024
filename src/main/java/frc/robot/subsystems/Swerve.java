@@ -251,9 +251,9 @@ public class Swerve extends SubsystemBase {
     public double limelight_aim_proportional()
     {    
  
-        kP = 0.001666;//0.00005;//SmartDashboard.getNumber("Rotation kP", 0.001666);//0.002; //0.001666;//0.002;//0.0008
-        kI = 0.000002;//0.1 //SmartDashboard.getNumber("Rotation kI", 0.000002);//0.006;  //0.000002; //0.03;//0.05
-        kD = 0.00000125;//0.00000;//SmartDashboard.getNumber("Rotation kD", 0.00000125);//0.00000000035; //0.00000125;//0.00000000001;//0.00000000005
+        kP = 0.01666;//0.00005;//SmartDashboard.getNumber("Rotation kP", 0.001666);//0.002; //0.001666;//0.002;//0.0008
+        kI = 0.00002;//0.1 //SmartDashboard.getNumber("Rotation kI", 0.000002);//0.006;  //0.000002; //0.03;//0.05
+        kD = 0.0000125;//0.00000;//SmartDashboard.getNumber("Rotation kD", 0.00000125);//0.00000000035; //0.00000125;//0.00000000001;//0.00000000005
             
         PIDController AimPID = new PIDController(kP, kI, kD);
 

@@ -285,7 +285,7 @@ public class Swerve extends SubsystemBase {
     public Command followTrajectoryCommand(String pathString) {
     
         PathPlannerPath path = PathPlannerPath.fromPathFile(pathString);
-    
+
         return new FollowPathHolonomic(
             path,
             this::getPose, // Robot pose supplier
@@ -305,7 +305,7 @@ public class Swerve extends SubsystemBase {
                 // }
                 //     return false;
                 // 
-            this // Reference to this subsystem to set requirements
+            this // Reference to this subsystem to set requirementsd
         );
     }
 

@@ -38,7 +38,7 @@ public class Transfer_Intake extends SubsystemBase {
     }
 
     public void transferOn(){
-        transfer_intake.set(-1);
+        transfer_intake.set(-1.0); //-1
     }
 
     public void transferReverse(){

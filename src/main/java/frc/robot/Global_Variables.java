@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class Global_Variables
 {
@@ -20,6 +21,8 @@ public class Global_Variables
     public static double distanceX = 0;
     // public static final SendableChooser<Boolean> pipeline_chooser = new SendableChooser<>();
 
+    /**Turret Constant Offset Chooser */
+    public static final SendableChooser<Double> tOffset_chooser = new SendableChooser<>();
 
     public static double robot_directionY = 1;
     public static boolean isShooting = false;

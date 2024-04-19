@@ -85,7 +85,7 @@ public class Auton_Subsystem extends SubsystemBase {
     return ()-> {
       if(Global_Variables.getSensorVal() == 1){
         return false;
-      } 
+      }
       else{
         return true;
       }

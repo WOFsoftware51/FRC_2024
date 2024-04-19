@@ -26,6 +26,8 @@ import frc.robot.autos.Blue_Autos.Bottom_Autos.Blue_Auto_Bumper_0_3;
 import frc.robot.autos.Blue_Autos.Bottom_Autos.Blue_Auto_Bumper_0_7_Far;
 import frc.robot.autos.Blue_Autos.Bottom_Autos.Blue_Auto_Bumper_0_8_Far;
 import frc.robot.autos.Blue_Autos.Middle_Autos.Blue_Auto_Bumper_0_2_1_Far;
+import frc.robot.autos.Blue_Autos.Middle_Autos.Blue_Auto_Bumper_Middle_0_2_3_1;
+import frc.robot.autos.Blue_Autos.Middle_Autos.Blue_Auto_Bumper_Middle_0_3_2_1;
 import frc.robot.autos.Blue_Autos.Middle_Autos.Blue_Auto_Middle_0_2_6;
 import frc.robot.autos.Blue_Autos.Middle_Autos.Blue_Auto_Middle_0_3_2;
 import frc.robot.autos.Blue_Autos.Middle_Autos.Blue_Auto_Middle_0_3_2_1;
@@ -49,6 +51,8 @@ import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_Bumper_0_7_Far;
 import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_Bumper_0_8_Far;
 import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_Bumper_0_8_7_Far;
 import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Bumper_0_2_1_Far;
+import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Bumper_Middle_0_2_3_1;
+import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Bumper_Middle_0_3_2_1;
 import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Middle_0_2;
 import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Middle_0_2_6;
 import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Middle_0_2_Far;
@@ -82,6 +86,7 @@ public class RobotContainer {
     // private final SendableChooser<Boolean> b_chooser = new SendableChooser<>();
 
 
+    /**Shooter Speed Chooser */
     private final SendableChooser<Double> s_chooser = new SendableChooser<>();
 
     /* Drive Controls */
@@ -128,6 +133,26 @@ public class RobotContainer {
         s_chooser.addOption("3000 rpm",  3000.0);
         s_chooser.addOption("3500 rpm",  3500.0);
         s_chooser.setDefaultOption("4000 rpm",  4000.0);
+
+        SmartDashboard.putData("Turret Angle Offset", Global_Variables.tOffset_chooser);
+
+        Global_Variables.tOffset_chooser.addOption("-3.0 degrees", -3.0);
+        Global_Variables.tOffset_chooser.addOption("-2.75 degrees", -2.75);
+        Global_Variables.tOffset_chooser.addOption("-2.5 degrees", -2.5);
+        Global_Variables.tOffset_chooser.addOption("-2.25 degrees", -2.25);
+        Global_Variables.tOffset_chooser.addOption("-2.0 degrees", -2.0);
+        Global_Variables.tOffset_chooser.addOption("-1.75 degrees", -1.75);
+        Global_Variables.tOffset_chooser.addOption("-1.5 degrees", -1.5);
+        Global_Variables.tOffset_chooser.addOption("-1.25 degrees", -1.25);
+        Global_Variables.tOffset_chooser.addOption("-1.0 degrees", -1.0);
+        Global_Variables.tOffset_chooser.addOption("-0.75 degrees", -0.75);
+        Global_Variables.tOffset_chooser.addOption("-0.5 degrees", -0.5);
+        Global_Variables.tOffset_chooser.setDefaultOption("0.0 degrees",  0.0);
+        Global_Variables.tOffset_chooser.addOption("1.0 degrees", 1.0);
+        Global_Variables.tOffset_chooser.addOption("1.5 degrees", 1.5);
+        Global_Variables.tOffset_chooser.addOption("1.75 degrees", 1.75);
+        Global_Variables.tOffset_chooser.addOption("2.0 degrees", 2.0);
+        Global_Variables.tOffset_chooser.addOption("2.5 degrees", 2.5);
 
 
         // SmartDashboard.putData("Limelight Pipeline Chooser", Global_Variables.pipeline_chooser);
@@ -243,6 +268,8 @@ public class RobotContainer {
         // new Trigger(operator::getXButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.X_Button));
         new Trigger(operator::getYButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.Y_Button));//////
 
+        // new Trigger(operator::getYButton).whileTrue(new Transfer_Shooter_IntakeCommand_Reverse(m_Transfer));//////
+
         /* Hangar Command: Operator[BackButton, StartButton]*/
         new Trigger(operator::getBackButton).whileTrue(new HangerCommand(m_Hanger, true));
         new Trigger(operator::getStartButton).whileTrue(new HangerCommand(m_Hanger, false));
@@ -291,11 +318,12 @@ public class RobotContainer {
         a_chooser.addOption("0, 2, 1 Bumper Far Auto", 22);
         a_chooser.addOption("0, 2, 3 Middle Bumper Auto", 23);
         a_chooser.addOption("0, 3 Middle Bumper Auto", 24);
-        a_chooser.addOption("0, 3, 2, 1 Middle Bumper Auto", 25);
-        a_chooser.addOption("0, 3, 2 Middle Bumper Auto", 26);
+        // a_chooser.addOption("0, 3, 2, 1 Middle Auto", 25);
+        // a_chooser.addOption("0, 3, 2 Middle Bumper Auto", 26);
         a_chooser.addOption("0, 2, 6 Middle Bumper Auto", 27);
-
-    }        
+        a_chooser.addOption("0, 3, 2, 1 Middle Bumper Auto", 28);
+        a_chooser.addOption("0, 2, 3, 1 Middle Bumper Auto", 29);
+    }
 
 
     /**
@@ -306,8 +334,7 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         Optional<Alliance> ally = DriverStation.getAlliance();
         Command auton = null;
-        // An ExampleCommand will run in autonomous
-
+    
         if (ally.isPresent()) {
             if (ally.get() == Alliance.Red) {
                 auton = redAutons();
@@ -320,7 +347,6 @@ public class RobotContainer {
             auton = blueAutons();
         }
         return auton;
-
     }
 
 
@@ -354,6 +380,8 @@ public class RobotContainer {
             case 25: return new Blue_Auto_Middle_0_3_2_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 26: return new Blue_Auto_Middle_0_3_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 27: return new Blue_Auto_Middle_0_2_6(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 28: return new Blue_Auto_Bumper_Middle_0_3_2_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 29: return new Blue_Auto_Bumper_Middle_0_2_3_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
 
             default: return new Shoot_Only_Auto(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
         }
@@ -389,9 +417,10 @@ public class RobotContainer {
             case 25: return new Red_Auto_Middle_0_3_2_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 26: return new Red_Auto_Middle_0_3_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 27: return new Red_Auto_Middle_0_2_6(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 28: return new Red_Auto_Bumper_Middle_0_3_2_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake); 
+            case 29: return new Red_Auto_Bumper_Middle_0_2_3_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
 
             default: return new Shoot_Only_Auto(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
         }
     }
 }
-

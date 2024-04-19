@@ -144,6 +144,7 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putBoolean("Turret Forward Limit", _turret.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround);
     SmartDashboard.putBoolean("Turret Rev Limit", _turret.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround);
     SmartDashboard.putNumber("getTurretAimTarget", getTurretAimTarget());
+    SmartDashboard.putNumber("Turret Real Target", m_target);
     SmartDashboard.putNumber("Turret Cancoder Pos", turretCANCoder.getAbsolutePosition().getValue());
     SmartDashboard.putNumber("Turret Pos", getTurretEncoder()*Constants.Turret.TURRET_GEAR_RATIO/360);
     SmartDashboard.putNumber("distanceY", Global_Variables.distanceY);

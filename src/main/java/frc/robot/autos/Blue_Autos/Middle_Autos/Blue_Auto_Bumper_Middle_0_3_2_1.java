@@ -1,4 +1,4 @@
-package frc.robot.autos.Red_Autos.Bottom_Autos;
+package frc.robot.autos.Blue_Autos.Middle_Autos;
 
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
@@ -14,44 +14,62 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Transfer_Intake;
 import frc.robot.subsystems.Turret;
 
+import java.util.HashMap;
+
+import com.pathplanner.lib.commands.FollowPathWithEvents;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-/**CORRECTION: 0, 7, 8 */
-public class Red_Auto_Bumper_0_8_7_Far extends SequentialCommandGroup {
 
-    public Red_Auto_Bumper_0_8_7_Far(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
+public class Blue_Auto_Bumper_Middle_0_3_2_1 extends SequentialCommandGroup {
+
+    public Blue_Auto_Bumper_Middle_0_3_2_1(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
         
         addRequirements(swerve, turret, shooter, aSub, transfer, intake);
 
-        
+
+        ////////TODO
         addCommands(
-            new InstantCommand(() -> swerve.setGyro(60)),
+            new InstantCommand(() -> swerve.zeroGyro()),
             new ParallelCommandGroup(
                 aSub.auton_Shooter_Start(shooter),
                 aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION)
             ),
             new ParallelRaceGroup(
+                new Auton_Wait(125),
+                aSub.auton_Shoot(transfer)
+            ),
+            new ParallelRaceGroup(
+                new Transfer_IntakeCommand(transfer),
+                new IntakeCommand(intake),
+                new PathPlannerAuto("Blue_Middle_Bumper_0_3")
+            ),
+            new ParallelRaceGroup(
+                new Transfer_IntakeCommand(transfer),
+                new IntakeCommand(intake),
+                swerve.followTrajectoryCommand("Blue_Middle_Bumper_3_0")
+            ),
+            aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION),
+            new ParallelRaceGroup(
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)
             ),
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                new PathPlannerAuto("Red_Bottom_Bumper_0_7")
+                swerve.followTrajectoryCommand("Blue_0_2")
             ),
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                swerve.followTrajectoryCommand("Red_Bottom_Bumper_7_Shoot")
+                swerve.followTrajectoryCommand("Blue_2_0")
             ),
-            new ParallelCommandGroup(
-                new TurretAim_Auton(turret),
-                new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
-            ),
+            aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)
@@ -59,17 +77,14 @@ public class Red_Auto_Bumper_0_8_7_Far extends SequentialCommandGroup {
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                swerve.followTrajectoryCommand("Red_7_Far_8")
+                swerve.followTrajectoryCommand("Blue_Middle_Bumper_0_1")
             ),
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
                 new IntakeCommand(intake),
-                swerve.followTrajectoryCommand("Red_Bottom_Bumper_8_Shoot")
+                swerve.followTrajectoryCommand("Blue_Middle_Bumper_1_0")
             ),
-            new ParallelRaceGroup( 
-                new TurretAim_Auton(turret),
-                new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
-            ),
+            aSub.auton_Turret_Start(turret, Constants.Turret.TURRET_DEFAULT_POSITION),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)

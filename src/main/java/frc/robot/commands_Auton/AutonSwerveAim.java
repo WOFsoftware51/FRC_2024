@@ -65,7 +65,7 @@ public class AutonSwerveAim extends Command {
     /* Drive */
     s_Swerve.drive(
       new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed).times(speedModifier), 
-        rotationVal * Constants.Swerve.maxAngularVelocity, 
+        rotationVal, 
         false, 
         true
     );

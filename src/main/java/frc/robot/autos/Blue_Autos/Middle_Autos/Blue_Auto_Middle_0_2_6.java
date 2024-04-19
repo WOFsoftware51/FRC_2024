@@ -43,8 +43,7 @@ public class Blue_Auto_Middle_0_2_6 extends SequentialCommandGroup {
                 new IntakeCommand(intake)
             ),
             new ParallelCommandGroup(
-                new TurretAim_Auton(turret),
-                new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
+                new TurretAim_Auton(turret)
             ),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
@@ -61,8 +60,7 @@ public class Blue_Auto_Middle_0_2_6 extends SequentialCommandGroup {
                 new IntakeCommand(intake)
             ),
             new ParallelCommandGroup(
-                new TurretAim_Auton(turret),
-                new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
+                new TurretAim_Auton(turret)
             ),
             new ParallelRaceGroup(
                 new Auton_Wait(100),

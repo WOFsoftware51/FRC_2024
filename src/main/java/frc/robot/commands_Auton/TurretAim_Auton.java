@@ -33,7 +33,7 @@ public class TurretAim_Auton extends Command {
     public void execute() {
         /* Get Values, Deadband*/
         if(Global_Variables.tv == 1){
-           m_turret.turret_Goto_angle(m_turret.getTurretAimTarget()-2.75);
+           m_turret.turret_Goto_angle(m_turret.getTurretAimTarget()+Global_Variables.tOffset_chooser.getSelected());//-2.75);
         
             if(Global_Variables.turretPos < Global_Variables.turretTarget + 1 && Global_Variables.turretPos > Global_Variables.turretTarget - 1 && count > 10){
                 endCommand = true;

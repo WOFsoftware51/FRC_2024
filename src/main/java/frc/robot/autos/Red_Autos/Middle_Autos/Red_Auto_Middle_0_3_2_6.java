@@ -15,8 +15,6 @@ import frc.robot.subsystems.Transfer_Intake;
 import frc.robot.subsystems.Turret;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -24,9 +22,9 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class Red_Auto_Middle_0_2_6 extends SequentialCommandGroup {
+public class Red_Auto_Middle_0_3_2_6 extends SequentialCommandGroup {
 
-    public Red_Auto_Middle_0_2_6(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
+    public Red_Auto_Middle_0_3_2_6(Swerve swerve, Turret turret, Shooter shooter, Auton_Subsystem aSub, Transfer_Intake transfer, Intake intake){
         addRequirements(swerve, turret, shooter, aSub, transfer, intake);
         
         addCommands(
@@ -41,7 +39,30 @@ public class Red_Auto_Middle_0_2_6 extends SequentialCommandGroup {
             ),
             new ParallelRaceGroup(
                 new Transfer_IntakeCommand(transfer),
-                new PathPlannerAuto("Red_0_2"),
+                new IntakeCommand(intake),
+                new PathPlannerAuto("Red_Middle_Bumper_0_3")
+            ),
+            new ParallelRaceGroup( 
+                new Auton_Wait(50), //Wait at piece 3 for 1 second to ensure we collect the piece
+                new Transfer_IntakeCommand(transfer),
+                new IntakeCommand(intake)
+            ),
+            new ParallelRaceGroup(
+                new Transfer_IntakeCommand(transfer),
+                new IntakeCommand(intake),
+                swerve.followTrajectoryCommand("Red_Middle_Bumper_3_Shoot_2")
+            ),
+            new ParallelCommandGroup(
+                new TurretAim_Auton(turret),
+                new AutonSwerveAim(swerve, ()-> 0.0, ()-> 0.0)
+            ),
+            new ParallelRaceGroup(
+                new Auton_Wait(100),
+                aSub.auton_Shoot(transfer)
+            ),
+            new ParallelRaceGroup(
+                new Transfer_IntakeCommand(transfer),
+                swerve.followTrajectoryCommand("Red_0_2"),
                 new IntakeCommand(intake)
             ),
             new ParallelCommandGroup(

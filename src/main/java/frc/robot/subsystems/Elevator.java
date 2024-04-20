@@ -74,7 +74,7 @@ public class Elevator extends SubsystemBase {
 
     public void elevatorOn(double x){
     // _elevator.setControl(voltageOut.withOutput(12*(x*0.5)));
-    _elevator.set(-x*0.85);
+    _elevator.set(-x*1.0); //*0.85
   }
 
   public void elevatorReverse(){
@@ -111,7 +111,7 @@ public class Elevator extends SubsystemBase {
     _elevator.stopMotor();
   }
 
-  public void getMotorPow(){
+  public void getMotorAcceleration(){
     _elevator.getAcceleration();
   }
 

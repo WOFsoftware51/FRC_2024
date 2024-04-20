@@ -21,7 +21,7 @@ public final class Constants {
     
     public static final double APRIL_TAG_HEIGHT = 57;// 57.25; //54
     public static final double LIMELIGHT_HEIGHT = 7.0;// 57.25; //54
-    public static final double LIMELIGHT_ANGLE = 30.3; //32
+    public static final double LIMELIGHT_ANGLE = 31.15; //30.3
 
 
 

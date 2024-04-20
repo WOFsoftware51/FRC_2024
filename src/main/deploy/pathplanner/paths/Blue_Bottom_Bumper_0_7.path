@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6672364483631625,
-        "y": 0.7144338376323662
+        "x": 2.379705757984981,
+        "y": 2.7871790978959985
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.1899999999999995,
-        "y": 1.08
+        "x": 4.780427249870191,
+        "y": 0.749493538930016
       },
       "prevControl": {
-        "x": 5.935492454304212,
-        "y": 1.0130412518940286
+        "x": 4.537524959419668,
+        "y": 0.6482214200724444
       },
       "nextControl": {
-        "x": 6.635019070055403,
-        "y": 1.197080692962286
+        "x": 5.186034164336516,
+        "y": 0.9186013376876971
       },
       "isLocked": false,
       "linkedName": null
@@ -36,24 +36,24 @@
         "y": 1.81
       },
       "prevControl": {
-        "x": 7.23406897860081,
-        "y": 1.6109200454264194
+        "x": 7.185876691438326,
+        "y": 1.683938588930896
       },
       "nextControl": {
-        "x": 7.695784398406994,
-        "y": 1.9846764112479431
+        "x": 7.794930857025843,
+        "y": 1.9449795377320638
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.6,
-        "y": 2.6
+        "x": 8.87,
+        "y": 2.58
       },
       "prevControl": {
-        "x": 7.84325887425707,
-        "y": 2.12271654356278
+        "x": 8.778086466074477,
+        "y": 2.5406058090409056
       },
       "nextControl": null,
       "isLocked": false,
@@ -63,12 +63,12 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 2.75,
-      "rotationDegrees": 35.0,
+      "rotationDegrees": 23.2,
       "rotateFast": true
     },
     {
       "waypointRelativePos": 1.5,
-      "rotationDegrees": 35.0,
+      "rotationDegrees": 23.2,
       "rotateFast": true
     },
     {
@@ -87,7 +87,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 35.0,
+    "rotation": 23.2,
     "rotateFast": true
   },
   "reversed": false,

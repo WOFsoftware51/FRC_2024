@@ -3,8 +3,11 @@ package frc.robot.subsystems;
 
 import java.util.Optional;
 
+import org.ejml.simple.SimpleMatrix;
+
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathHolonomic;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -13,8 +16,14 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -22,15 +31,18 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Global_Variables;
+import frc.robot.LimelightHelpers;
 import frc.robot.SwerveModule;
 
 public class Swerve extends SubsystemBase {
@@ -53,6 +65,13 @@ public class Swerve extends SubsystemBase {
 
     public double botpose[];
 
+    /**Bigger Number means less trustworthy driveTrain */
+    public Vector<N3> driveTrainStandardDeviation = VecBuilder.fill(0.1, 0.1, 0.1);
+    public Vector<N3> visionStandardDeviation = VecBuilder.fill(0.9, 0.9, 0.9);
+
+    
+    public SwerveDrivePoseEstimator robotPose;
+
 
     public Swerve() {
         gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.CANIVORE_NAME);
@@ -69,14 +88,10 @@ public class Swerve extends SubsystemBase {
             new SwerveModule(3, Constants.Swerve.Mod3.constants)
         };
 
+        robotPose =  new SwerveDrivePoseEstimator(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions(), new Pose2d(), driveTrainStandardDeviation,visionStandardDeviation);
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());//, new Pose2d()); //TODO Test This
-
+       
         configureAuton();
-        SmartDashboard.putNumber("Rotation kP", kP);
-        SmartDashboard.putNumber("Rotation kI", kI);
-        SmartDashboard.putNumber("Rotation kD", kD);
-
-
     }
     /**Drive command used in auton */
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) 
@@ -298,13 +313,13 @@ public class Swerve extends SubsystemBase {
                     Constants.Swerve.driveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                     new ReplanningConfig() // Default path replanning config. See the API for the options here
             ),
-            () ->  false, //Probably doesn't need to flip because field lacks symetry
-                      // var alliance = DriverStation.getAlliance();
-                // if (alliance.isPresent()) {
-                //     return alliance.get() == DriverStation.Alliance.Red;
-                // }
-                //     return false;
-                // 
+            () -> {
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+            },
             this // Reference to this subsystem to set requirementsd
         );
     }
@@ -323,7 +338,13 @@ public class Swerve extends SubsystemBase {
                 Constants.Swerve.driveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                 new ReplanningConfig()), // Default path replanning config. See the API for the options here
             // () -> false,
-            ()-> false,
+            () -> {
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+            },
             this // Reference to this subsystem to set requirements
         );
 
@@ -343,14 +364,27 @@ public class Swerve extends SubsystemBase {
 
         return new PathPlannerAuto(path);
     }
+
+    /**Adds a  */
+    private void addVisionToPoseEstimator(){
+        if(tv == 1){
+            robotPose.addVisionMeasurement(getPose(), 0.02);
+        }
+    }
+
+    private Pose3d getVisionPose(){
+        return LimelightHelpers.getBotPose3d_wpiBlue("limelight");
+    }
     @Override
     public void periodic(){
-        // swerveOdometry.update(getGyroYaw(), getModulePositions());
+
 
         swerveOdometry.update(getGyroYaw(), getModulePositions());
+        // addVisionToPoseEstimator();
+
         yawFixed = Math.abs((360-gyro.getAngle())% 360);
 
-        SmartDashboard.putNumber("yawFixeds", yawFixed); 
+        SmartDashboard.putNumber("yawFixeds", yawFixed);
         SmartDashboard.putNumber("yaw", getGyroYaw().getDegrees()); 
 
 
@@ -362,13 +396,11 @@ public class Swerve extends SubsystemBase {
         tv = table.getEntry("tv").getDouble(0);
         ty = table.getEntry("ty").getDouble(0);
         tx = table.getEntry("tx").getDouble(0);
-        // botpose = table.getEntry("botpose").getDoubleArray(new double[6]); 
+
         distanceY = (Constants.APRIL_TAG_HEIGHT-Constants.LIMELIGHT_HEIGHT)/(Math.tan(Math.toRadians(Constants.LIMELIGHT_ANGLE+ty)));
         distanceX = distanceY/(Math.tan(Math.toRadians(tx)));
 
 
-        // txCenterRobot = Math.atan(distanceY/(distanceX+Math.tan(Global_Variables.tx)));
-        // // // // double bLat = botpose[6];
 
         SmartDashboard.putNumber("tx", Global_Variables.tx);
         SmartDashboard.putNumber("tv", Global_Variables.tv);
@@ -376,18 +408,9 @@ public class Swerve extends SubsystemBase {
 
         SmartDashboard.putNumber("Drive Speed Chassis Speeds", Math.sqrt(Math.pow(getChassisSpeeds().vxMetersPerSecond, 2) + Math.pow(getChassisSpeeds().vyMetersPerSecond, 2)));
         SmartDashboard.putNumber("Pose2d Rotation", swerveOdometry.getPoseMeters().getRotation().getDegrees());
-        // if (ally.isPresent()) {
-        //     if (ally.get() == Alliance.Red) {
-        //         table.getEntry("pipeline").setNumber(0);
-        //     }
-        //     else if (ally.get() == Alliance.Blue) {
-        //         table.getEntry("pipeline").setNumber(1);
-        //     }
-        //     // else if(Global_Variables.pipeline_chooser){
-        //     //     table.getEntry("pipeline").setNumber(3);
-        //     // }
-        // }
 
+        SmartDashboard.putNumber("Vision Pose X", getVisionPose().getX());
+        SmartDashboard.putNumber("Vision Pose Y", getVisionPose().getY());
 
         Global_Variables.tx = tx;
         Global_Variables.ty = ty;
@@ -396,5 +419,6 @@ public class Swerve extends SubsystemBase {
         Global_Variables.distanceYFixed = getDistanceYFixed();
         Global_Variables.yawFixed = yawFixed;
         Global_Variables.swerveLimelightTarget = limelight_aim_proportional();
+
     }  
 }

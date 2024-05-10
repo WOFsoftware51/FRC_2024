@@ -22,8 +22,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,26 +37,13 @@ public class Swerve extends SubsystemBase {
     public Pigeon2 gyro;
     public double speedMod  = Constants.DRIVE_SPEED;
 
-    private NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    public double tx = 0.0;
-    public double ty = 0.0;
-    public double tv = 0.0;
-    public double distanceY = 0.0;
-    public double distanceX = 0.0;
-    public double distanceXY = 0.0;
-    public double txCenterRobot = 0.0;  
     public double yawFixed = 0.0;
 
     Optional<Alliance> ally = DriverStation.getAlliance();
 
-    public double botpose[];
-
 
     public Swerve() {
         gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.CANIVORE_NAME);
-        // Pigeon2Configuration gyroConfigs = new Pigeon2Configuration();
-        // gyroConfigs.Pigeon2Features.withEnableCompass(false);
-        // gyro.getConfigurator().apply(gyroConfigs);
 
         gyro.getConfigurator().apply(new Pigeon2Configuration());
         gyro.setYaw(0, 0.1);
@@ -69,7 +54,7 @@ public class Swerve extends SubsystemBase {
             new SwerveModule(3, Constants.Swerve.Mod3.constants)
         };
 
-        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());//, new Pose2d()); //TODO Test This
+        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
 
         configureAuton();
         SmartDashboard.putNumber("Rotation kP", kP);
@@ -108,7 +93,7 @@ public class Swerve extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
 
         for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], true); //false); //TODO test this
+            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], true);
         }
         //Use this instead?
         /*setModuleStates(swerveModuleStates) */
@@ -160,7 +145,6 @@ public class Swerve extends SubsystemBase {
 }
 
     public void zeroHeading(){
-        // swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
         swerveOdometry.resetPosition(new Rotation2d(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
     }
 
@@ -335,9 +319,6 @@ public class Swerve extends SubsystemBase {
         gyro.setYaw(newAngle); //180-newAngle
     }
 
-    public double getDistanceYFixed(){
-        return ((0.0)*Math.pow(distanceY, 0) + 0.0);
-    }
 
     public PathPlannerAuto pathPlannerAuto(String path){
 
@@ -345,7 +326,6 @@ public class Swerve extends SubsystemBase {
     }
     @Override
     public void periodic(){
-        // swerveOdometry.update(getGyroYaw(), getModulePositions());
 
         swerveOdometry.update(getGyroYaw(), getModulePositions());
         yawFixed = Math.abs((360-gyro.getAngle())% 360);
@@ -359,42 +339,11 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); 
         }
-        tv = table.getEntry("tv").getDouble(0);
-        ty = table.getEntry("ty").getDouble(0);
-        tx = table.getEntry("tx").getDouble(0);
-        // botpose = table.getEntry("botpose").getDoubleArray(new double[6]); 
-        distanceY = (Constants.APRIL_TAG_HEIGHT-Constants.LIMELIGHT_HEIGHT)/(Math.tan(Math.toRadians(Constants.LIMELIGHT_ANGLE+ty)));
-        distanceX = distanceY/(Math.tan(Math.toRadians(tx)));
 
-
-        // txCenterRobot = Math.atan(distanceY/(distanceX+Math.tan(Global_Variables.tx)));
-        // // // // double bLat = botpose[6];
-
-        SmartDashboard.putNumber("tx", Global_Variables.tx);
-        SmartDashboard.putNumber("tv", Global_Variables.tv);
-        SmartDashboard.putNumber("ty", Global_Variables.ty);
 
         SmartDashboard.putNumber("Drive Speed Chassis Speeds", Math.sqrt(Math.pow(getChassisSpeeds().vxMetersPerSecond, 2) + Math.pow(getChassisSpeeds().vyMetersPerSecond, 2)));
         SmartDashboard.putNumber("Pose2d Rotation", swerveOdometry.getPoseMeters().getRotation().getDegrees());
-        // if (ally.isPresent()) {
-        //     if (ally.get() == Alliance.Red) {
-        //         table.getEntry("pipeline").setNumber(0);
-        //     }
-        //     else if (ally.get() == Alliance.Blue) {
-        //         table.getEntry("pipeline").setNumber(1);
-        //     }
-        //     // else if(Global_Variables.pipeline_chooser){
-        //     //     table.getEntry("pipeline").setNumber(3);
-        //     // }
-        // }
 
-
-        Global_Variables.tx = tx;
-        Global_Variables.ty = ty;
-        Global_Variables.tv = tv;
-        Global_Variables.distanceY = distanceY;
-        Global_Variables.distanceYFixed = getDistanceYFixed();
         Global_Variables.yawFixed = yawFixed;
-        Global_Variables.swerveLimelightTarget = limelight_aim_proportional();
     }  
 }

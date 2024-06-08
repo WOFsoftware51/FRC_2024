@@ -1,7 +1,12 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.LimelightHelpers.PoseEstimate;
+import frc.robot.LimelightHelpers.RawFiducial;
 
 public class Global_Variables
 {
@@ -19,6 +24,9 @@ public class Global_Variables
     public static double distanceY = 0;
     public static double distanceYFixed = 0;
     public static double distanceX = 0;
+    public static PoseEstimate visionPoseEstimate2d = new PoseEstimate(new Pose2d(new Translation2d(1,1), new Rotation2d()), 0,0,0,0,0,0, new RawFiducial[1]);
+    public static Pose2d visionPoseStart = new Pose2d();
+
     // public static final SendableChooser<Boolean> pipeline_chooser = new SendableChooser<>();
 
     /**Turret Constant Offset Chooser */

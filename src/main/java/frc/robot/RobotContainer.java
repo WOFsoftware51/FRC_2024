@@ -107,6 +107,7 @@ public class RobotContainer {
     private final Shooter m_Shooter = new Shooter();
     private final Auton_Subsystem m_aSub = new Auton_Subsystem();
     private final CANdle_Subsystem m_Candle = new CANdle_Subsystem();
+    private final Limelight m_Limelight = new Limelight();
     
 
 

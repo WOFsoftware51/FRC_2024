@@ -4,7 +4,9 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Global_Variables;
 import frc.robot.LimelightHelpers;
+import frc.robot.LimelightHelpers.PoseEstimate;
 
 public class Limelight extends SubsystemBase {
 
@@ -26,41 +29,50 @@ public class Limelight extends SubsystemBase {
     public double txCenterRobot = 0.0;  
     public double yawFixed = 0.0;
 
-  /** Creates a new Limelight. */
-  public Limelight() {
-
-  }
-  
-public double getDistanceYFixed(){
-    return ((0.0)*Math.pow(distanceY, 0) + 0.0);
-}
-private Pose3d getVisionPose(){
-    return LimelightHelpers.getBotPose3d_wpiBlue("limelight");
-}
+    private Pose2d startingPose2d;
+    private Pose2d visionPoseStartClone;
+    /** Creates a new Limelight. */
+    public Limelight() {
+        startingPose2d = new Pose2d();
+        visionPoseStartClone = getVisionPoseEstimate2d().pose;
+    }
+    private double getDistanceYFixed(){
+        return ((0.0)*Math.pow(distanceY, 0) + 0.0);
+    }
+    private PoseEstimate getVisionPoseEstimate2d(){
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+    }
+    private void updateStartingPose2d(){
+        Transform2d t = getVisionPoseEstimate2d().pose.minus(visionPoseStartClone);
+        startingPose2d = new Pose2d(t.getTranslation(), t.getRotation());
+    }
 
 
   @Override
   public void periodic() {
-    
-
-    SmartDashboard.putNumber("tx", Global_Variables.tx);
-    SmartDashboard.putNumber("tv", Global_Variables.tv);
-    SmartDashboard.putNumber("ty", Global_Variables.ty);
-
     tv = table.getEntry("tv").getDouble(0);
     ty = table.getEntry("ty").getDouble(0);
     tx = table.getEntry("tx").getDouble(0);
-
     distanceY = (Constants.APRIL_TAG_HEIGHT-Constants.LIMELIGHT_HEIGHT)/(Math.tan(Math.toRadians(Constants.LIMELIGHT_ANGLE+ty)));
     distanceX = distanceY/(Math.tan(Math.toRadians(tx)));
-
+    updateStartingPose2d();
     Global_Variables.tx = tx;
     Global_Variables.ty = ty;
     Global_Variables.tv = tv;
     Global_Variables.distanceY = distanceY;
-    Global_Variables.distanceYFixed = getDistanceYFixed();
-    SmartDashboard.putNumber("Vision Pose X", getVisionPose().getX());
-    SmartDashboard.putNumber("Vision Pose Y", getVisionPose().getY());
+    Global_Variables.distanceYFixed = getDistanceYFixed()
+    ;
+    SmartDashboard.putNumber("tx", Global_Variables.tx);
+    SmartDashboard.putNumber("tv", Global_Variables.tv);
+    SmartDashboard.putNumber("ty", Global_Variables.ty);
+    SmartDashboard.putNumber("Vision Pose X", Global_Variables.visionPoseEstimate2d.pose.getX());
+    SmartDashboard.putNumber("Vision Pose Y", Global_Variables.visionPoseEstimate2d.pose.getY());
+
+    SmartDashboard.putNumber("Vision Pose X From Start ", Global_Variables.visionPoseStart.getX());
+    SmartDashboard.putNumber("Vision Pose Y Fromt Start", Global_Variables.visionPoseStart.getY());
+
+
+
 
 
 }

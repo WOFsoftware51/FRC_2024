@@ -42,11 +42,11 @@ public class Limelight extends SubsystemBase {
     private PoseEstimate getVisionPoseEstimate2d(){
         return LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
     }
-    private void updateStartingPose2d(){
+    private Pose2d updateStartingPose2d(){
         Transform2d t = getVisionPoseEstimate2d().pose.minus(visionPoseStartClone);
-        startingPose2d = new Pose2d(t.getTranslation(), t.getRotation());
+        return startingPose2d = new Pose2d(t.getTranslation(), t.getRotation());
     }
-
+    
 
   @Override
   public void periodic() {
@@ -55,21 +55,22 @@ public class Limelight extends SubsystemBase {
     tx = table.getEntry("tx").getDouble(0);
     distanceY = (Constants.APRIL_TAG_HEIGHT-Constants.LIMELIGHT_HEIGHT)/(Math.tan(Math.toRadians(Constants.LIMELIGHT_ANGLE+ty)));
     distanceX = distanceY/(Math.tan(Math.toRadians(tx)));
-    updateStartingPose2d();
     Global_Variables.tx = tx;
     Global_Variables.ty = ty;
     Global_Variables.tv = tv;
     Global_Variables.distanceY = distanceY;
-    Global_Variables.distanceYFixed = getDistanceYFixed()
-    ;
+    Global_Variables.distanceYFixed = getDistanceYFixed();
+    Global_Variables.visionPoseEstimate2d = getVisionPoseEstimate2d();
+    Global_Variables.visionPoseStart = updateStartingPose2d();
+
     SmartDashboard.putNumber("tx", Global_Variables.tx);
     SmartDashboard.putNumber("tv", Global_Variables.tv);
     SmartDashboard.putNumber("ty", Global_Variables.ty);
     SmartDashboard.putNumber("Vision Pose X", Global_Variables.visionPoseEstimate2d.pose.getX());
     SmartDashboard.putNumber("Vision Pose Y", Global_Variables.visionPoseEstimate2d.pose.getY());
 
-    SmartDashboard.putNumber("Vision Pose X From Start ", Global_Variables.visionPoseStart.getX());
-    SmartDashboard.putNumber("Vision Pose Y Fromt Start", Global_Variables.visionPoseStart.getY());
+    // SmartDashboard.putNumber("Vision Pose X From Start ", Global_Variables.visionPoseStart.getX());
+    // SmartDashboard.putNumber("Vision Pose Y Fromt Start", Global_Variables.visionPoseStart.getY());
 
 
 

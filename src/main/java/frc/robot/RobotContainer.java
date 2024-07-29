@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -239,9 +240,11 @@ public class RobotContainer {
         new Trigger(driver::getRightBumper).whileTrue(new ShootCommand(m_Shooter, ()-> 2500));
         new Trigger(driver::getRightBumper).whileTrue(new Turret_Goto_Angle(m_Turret, 12.5));
 
+        // new Trigger(driver::getAButton).whileTrue(Commands.run(()->m_Shooter.slowShot()).finallyDo(()-> {m_Shooter.shooterOff(); Global_Variables.isShooting = false;}));
+        // new Trigger(driver::getAButton).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_DEFAULT_POSITION));
+
         new Trigger(driver::getBackButton).whileTrue(new ShootCommand_Top(m_Shooter, ()-> 0.3));
         new Trigger(driver::getBackButton).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_DEFAULT_POSITION+5));
-
 
         /*GOTO Default Position and Rev up Shooter: Driver[LeftBumper]*/
         // new Trigger(driver::getLeftBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));

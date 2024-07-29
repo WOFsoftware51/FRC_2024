@@ -94,6 +94,12 @@ public class Shooter extends SubsystemBase {
       _shooter2.set(0); // Divide by 60 to go from RPM -> RPS 
     }
 
+    public void slowShot(){
+      _shooter.set(-0.3);
+      _shooter2.set(0.3); // Divide by 60 to go from RPM -> RPS 
+      Global_Variables.isShooting = true;
+    }
+
     /**Only turns on the top set of shooter wheels. Does not turn on bottom set. */
     public void shooterOnTop(double percentPower){
       // _shooter.setControl(velocityController.withVelocity(-m_velocity/60).withFeedForward(0.5)); // Divide by 60 to go from RPM -> RPS 

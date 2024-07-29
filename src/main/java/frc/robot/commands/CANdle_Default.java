@@ -28,7 +28,8 @@ public class CANdle_Default extends Command {
   @Override
   public void execute() 
   {
-    m_candle.CANdle_Default();
+    // m_candle.CANdle_Default();
+    m_candle.CANdle_Rainbow();
   }
   
   @Override

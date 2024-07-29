@@ -65,7 +65,7 @@ public class Swerve extends SubsystemBase {
             new SwerveModule(3, Constants.Swerve.Mod3.constants)
         };
 
-        swerveOdometry = new SwerveDrivePoseEstimator(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions(), Global_Variables.visionPoseEstimate2d.pose, driveTrainStandardDeviation, visionStandardDeviation);
+        swerveOdometry = new SwerveDrivePoseEstimator(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions(), new Pose2d(), driveTrainStandardDeviation, visionStandardDeviation);
 
         configureAuton();
         SmartDashboard.putNumber("Rotation kP", kP);
@@ -354,7 +354,7 @@ public class Swerve extends SubsystemBase {
         {
             rejectVision = true;
         }
-        if((Math.hypot(poseEstimator2d.pose.minus(getPose()).getX(), poseEstimator2d.pose.minus(getPose()).getX())) > 1){
+        if((Math.hypot(poseEstimator2d.pose.minus(getPose()).getX(), poseEstimator2d.pose.minus(getPose()).getX())) > 2){
             rejectVision = true;
         }
 
@@ -369,9 +369,12 @@ public class Swerve extends SubsystemBase {
 
         swerveOdometry.update(getGyroYaw(), getModulePositions());
         yawFixed = Math.abs((360-gyro.getAngle())% 360);
-        addVisionToPoseEstimator();
+        // addVisionToPoseEstimator(); 
+
         SmartDashboard.putNumber("yawFixeds", yawFixed); 
         SmartDashboard.putNumber("yaw", getGyroYaw().getDegrees()); 
+        SmartDashboard.putNumber("X Position", getPose().getX());
+        SmartDashboard.putNumber("Y Position", getPose().getY());
 
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());

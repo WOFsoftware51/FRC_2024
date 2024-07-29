@@ -29,6 +29,7 @@ public class SwerveModule {
 
 
     private final SimpleMotorFeedforward driveFeedForward = new SimpleMotorFeedforward(Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
+    private final SimpleMotorFeedforward angleFeedForward = new SimpleMotorFeedforward(Constants.Swerve.angleKS, Constants.Swerve.angleKV, Constants.Swerve.angleKA);
 
     /* drive motor control requests */
     private final DutyCycleOut driveDutyCycle = new DutyCycleOut(0);
@@ -57,7 +58,8 @@ public class SwerveModule {
     }
 
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){
-        desiredState = SwerveModuleState.optimize(desiredState, getState().angle); 
+        desiredState = SwerveModuleState.optimize(desiredState, getState().angle);
+        anglePosition.FeedForward = angleFeedForward.calculate(anglePosition.withPosition(desiredState.angle.getRotations()).Velocity);//
         mAngleMotor.setControl(anglePosition.withPosition(desiredState.angle.getRotations()));
         setSpeed(desiredState, isOpenLoop);
     }

@@ -7,6 +7,7 @@ import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
+import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ForwardLimitValue;
@@ -24,6 +25,7 @@ public class Turret extends SubsystemBase {
   private final TalonFX _turret = new TalonFX(Constants.turret, Constants.CANIVORE_NAME); //turret);
   private final CANcoder turretCANCoder = new CANcoder(Constants.turret_CANCoder, Constants.CANIVORE_NAME);
   private MotionMagicDutyCycle mMDutyCycle = new MotionMagicDutyCycle(0);
+  private PositionDutyCycle m_PositionDutyCycle = new PositionDutyCycle(0);
   private double m_target = 0;
 
 

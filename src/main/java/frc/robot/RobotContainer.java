@@ -11,9 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.Shoot_Only_Auto;
@@ -38,7 +36,6 @@ import frc.robot.autos.Blue_Autos.Bottom_Autos.Blue_Auto_Bumper_0_8_7_Far;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1_2;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1_2_3;
-import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_2;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_4;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_4_5_Far;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_5_Far;
@@ -65,7 +62,6 @@ import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1_2;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1_2_3;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1;
-import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_2;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_4;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_4_5_Far;
 import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_5_Far;
@@ -84,8 +80,6 @@ public class RobotContainer {
     private final XboxController operator = new XboxController(1);
     private final XboxController testController = new XboxController(2);
     private final SendableChooser<Integer> a_chooser = new SendableChooser<>();
-    // private final SendableChooser<Boolean> b_chooser = new SendableChooser<>();
-
 
     /**Shooter Speed Chooser */
     private final SendableChooser<Double> s_chooser = new SendableChooser<>();
@@ -109,27 +103,13 @@ public class RobotContainer {
     private final Auton_Subsystem m_aSub = new Auton_Subsystem();
     private final CANdle_Subsystem m_Candle = new CANdle_Subsystem();
     private final Limelight m_Limelight = new Limelight();
-    
-
-
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         printAutons();
 
-        // SmartDashboard.putData("Auton", a_chooser);
-        // a_chooser.setDefaultOption("Test Auto", 1);
-        // a_chooser.addOption("Example Auto", 2);
-
-        // SmartDashboard.putData("Turret Manual Enable", b_chooser);
-        // b_chooser.setDefaultOption("Hangar Manual Controller", false);
-        // b_chooser.addOption("Turret Manual Controller", true);
-
-        
-
         SmartDashboard.putData("Shot Speed", s_chooser);
-
         s_chooser.addOption("1000 rpm", 1000.0);
         s_chooser.addOption("2000 rpm",  2000.0);
         s_chooser.addOption("3000 rpm",  3000.0);
@@ -137,7 +117,6 @@ public class RobotContainer {
         s_chooser.setDefaultOption("4000 rpm",  4000.0);
 
         SmartDashboard.putData("Turret Angle Offset", Global_Variables.tOffset_chooser);
-
         Global_Variables.tOffset_chooser.addOption("-3.0 degrees", -3.0);
         Global_Variables.tOffset_chooser.addOption("-2.75 degrees", -2.75);
         Global_Variables.tOffset_chooser.addOption("-2.5 degrees", -2.5);
@@ -156,18 +135,12 @@ public class RobotContainer {
         Global_Variables.tOffset_chooser.addOption("2.0 degrees", 2.0);
         Global_Variables.tOffset_chooser.addOption("2.5 degrees", 2.5);
 
-
         // SmartDashboard.putData("Limelight Pipeline Chooser", Global_Variables.pipeline_chooser);
-
         // s_chooser.setDefaultOption("Don't Overide Limelight Control",  false);
         // s_chooser.addOption("Overide Limelight Control",  true);
 
-
-
-
-
         s_Swerve.setDefaultCommand(
-            new TeleopSwerve2(// new TeleopSwerve(
+            new TeleopSwerve2(
                 s_Swerve, 
                 () -> -driver.getRawAxis(translationAxis), 
                 () -> -driver.getRawAxis(strafeAxis), 
@@ -177,17 +150,12 @@ public class RobotContainer {
             )
         );
         
-
         m_Elevator.setDefaultCommand(new ElevatorCommand(m_Elevator, ()-> -operator.getLeftY())); //-operator.getLeftY()));
         m_Turret.setDefaultCommand(new TurretCommand(m_Turret, ()-> testController.getRightY()));
         m_Hanger.setDefaultCommand(new HangerManualCommand(m_Hanger, ()-> -operator.getRightY()));
-
         // m_Hanger.setDefaultCommand(new HangerManualCommand_SeperateControl(m_Hanger, ()-> testController.getRightY(), ()-> testController.getLeftY()));
-
-
         m_Candle.setDefaultCommand(new CANdle_Default(m_Candle));
 
-        // Configure the button bindings
         configureButtonBindings();
     }
 
@@ -198,39 +166,18 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {          
-        // new Trigger((() -> operator.getRightTriggerAxis() > 0.80)).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
-
-
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /* Driver Buttons */
-    //    zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroDrive()));
-        // zeroGyro.onTrue(new RunCommand(() -> s_Swerve.zeroDrive()));
-        // new Trigger(driver::getAButton).onTrue(new InstantCommand(()-> s_Swerve.zeroDrive()));
         new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new Right_Trigger_Boost_True());
         new Trigger(driver::getBButton).whileTrue(new Transfer_IntakeCommand_No_Sensor(m_Transfer)); //What this???
         new Trigger(testController::getXButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
 
-        
-        
-
         /*CANDle Commands*/
-        // new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new CANdle_Solid_White_Animation(m_Candle));
-        // new Trigger(driver::getLeftBumper).whileTrue(new CANdle_Purple_Command(m_Candle)); 
         new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new CANdle_Intake_Command(m_Candle));
-
-        // new Trigger(testController::getBButton).whileTrue(new RunCommand(()-> m_Candle.CANdle_Solid_Green()));
-        // new Trigger(testController::getAButton).whileTrue(new RunCommand(()-> m_Candle.CANdle_Red()));
-        // new Trigger(driver::getRightBumper).whileTrue(new CANdle_LockOn_Command(m_Candle));
         new Trigger(operator::getXButton).whileTrue(new CANdle_LockOn_Command(m_Candle));
-        // new Trigger(drivser::getLeftBumper).whileTrue(new CANdle_LockOn_Command(m_Candle));
-        new Trigger(driver::getBButton).whileTrue(new CANdle_LockOn_Command(m_Candle));
+        new Trigger(driver::getBButton).whileTrue(new CANdle_LockOn_Command(m_Candle)); //What this???
 
-
-
-        /*Aiming to Score and Rev up Shooter: Driver[RightBumper] */
-        // new Trigger(operator::getXButton).whileTrue(new TelopSwerveAim(s_Swerve, () -> -driver.getRawAxis(translationAxis), () -> -driver.getRawAxis(strafeAxis)));
+        /*Aiming to Score and Rev up Shooter*/
         new Trigger(operator::getXButton).whileTrue(new TurretAim(m_Turret));
         new Trigger(operator::getXButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
         new Trigger(driver::getLeftBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
@@ -239,53 +186,37 @@ public class RobotContainer {
         /**Half Court Shot */
         new Trigger(driver::getRightBumper).whileTrue(new ShootCommand(m_Shooter, ()-> 2500));
         new Trigger(driver::getRightBumper).whileTrue(new Turret_Goto_Angle(m_Turret, 12.5));
-
-        // new Trigger(driver::getAButton).whileTrue(Commands.run(()->m_Shooter.slowShot()).finallyDo(()-> {m_Shooter.shooterOff(); Global_Variables.isShooting = false;}));
-        // new Trigger(driver::getAButton).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_DEFAULT_POSITION));
-
         new Trigger(driver::getBackButton).whileTrue(new ShootCommand_Top(m_Shooter, ()-> 0.3));
         new Trigger(driver::getBackButton).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_DEFAULT_POSITION+5));
 
-        /*GOTO Default Position and Rev up Shooter: Driver[LeftBumper]*/
-        // new Trigger(driver::getLeftBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+        /*GOTO Default Position and Rev up Shooter*/
         new Trigger(operator::getBButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
-
-        // new Trigger(driver::getLeftBumper).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_PROTECTED_POSITION));
         new Trigger(operator::getBButton).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_PROTECTED_POSITION));
 
-        /*Transfer and Floor Intake: Operator[LeftTrigger]*/
+        /*Transfer and Floor Intake*/
         new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new IntakeCommand(m_Intake));
         new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeCommand(m_Transfer));
-        // new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new RunCommand(()-> driverRumble()));
 
-        // new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeShoot(m_Transfer));
-
-        /*Transfer Intake Poop: Operator[RightBumper]*/
+        /*Transfer Intake Reverse*/
         new Trigger(operator::getRightBumper).whileTrue(new Transfer_IntakeCommand_Reverse(m_Transfer));
 
-        /*Floor Intake Reverse: Operator[LeftBumper] */
+        /*Floor Intake Reverse*/
         new Trigger(operator::getLeftBumper).whileTrue(new IntakeCommand_Reverse(m_Intake));
 
-        /*Elevator Setpositions: Operator[A, B, X, Y]*/
+        /*Elevator Setpositions*/
         new Trigger(operator::getAButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.A_Button));//////
-        // new Trigger(operator::getBButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.B_Button);
-        // new Trigger(operator::getXButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.X_Button));
         new Trigger(operator::getYButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.Y_Button));//////
 
-        // new Trigger(operator::getYButton).whileTrue(new Transfer_Shooter_IntakeCommand_Reverse(m_Transfer));//////
-
-        /* Hangar Command: Operator[BackButton, StartButton]*/
+        /* Hangar Command*/
         new Trigger(operator::getBackButton).whileTrue(new HangerCommand(m_Hanger, true));
         new Trigger(operator::getStartButton).whileTrue(new HangerCommand(m_Hanger, false));
 
-        /*Shoot: Operator[RightTrigger]*/
-
-        // new Trigger((() -> operator.getRightTriggerAxis() > 0.80)).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+        /*Move Tranfer to Shoot*/
         new Trigger((() -> operator.getRightTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeShoot(m_Transfer));
-
     }
 
-    public void driverRumble(){
+    /**Function that, when note has been intaked, causes driver controller to rumble*/
+    private void driverRumble(){
         if(Global_Variables.getSensorVal()==(1)){
             driver.setRumble(RumbleType.kBothRumble, 1);
         }
@@ -296,10 +227,8 @@ public class RobotContainer {
 
     public void printAutons(){
         SmartDashboard.putData("Auton", a_chooser);
-
         a_chooser.setDefaultOption("Leave Zone", 1);
         // a_chooser.addOption("Leave Zone + Score", 2);
-
         // a_chooser.addOption("0, 1, Auto", 3);
         // a_chooser.addOption("0, 1, 2 Auto", 4);
         // a_chooser.addOption("0, 1, 2, 3 Auto", 5);
@@ -328,7 +257,6 @@ public class RobotContainer {
         a_chooser.addOption("0, 3, 2, 1 Middle Bumper Auto", 28);
         a_chooser.addOption("0, 2, 3, 1 Middle Bumper Auto", 29);
     }
-
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -318,11 +318,18 @@ public class Swerve extends SubsystemBase {
                 Constants.Swerve.driveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                 new ReplanningConfig()), // Default path replanning config. See the API for the options here
             // () -> false,
-            ()-> false,
+            () -> {
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+            },
             this // Reference to this subsystem to set requirements
         );
 
     }
+
     /**Resets Yaw
      *<p>Values range from [-180, 180]
      */

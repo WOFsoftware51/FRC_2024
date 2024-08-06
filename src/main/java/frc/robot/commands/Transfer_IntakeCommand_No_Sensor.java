@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import frc.robot.Global_Variables;
 import frc.robot.subsystems.Transfer_Intake;
 import java.util.function.DoubleSupplier;
 

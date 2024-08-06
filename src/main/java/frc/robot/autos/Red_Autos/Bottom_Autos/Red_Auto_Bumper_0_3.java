@@ -3,7 +3,6 @@ package frc.robot.autos.Red_Autos.Bottom_Autos;
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Transfer_IntakeCommand;
-import frc.robot.commands.Transfer_IntakeShoot;
 import frc.robot.commands_Auton.Auton_Wait;
 import frc.robot.subsystems.Auton_Subsystem;
 import frc.robot.subsystems.Intake;

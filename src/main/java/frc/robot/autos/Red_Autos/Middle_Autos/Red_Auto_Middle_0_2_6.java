@@ -6,7 +6,6 @@ import frc.robot.commands_Auton.TurretAim_Auton;
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Transfer_IntakeCommand;
-import frc.robot.commands.Transfer_IntakeShoot;
 import frc.robot.subsystems.Auton_Subsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -15,13 +14,9 @@ import frc.robot.subsystems.Transfer_Intake;
 import frc.robot.subsystems.Turret;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
-
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class Red_Auto_Middle_0_2_6 extends SequentialCommandGroup {

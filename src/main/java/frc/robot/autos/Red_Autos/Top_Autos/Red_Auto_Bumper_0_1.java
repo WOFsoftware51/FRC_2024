@@ -3,7 +3,6 @@ package frc.robot.autos.Red_Autos.Top_Autos;
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Transfer_IntakeCommand;
-import frc.robot.commands.Transfer_IntakeShoot;
 import frc.robot.commands_Auton.Auton_Wait;
 import frc.robot.subsystems.Auton_Subsystem;
 import frc.robot.subsystems.Intake;
@@ -14,7 +13,6 @@ import frc.robot.subsystems.Turret;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;

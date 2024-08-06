@@ -8,8 +8,6 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Transfer_Intake;
 import frc.robot.subsystems.Turret;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;

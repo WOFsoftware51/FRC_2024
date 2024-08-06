@@ -1,10 +1,7 @@
 package frc.robot.commands_Auton;
 
-import frc.robot.Constants;
 import frc.robot.Global_Variables;
 import frc.robot.subsystems.Turret;
-
-
 import edu.wpi.first.wpilibj2.command.Command;
 
 
@@ -13,7 +10,6 @@ public class TurretAim_Auton extends Command {
     public boolean endCommand = false;
     public int count = 0;
 
-    
     public TurretAim_Auton(Turret turret) {
         this.m_turret = turret;
         addRequirements(m_turret);
@@ -28,7 +24,6 @@ public class TurretAim_Auton extends Command {
          count = 0;
     }
 
-
     @Override
     public void execute() {
         /* Get Values, Deadband*/
@@ -41,11 +36,7 @@ public class TurretAim_Auton extends Command {
             count++;
         }
         else{
-
         }
-
-
-
     }
 
     @Override

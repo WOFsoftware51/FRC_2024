@@ -3,7 +3,6 @@ package frc.robot.autos.Blue_Autos.Top_Autos;
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Transfer_IntakeCommand;
-import frc.robot.commands.Transfer_IntakeShoot;
 import frc.robot.commands_Auton.Auton_Wait;
 import frc.robot.subsystems.Auton_Subsystem;
 import frc.robot.subsystems.Intake;
@@ -51,7 +50,7 @@ public class Blue_Auto_Bumper_0_1_2_4 extends SequentialCommandGroup {
                 new IntakeCommand(intake),
                 swerve.followTrajectoryCommand("Blue_Top_Bumper_0_2")
             ),
-            swerve.followTrajectoryCommand("Blue_Top_Bumper_2_0"), //TODO
+            swerve.followTrajectoryCommand("Blue_Top_Bumper_2_0"),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
                 aSub.auton_Shoot(transfer)

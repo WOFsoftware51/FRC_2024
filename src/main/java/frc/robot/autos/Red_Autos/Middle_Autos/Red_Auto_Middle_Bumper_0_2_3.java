@@ -3,10 +3,7 @@ package frc.robot.autos.Red_Autos.Middle_Autos;
 import frc.robot.Constants;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.Transfer_IntakeCommand;
-import frc.robot.commands.Transfer_IntakeShoot;
-import frc.robot.commands_Auton.AutonSwerveAim;
 import frc.robot.commands_Auton.Auton_Wait;
-import frc.robot.commands_Auton.TurretAim_Auton;
 import frc.robot.subsystems.Auton_Subsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -27,7 +24,6 @@ public class Red_Auto_Middle_Bumper_0_2_3 extends SequentialCommandGroup {
         
         addRequirements(swerve, turret, shooter, aSub, transfer, intake);
 
-        ////////TODO
         addCommands(
             new InstantCommand(() -> swerve.zeroGyro()),
             new ParallelCommandGroup(

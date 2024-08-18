@@ -1,5 +1,10 @@
 package frc.robot;
 
+import java.util.Optional;
+
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -22,9 +27,7 @@ import frc.robot.autos.Blue_Autos.Bottom_Autos.Blue_Auto_Bumper_0_8_Far;
 import frc.robot.autos.Blue_Autos.Middle_Autos.Blue_Auto_Bumper_0_2_1_Far;
 import frc.robot.autos.Blue_Autos.Middle_Autos.Blue_Auto_Bumper_Middle_0_2_3_1;
 import frc.robot.autos.Blue_Autos.Middle_Autos.Blue_Auto_Bumper_Middle_0_3_2_1;
-import frc.robot.autos.Blue_Autos.Middle_Autos.Blue_Auto_Middle_0_2;
 import frc.robot.autos.Blue_Autos.Middle_Autos.Blue_Auto_Middle_0_2_6;
-import frc.robot.autos.Blue_Autos.Middle_Autos.Blue_Auto_Middle_0_2_Far;
 import frc.robot.autos.Blue_Autos.Middle_Autos.Blue_Auto_Middle_0_3_2;
 import frc.robot.autos.Blue_Autos.Middle_Autos.Blue_Auto_Middle_0_3_2_1;
 import frc.robot.autos.Blue_Autos.Middle_Autos.Blue_Auto_Middle_Bumper_0_2_3;
@@ -33,10 +36,35 @@ import frc.robot.autos.Blue_Autos.Bottom_Autos.Blue_Auto_Bumper_0_8_7_Far;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1_2;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_0_1_2_3;
-import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_4;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_4_5_Far;
 import frc.robot.autos.Blue_Autos.Top_Autos.Blue_Auto_Bumper_0_1_5_Far;
+import frc.robot.autos.Red_Autos.Red_Leave_Zone;
+import frc.robot.autos.Red_Autos.Red_Leave_Zone_0;
+import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_0_3;
+import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_0_3_2;
+import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_0_3_2_1;
+import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_Bumper_0_3;
+import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_Bumper_0_7_Far;
+import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_Bumper_0_8_Far;
+import frc.robot.autos.Red_Autos.Bottom_Autos.Red_Auto_Bumper_0_8_7_Far;
+import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Bumper_0_2_1_Far;
+import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Bumper_Middle_0_2_3_1;
+import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Bumper_Middle_0_3_2_1;
+import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Middle_0_2;
+import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Middle_0_2_6;
+import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Middle_0_2_Far;
+import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Middle_0_3_2;
+import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Middle_0_3_2_1;
+import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Middle_Bumper_0_2_3;
+import frc.robot.autos.Red_Autos.Middle_Autos.Red_Auto_Middle_Bumper_0_3;
+import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1;
+import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1_2;
+import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_0_1_2_3;
+import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1;
+import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_4;
+import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_4_5_Far;
+import frc.robot.autos.Red_Autos.Top_Autos.Red_Auto_Bumper_0_1_5_Far;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -236,7 +264,21 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return blueAutons();
+        Optional<Alliance> ally = DriverStation.getAlliance();
+        Command auton = null;
+    
+        if (ally.isPresent()) {
+            if (ally.get() == Alliance.Red) {
+                auton = redAutons();
+            }
+            if (ally.get() == Alliance.Blue) {
+                auton = blueAutons();
+            }
+        }
+        else {
+            auton = blueAutons();
+        }
+        return auton;
     }
 
 
@@ -251,14 +293,14 @@ public class RobotContainer {
             case 6: return new Blue_Auto_0_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 7: return new Blue_Auto_0_3_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 8: return new Blue_Auto_0_3_2_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
-            case 9: return new Blue_Auto_Middle_0_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 9: return new Red_Auto_Middle_0_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 10: return new Blue_Auto_Bumper_0_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
-            case 11: return new Blue_Auto_Bumper_0_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 11: return new Red_Auto_Bumper_0_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 12: return new Blue_Auto_Bumper_0_8_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 13: return new Blue_Auto_Bumper_0_8_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 14: return new Blue_Auto_Bumper_0_1_4(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 15: return new TestAuton(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake); //TestAuton
-            case 16: return new Blue_Auto_Middle_0_2_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 16: return new Red_Auto_Middle_0_2_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 17: return new Shoot_Only_Auto(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 18: return new Blue_Auto_Bumper_0_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 19: return new Blue_Auto_Bumper_0_1_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
@@ -272,6 +314,43 @@ public class RobotContainer {
             case 27: return new Blue_Auto_Middle_0_2_6(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 28: return new Blue_Auto_Bumper_Middle_0_3_2_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
             case 29: return new Blue_Auto_Bumper_Middle_0_2_3_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+
+            default: return new Shoot_Only_Auto(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+        }
+    }
+
+    private Command redAutons(){
+        switch (a_chooser.getSelected()) 
+        {
+            case 1: return new Red_Leave_Zone(s_Swerve);
+            case 2: return new Red_Leave_Zone_0(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 3: return new Red_Auto_0_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 4: return new Red_Auto_0_1_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 5: return new Red_Auto_0_1_2_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 6: return new Red_Auto_0_3_2_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 7: return new Red_Auto_0_3_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 8: return new Red_Auto_0_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 9: return new Red_Auto_Middle_0_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 10: return new Red_Auto_Bumper_0_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 11: return new Red_Auto_Bumper_0_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 12: return new Red_Auto_Bumper_0_8_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 13: return new Red_Auto_Bumper_0_8_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 14: return new Red_Auto_Bumper_0_1_4(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 15: return new TestAuton(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);  ///////////////// TestAuton
+            case 16: return new Red_Auto_Middle_0_2_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 17: return new Shoot_Only_Auto(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 18: return new Red_Auto_Bumper_0_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 19: return new Red_Auto_Bumper_0_1_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 20: return new Red_Auto_Bumper_0_8_7_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 21: return new Red_Auto_Bumper_0_1_4_5_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 22: return new Red_Auto_Bumper_0_2_1_Far(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 23: return new Red_Auto_Middle_Bumper_0_2_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 24: return new Red_Auto_Middle_Bumper_0_3(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 25: return new Red_Auto_Middle_0_3_2_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 26: return new Red_Auto_Middle_0_3_2(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 27: return new Red_Auto_Middle_0_2_6(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
+            case 28: return new Red_Auto_Bumper_Middle_0_3_2_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake); 
+            case 29: return new Red_Auto_Bumper_Middle_0_2_3_1(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
 
             default: return new Shoot_Only_Auto(s_Swerve, m_Turret, m_Shooter, m_aSub, m_Transfer, m_Intake);
         }

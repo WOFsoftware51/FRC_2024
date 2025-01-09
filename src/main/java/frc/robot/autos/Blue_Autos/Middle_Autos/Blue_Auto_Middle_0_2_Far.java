@@ -46,7 +46,7 @@ public class Blue_Auto_Middle_0_2_Far extends SequentialCommandGroup {
             ),
             new ParallelRaceGroup(
                 new Auton_Wait(100),
-                aSub.auton_Shoot(transfer)
+                aSub.auton_Shoot(transfer)  
             ),
             new InstantCommand(() -> swerve.setHeading(swerve.getGyroYaw())),
             aSub.auton_Stop_Shooter(shooter)

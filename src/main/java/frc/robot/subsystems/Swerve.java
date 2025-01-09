@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathHolonomic;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -48,7 +49,7 @@ public class Swerve extends SubsystemBase {
     Optional<Alliance> ally = DriverStation.getAlliance();
 
     public double botpose[];
-        private static Vector<N3> driveTrainStandardDeviation = VecBuilder.fill(0.1, 0.1, 0.1);
+    private static Vector<N3> driveTrainStandardDeviation = VecBuilder.fill(0.1, 0.1, 0.1);
     private static Vector<N3> visionStandardDeviation = VecBuilder.fill(0.7,0.7,9999999);
 
 
@@ -254,7 +255,7 @@ public class Swerve extends SubsystemBase {
 
         targetingAngularVelocity = AimPID.calculate(limelightTarget(), 0);// -(tx * kP + kD*txRateOfChange() + kI*txIntegral());
         
-            targetingAngularVelocity *= 6;
+        targetingAngularVelocity *= 6;
   
         targetingAngularVelocity *= 1;
 
@@ -364,6 +365,30 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    public void music_init()
+    {
+        for(SwerveModule mod : mSwerveMods)
+        {
+            mod.add_instruments();
+        }
+        SwerveModule.music_init();  
+    }
+
+    public void play_music()
+    {
+        SwerveModule.play_music();
+    }
+
+    public void stop_music()
+    {
+        SwerveModule.stop_music();
+    }
+
+    public void addToInstruments(TalonFX[] motor)
+    {
+        SwerveModule.addToInstruments(motor);
+    }
+    
     @Override
     public void periodic(){
 

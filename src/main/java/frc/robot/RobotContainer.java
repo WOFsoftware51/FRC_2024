@@ -139,6 +139,15 @@ public class RobotContainer {
         // s_chooser.setDefaultOption("Don't Overide Limelight Control",  false);
         // s_chooser.addOption("Overide Limelight Control",  true);
 
+        SmartDashboard.putData("Songs", Global_Variables.song);
+        Global_Variables.song.setDefaultOption("DMX", "DMX.chrp");
+        Global_Variables.song.setDefaultOption("Canada", "canada.chrp");
+        Global_Variables.song.setDefaultOption("Lofi Girl (Hopefully)", "Lofi_Girl.chrp");
+
+        SmartDashboard.putData("Song State", Global_Variables.songBool);
+        Global_Variables.songBool.addOption("On", true);
+        Global_Variables.songBool.addOption("Off", false);
+
         s_Swerve.setDefaultCommand(
             new TeleopSwerve2(
                 s_Swerve, 
@@ -149,7 +158,7 @@ public class RobotContainer {
                 ()-> operator.getXButton()
             )
         );
-        
+        s_Swerve.setDefaultCommand(new Music(s_Swerve).unless(()->Global_Variables.songBool.getSelected()));
         m_Elevator.setDefaultCommand(new ElevatorCommand(m_Elevator, ()-> -operator.getLeftY())); //-operator.getLeftY()));
         m_Turret.setDefaultCommand(new TurretCommand(m_Turret, ()-> testController.getRightY()));
         m_Hanger.setDefaultCommand(new HangerManualCommand(m_Hanger, ()-> -operator.getRightY()));
@@ -216,7 +225,8 @@ public class RobotContainer {
     }
 
     /**Function that, when note has been intaked, causes driver controller to rumble*/
-    private void driverRumble(){
+    private void driverRumble()
+    {
         if(Global_Variables.getSensorVal()==(1)){
             driver.setRumble(RumbleType.kBothRumble, 1);
         }

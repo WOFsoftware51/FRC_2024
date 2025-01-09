@@ -44,6 +44,10 @@ public class Global_Variables
     public static double shooterTarget = 0;
     public static double shooterSpeed = 0;
 
+    public static SendableChooser<String> song = new SendableChooser<>();
+      public static SendableChooser<Boolean> songBool = new SendableChooser<>();
+
+  
 
     
     private static DigitalInput noteSensor = new DigitalInput(9);

@@ -1,11 +1,15 @@
 package frc.robot;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -99,48 +103,48 @@ public class SwerveModule {
         );
     }
 
-    // private static Collection<ParentDevice> _instruments = new ArrayList<ParentDevice>();
+    private static Collection<ParentDevice> _instruments = new ArrayList<ParentDevice>();
 
-    // public void add_instruments()
-    // {
-    //     _instruments.add(mDriveMotor);
-    //     _instruments.add(mAngleMotor);
-    // }
+    public void add_instruments()
+    {
+        _instruments.add(mDriveMotor);
+        _instruments.add(mAngleMotor);
+    }
 
-    // public static void addToInstruments(TalonFX... motor)
-    // {
-    //     for(TalonFX t : motor){
-    //     _instruments.add(t);
-    //     }
-    // }
+    public static void addToInstruments(TalonFX... motor)
+    {
+        for(TalonFX t : motor){
+        _instruments.add(t);
+        }
+    }
 
-    // public static void music_init()
-    // {
-    //   _orchestra = new Orchestra(_instruments);
-    //  // _orchestra.loadMusic("DMX.chrp");
-    //   _orchestra.loadMusic(Global_Variables.song.getSelected());
-    //   _timeToPlayLoops = 10;
-    // }
+    public static void music_init()
+    {
+      _orchestra = new Orchestra(_instruments);
+     // _orchestra.loadMusic("DMX.chrp");
+      _orchestra.loadMusic("Songs\\" + Global_Variables.song.getSelected());
+      _timeToPlayLoops = 10;
+    }
 
-    // public static void play_music()
-    // {
-    //   if (_timeToPlayLoops > 0) {
-    //     --_timeToPlayLoops;
-    //     if (_timeToPlayLoops == 0) {
-    //         System.out.println("Auto-playing song.");
-    //         _orchestra.play();
-    //     }
-    //   }
-    // }
+    public static void play_music()
+    {
+      if (_timeToPlayLoops > 0) {
+        --_timeToPlayLoops;
+        if (_timeToPlayLoops == 0) {
+            System.out.println("Auto-playing song.");
+            _orchestra.play();
+        }
+      }
+    }
 
-    // public static void stop_music()
-    // {
-    //   if (_timeToPlayLoops > 0) {
-    //     --_timeToPlayLoops;
-    //     if (_timeToPlayLoops == 0) {
-    //         System.out.println("Auto-playing song.");
-    //         _orchestra.stop();
-    //     }
-    //   }
-    // }
+    public static void stop_music()
+    {
+      if (_timeToPlayLoops > 0) {
+        --_timeToPlayLoops;
+        if (_timeToPlayLoops == 0) {
+            System.out.println("Auto-playing song.");
+            _orchestra.stop();
+        }
+      }
+    }
 }

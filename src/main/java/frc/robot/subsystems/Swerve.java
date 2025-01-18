@@ -13,15 +13,18 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,17 +32,23 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Global_Variables;
+import frc.robot.LimelightHelpers;
 import frc.robot.SwerveModule;
+import frc.robot.LimelightHelpers.PoseEstimate;
 
 public class Swerve extends SubsystemBase {
-    public SwerveDriveOdometry swerveOdometry;
-    public SwerveModule[] mSwerveMods;
-    public Pigeon2 gyro;
+    private SwerveModule[] mSwerveMods;
+    private Pigeon2 gyro;
     public double speedMod  = Constants.DRIVE_SPEED;
 
     public double yawFixed = 0.0;
 
-    Optional<Alliance> ally = DriverStation.getAlliance();
+    private Optional<Alliance> ally = DriverStation.getAlliance();
+
+    private Vector<N3> driveTrainStandardDeviation = VecBuilder.fill(0, 0, 0);
+    private Vector<N3> visionStandardDeviation = VecBuilder.fill(0.7,0.7,9999999);
+    
+    private SwerveDrivePoseEstimator m_robotPose;
 
 
     public Swerve() {
@@ -54,14 +63,9 @@ public class Swerve extends SubsystemBase {
             new SwerveModule(3, Constants.Swerve.Mod3.constants)
         };
 
-        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
+        m_robotPose =  new SwerveDrivePoseEstimator(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions(), new Pose2d(), driveTrainStandardDeviation,visionStandardDeviation);
 
         configureAuton();
-        SmartDashboard.putNumber("Rotation kP", kP);
-        SmartDashboard.putNumber("Rotation kI", kI);
-        SmartDashboard.putNumber("Rotation kD", kD);
-
-
     }
     /**Drive command used in auton */
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) 
@@ -87,7 +91,7 @@ public class Swerve extends SubsystemBase {
     }    
     /** Robot Relative Drive
      * <P>Drive command used in auton */
-    public void driveRelative(ChassisSpeeds driveMSupplier) {
+    private void driveRelative(ChassisSpeeds driveMSupplier) {
         SwerveModuleState[] swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(driveMSupplier);
 
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
@@ -100,7 +104,7 @@ public class Swerve extends SubsystemBase {
     }    
 
     /* Used by SwerveControllerCommand in Auto */
-    public void setModuleStates(SwerveModuleState[] desiredStates) {
+    private void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
         
         for(SwerveModule mod : mSwerveMods){
@@ -129,11 +133,11 @@ public class Swerve extends SubsystemBase {
     }
 
     public Pose2d getPose() {
-        return swerveOdometry.getPoseMeters();
+        return m_robotPose.getEstimatedPosition();
     }
 
     public void setPose(Pose2d pose) {
-        swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), pose);
+        m_robotPose.resetPosition(getGyroYaw(), getModulePositions(), pose);
     }
 
     public Rotation2d getHeading(){
@@ -141,16 +145,16 @@ public class Swerve extends SubsystemBase {
     }
 
     public void setHeading(Rotation2d heading){
-        swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), heading));
+        m_robotPose.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), heading));
 }
 
     public void zeroHeading(){
-        swerveOdometry.resetPosition(new Rotation2d(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
+        m_robotPose.resetPosition(new Rotation2d(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
     }
 
     public void zeroHeadingConsumer(Pose2d heading){
         
-        swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), heading);
+        m_robotPose.resetPosition(getGyroYaw(), getModulePositions(), heading);
     }
 
     public Rotation2d getGyroYaw() {
@@ -226,24 +230,38 @@ public class Swerve extends SubsystemBase {
         return rotationVal;
     }
 
-    private double targetingAngularVelocity = 0;
-    double kP = 0.0;//SmartDashboard.getNumber("Rotation kP", 0.001666); //0.001666;
-    double kI = 0.0;//SmartDashboard.getNumber("Rotation kI", 0.000002);  //0.000002;
-    double kD = 0.0;//SmartDashboard.getNumber("Rotation kP", 0.00000125); //0.00000125;
+    /**Rotates swerve until pointing towards target angle */
+    public double gotoAngle(double targetAngleDegrees){
+        double kP = 0.01666;
+        double kI = 0.00002;
+        double kD = 0.0000125;
+            
+        PIDController AimPID = new PIDController(kP, kI, kD);
+
+        double targetingAngularVelocity = AimPID.calculate(m_robotPose.getEstimatedPosition().getRotation().getDegrees(), targetAngleDegrees);
+        
+        targetingAngularVelocity *= 6;
+  
+        targetingAngularVelocity *= 1;
+
+        return targetingAngularVelocity;
+    }
+    
+
 
     /**Aiming Swerve with Limelight Towards AprilTag */
     public double limelight_aim_proportional()
     {    
  
-        kP = 0.01666;//0.00005;//SmartDashboard.getNumber("Rotation kP", 0.001666);//0.002; //0.001666;//0.002;//0.0008
-        kI = 0.00002;//0.1 //SmartDashboard.getNumber("Rotation kI", 0.000002);//0.006;  //0.000002; //0.03;//0.05
-        kD = 0.0000125;//0.00000;//SmartDashboard.getNumber("Rotation kD", 0.00000125);//0.00000000035; //0.00000125;//0.00000000001;//0.00000000005
-            
+        double kP = 0.01666;
+        double kI = 0.00002;
+        double kD = 0.0000125;
+
         PIDController AimPID = new PIDController(kP, kI, kD);
 
-        targetingAngularVelocity = AimPID.calculate(limelightTarget(), 0);// -(tx * kP + kD*txRateOfChange() + kI*txIntegral());
+        double targetingAngularVelocity = AimPID.calculate(Global_Variables.tx, 0);// -(tx * kP + kD*txRateOfChange() + kI*txIntegral());
         
-            targetingAngularVelocity *= 6;
+        targetingAngularVelocity *= 6;
   
         targetingAngularVelocity *= 1;
 
@@ -254,18 +272,9 @@ public class Swerve extends SubsystemBase {
         // targetingAngularVelocity = limelightTarget()*kP1;
         // targetingAngularVelocity *= 1;
         // return targetingAngularVelocity;
-
     }
 
-    public double limelightTarget(){
-        return Global_Variables.tx;
-    }
-
-    /**Directly follows a Pathplanner path
-     * <p> NOTE: May not work because pose get weird. Sidestepped the issue by following a Pathplanner Auton and overriding the Pose in there instead.
-     * <p> ISSUE SIDESTEPPED: If you reset the post by following a Pathplanner Auton for the first path, the rest of the paths can use this function. 
-     * This ensures that pose is only reset when you run an auton, not everytime you run a path
-     */
+    /**Directly follows a Pathplanner path*/
     public Command followTrajectoryCommand(String pathString) {
     
         PathPlannerPath path = PathPlannerPath.fromPathFile(pathString);
@@ -282,13 +291,7 @@ public class Swerve extends SubsystemBase {
                     Constants.Swerve.driveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest module.
                     new ReplanningConfig() // Default path replanning config. See the API for the options here
             ),
-            () ->  false, //Probably doesn't need to flip because field lacks symetry
-                      // var alliance = DriverStation.getAlliance();
-                // if (alliance.isPresent()) {
-                //     return alliance.get() == DriverStation.Alliance.Red;
-                // }
-                //     return false;
-                // 
+            () ->  false,
             this // Reference to this subsystem to set requirementsd
         );
     }
@@ -320,6 +323,31 @@ public class Swerve extends SubsystemBase {
     }
 
 
+	private void addVisionToPoseEstimator(){
+        PoseEstimate poseEstimator2d = Global_Variables.visionPoseEstimate2d;
+        boolean rejectVision = false;
+        LimelightHelpers.SetRobotOrientation("limelight", m_robotPose.getEstimatedPosition().getRotation().getDegrees(),
+            gyro.getAngularVelocityZDevice().getValue(), 
+            getGyroPitch().getDegrees(), 
+            gyro.getAngularVelocityXDevice().getValue(), 
+            getGyroRoll().getDegrees(), 
+            gyro.getAngularVelocityYDevice().getValue());
+
+        if(Math.abs(gyro.getRate()) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
+        {
+            rejectVision = true;
+        }
+        if(poseEstimator2d.tagCount == 0)
+        {
+            rejectVision = true;
+        }
+
+        if(!rejectVision){
+            m_robotPose.setVisionMeasurementStdDevs(visionStandardDeviation);
+            m_robotPose.addVisionMeasurement(poseEstimator2d.pose, 0.02);
+        }
+    }
+
     public PathPlannerAuto pathPlannerAuto(String path){
 
         return new PathPlannerAuto(path);
@@ -327,7 +355,9 @@ public class Swerve extends SubsystemBase {
     @Override
     public void periodic(){
 
-        swerveOdometry.update(getGyroYaw(), getModulePositions());
+        m_robotPose.update(getGyroYaw(), getModulePositions());
+        addVisionToPoseEstimator();
+
         yawFixed = Math.abs((360-gyro.getAngle())% 360);
 
         SmartDashboard.putNumber("yawFixeds", yawFixed); 
@@ -341,8 +371,12 @@ public class Swerve extends SubsystemBase {
         }
 
 
-        SmartDashboard.putNumber("Drive Speed Chassis Speeds", Math.sqrt(Math.pow(getChassisSpeeds().vxMetersPerSecond, 2) + Math.pow(getChassisSpeeds().vyMetersPerSecond, 2)));
-        SmartDashboard.putNumber("Pose2d Rotation", swerveOdometry.getPoseMeters().getRotation().getDegrees());
+        SmartDashboard.putNumber("Drive Speed Chassis Speeds", Math.hypot(getChassisSpeeds().vxMetersPerSecond,getChassisSpeeds().vyMetersPerSecond));
+
+        SmartDashboard.putNumber("Pose2d X", m_robotPose.getEstimatedPosition().getX());
+        SmartDashboard.putNumber("Pose2d Y", m_robotPose.getEstimatedPosition().getY());
+        SmartDashboard.putNumber("Pose2d Rotation", m_robotPose.getEstimatedPosition().getRotation().getDegrees());
+
 
         Global_Variables.yawFixed = yawFixed;
     }  

@@ -26,7 +26,7 @@
             "groupId": "com.ctre.phoenix",
             "artifactId": "wpiapi-java",
             "version": "5.33.1"
-        }
+        }   
     ],
     "jniDependencies": [
         {

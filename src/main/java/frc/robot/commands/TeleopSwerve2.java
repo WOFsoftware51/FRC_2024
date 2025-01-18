@@ -39,10 +39,10 @@ public class TeleopSwerve2 extends Command {
 
     @Override
     public void execute() {
-
         if(isAiming.getAsBoolean() && Global_Variables.tv == 1){
             if(Global_Variables.tv == 1){
                 rotationVal = s_Swerve.limelight_aim_proportional();
+                // rotationVal = s_Swerve.gotoAngle(Global_Variables.visionPose);
               }
         }
         else{

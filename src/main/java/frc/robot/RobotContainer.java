@@ -107,6 +107,7 @@ public class RobotContainer {
     private final Shooter m_Shooter = new Shooter();
     private final Auton_Subsystem m_aSub = new Auton_Subsystem();
     private final CANdle_Subsystem m_Candle = new CANdle_Subsystem();
+    private final Limelight m_limelight = new Limelight(); 
     
 
 
@@ -204,80 +205,79 @@ public class RobotContainer {
         /* Driver Buttons */
     //    zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroDrive()));
-        // zeroGyro.onTrue(new RunCommand(() -> s_Swerve.zeroDrive()));
-        // new Trigger(driver::getAButton).onTrue(new InstantCommand(()-> s_Swerve.zeroDrive()));
-        new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new Right_Trigger_Boost_True());
-        new Trigger(driver::getBButton).whileTrue(new Transfer_IntakeCommand_No_Sensor(m_Transfer)); //What this???
-        new Trigger(testController::getXButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+            // zeroGyro.onTrue(new RunCommand(() -> s_Swerve.zeroDrive()));
+            // new Trigger(driver::getAButton).onTrue(new InstantCommand(()-> s_Swerve.zeroDrive()));
+            new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new Right_Trigger_Boost_True());
+            new Trigger(driver::getBButton).whileTrue(new Transfer_IntakeCommand_No_Sensor(m_Transfer)); //What this???
+            new Trigger(testController::getXButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
 
-        
-        
+            
+            
 
-        /*CANDle Commands*/
-        // new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new CANdle_Solid_White_Animation(m_Candle));
-        // new Trigger(driver::getLeftBumper).whileTrue(new CANdle_Purple_Command(m_Candle)); 
-        new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new CANdle_Intake_Command(m_Candle));
+            /*CANDle Commands*/
+            // new Trigger(() -> driver.getRightTriggerAxis() >0.8).whileTrue(new CANdle_Solid_White_Animation(m_Candle));
+            // new Trigger(driver::getLeftBumper).whileTrue(new CANdle_Purple_Command(m_Candle)); 
+            new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new CANdle_Intake_Command(m_Candle));
 
-        // new Trigger(testController::getBButton).whileTrue(new RunCommand(()-> m_Candle.CANdle_Solid_Green()));
-        // new Trigger(testController::getAButton).whileTrue(new RunCommand(()-> m_Candle.CANdle_Red()));
-        // new Trigger(driver::getRightBumper).whileTrue(new CANdle_LockOn_Command(m_Candle));
-        new Trigger(operator::getXButton).whileTrue(new CANdle_LockOn_Command(m_Candle));
-        // new Trigger(drivser::getLeftBumper).whileTrue(new CANdle_LockOn_Command(m_Candle));
-        new Trigger(driver::getBButton).whileTrue(new CANdle_LockOn_Command(m_Candle));
-
-
-
-        /*Aiming to Score and Rev up Shooter: Driver[RightBumper] */
-        // new Trigger(operator::getXButton).whileTrue(new TelopSwerveAim(s_Swerve, () -> -driver.getRawAxis(translationAxis), () -> -driver.getRawAxis(strafeAxis)));
-        new Trigger(operator::getXButton).whileTrue(new TurretAim(m_Turret));
-        new Trigger(operator::getXButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
-        new Trigger(driver::getLeftBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
-        new Trigger(driver::getLeftBumper).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_DEFAULT_POSITION));
-
-        /**Half Court Shot */
-        new Trigger(driver::getRightBumper).whileTrue(new ShootCommand(m_Shooter, ()-> 2500));
-        new Trigger(driver::getRightBumper).whileTrue(new Turret_Goto_Angle(m_Turret, 12.5));
-
-        new Trigger(driver::getBackButton).whileTrue(new ShootCommand_Top(m_Shooter, ()-> 0.3));
-        new Trigger(driver::getBackButton).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_DEFAULT_POSITION+5));
+            // new Trigger(testController::getBButton).whileTrue(new RunCommand(()-> m_Candle.CANdle_Solid_Green()));
+            // new Trigger(testController::getAButton).whileTrue(new RunCommand(()-> m_Candle.CANdle_Red()));
+            // new Trigger(driver::getRightBumper).whileTrue(new CANdle_LockOn_Command(m_Candle));
+            new Trigger(operator::getXButton).whileTrue(new CANdle_LockOn_Command(m_Candle));
+            // new Trigger(drivser::getLeftBumper).whileTrue(new CANdle_LockOn_Command(m_Candle));
+            new Trigger(driver::getBButton).whileTrue(new CANdle_LockOn_Command(m_Candle));
 
 
-        /*GOTO Default Position and Rev up Shooter: Driver[LeftBumper]*/
-        // new Trigger(driver::getLeftBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
-        new Trigger(operator::getBButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
 
-        // new Trigger(driver::getLeftBumper).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_PROTECTED_POSITION));
-        new Trigger(operator::getBButton).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_PROTECTED_POSITION));
+            /*Aiming to Score and Rev up Shooter: Driver[RightBumper] */
+            // new Trigger(operator::getXButton).whileTrue(new TelopSwerveAim(s_Swerve, () -> -driver.getRawAxis(translationAxis), () -> -driver.getRawAxis(strafeAxis)));
+            new Trigger(operator::getXButton).whileTrue(new TurretAim(m_Turret));
+            new Trigger(operator::getXButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+            new Trigger(driver::getLeftBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+            new Trigger(driver::getLeftBumper).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_DEFAULT_POSITION));
 
-        /*Transfer and Floor Intake: Operator[LeftTrigger]*/
-        new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new IntakeCommand(m_Intake));
-        new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeCommand(m_Transfer));
-        // new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new RunCommand(()-> driverRumble()));
+            /**Half Court Shot */
+            new Trigger(driver::getRightBumper).whileTrue(new ShootCommand(m_Shooter, ()-> 2500));
+            new Trigger(driver::getRightBumper).whileTrue(new Turret_Goto_Angle(m_Turret, 12.5));
 
-        // new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeShoot(m_Transfer));
+            new Trigger(driver::getBackButton).whileTrue(new ShootCommand_Top(m_Shooter, ()-> 0.3));
+            new Trigger(driver::getBackButton).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_DEFAULT_POSITION+5));
 
-        /*Transfer Intake Poop: Operator[RightBumper]*/
-        new Trigger(operator::getRightBumper).whileTrue(new Transfer_IntakeCommand_Reverse(m_Transfer));
 
-        /*Floor Intake Reverse: Operator[LeftBumper] */
-        new Trigger(operator::getLeftBumper).whileTrue(new IntakeCommand_Reverse(m_Intake));
+            /*GOTO Default Position and Rev up Shooter: Driver[LeftBumper]*/
+            // new Trigger(driver::getLeftBumper).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+            new Trigger(operator::getBButton).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+            // new Trigger(driver::getLeftBumper).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_PROTECTED_POSITION));
+            new Trigger(operator::getBButton).whileTrue(new Turret_Goto_Angle(m_Turret, Constants.Turret.TURRET_PROTECTED_POSITION));
 
-        /*Elevator Setpositions: Operator[A, B, X, Y]*/
-        new Trigger(operator::getAButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.A_Button));//////
-        // new Trigger(operator::getBButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.B_Button);
-        // new Trigger(operator::getXButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.X_Button));
-        new Trigger(operator::getYButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.Y_Button));//////
+            /*Transfer and Floor Intake: Operator[LeftTrigger]*/
+            new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new IntakeCommand(m_Intake));
+            new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeCommand(m_Transfer));
+            // new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new RunCommand(()-> driverRumble()));
 
-        // new Trigger(operator::getYButton).whileTrue(new Transfer_Shooter_IntakeCommand_Reverse(m_Transfer));//////
+            // new Trigger((() -> operator.getLeftTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeShoot(m_Transfer));
 
-        /* Hangar Command: Operator[BackButton, StartButton]*/
-        new Trigger(operator::getBackButton).whileTrue(new HangerCommand(m_Hanger, true));
-        new Trigger(operator::getStartButton).whileTrue(new HangerCommand(m_Hanger, false));
+            /*Transfer Intake Poop: Operator[RightBumper]*/
+            new Trigger(operator::getRightBumper).whileTrue(new Transfer_IntakeCommand_Reverse(m_Transfer));
 
-        /*Shoot: Operator[RightTrigger]*/
+            /*Floor Intake Reverse: Operator[LeftBumper] */
+            new Trigger(operator::getLeftBumper).whileTrue(new IntakeCommand_Reverse(m_Intake));
 
-        // new Trigger((() -> operator.getRightTriggerAxis() > 0.80)).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
-        new Trigger((() -> operator.getRightTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeShoot(m_Transfer));
+            /*Elevator Setpositions: Operator[A, B, X, Y]*/
+            new Trigger(operator::getAButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.A_Button));//////
+            // new Trigger(operator::getBButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.B_Button);
+            // new Trigger(operator::getXButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.X_Button));
+            new Trigger(operator::getYButton).whileTrue(new Elevator_Goto_Angle(m_Elevator, Constants.Y_Button));//////
+
+            // new Trigger(operator::getYButton).whileTrue(new Transfer_Shooter_IntakeCommand_Reverse(m_Transfer));//////
+
+            /* Hangar Command: Operator[BackButton, StartButton]*/
+            new Trigger(operator::getBackButton).whileTrue(new HangerCommand(m_Hanger, true));
+            new Trigger(operator::getStartButton).whileTrue(new HangerCommand(m_Hanger, false));
+
+            /*Shoot: Operator[RightTrigger]*/
+
+            // new Trigger((() -> operator.getRightTriggerAxis() > 0.80)).whileTrue(new ShootCommand(m_Shooter, ()-> s_chooser.getSelected()));
+            new Trigger((() -> operator.getRightTriggerAxis() > 0.80)).whileTrue(new Transfer_IntakeShoot(m_Transfer));
 
     }
 

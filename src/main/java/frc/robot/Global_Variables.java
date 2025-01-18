@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.LimelightHelpers;
+import frc.robot.LimelightHelpers.RawFiducial;
 
 public class Global_Variables
 {
@@ -19,6 +21,9 @@ public class Global_Variables
     public static double distanceY = 0;
     public static double distanceYFixed = 0;
     public static double distanceX = 0;
+    public static LimelightHelpers.PoseEstimate visionPoseEstimate2d = new LimelightHelpers.PoseEstimate(new Pose2d(new Translation2d(1,1), new Rotation2d()), 0,0,0,0,0,0, new RawFiducial[1], false);
+    public static Pose2d visionPoseStart = new Pose2d();
+
     // public static final SendableChooser<Boolean> pipeline_chooser = new SendableChooser<>();
 
     /**Turret Constant Offset Chooser */
